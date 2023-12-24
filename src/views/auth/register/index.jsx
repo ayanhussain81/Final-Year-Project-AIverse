@@ -56,7 +56,7 @@ import axiosInstance from 'services/axiosInstance';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../../redux/actions/auth';
 
-function SignIn() {
+function Register() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
@@ -72,7 +72,7 @@ function SignIn() {
   const handleClick = () => setShow(!show);
   const dispatch = useDispatch();
 
-  const SignInSchema = Yup.object().shape({
+  const RegisterSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().required('Password is required'),
     rememberMe: Yup.boolean(),
@@ -83,7 +83,7 @@ function SignIn() {
       email: '',
       password: '',
     },
-    validationSchema: SignInSchema,
+    validationSchema: RegisterSchema,
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       setLoading(true);
       try {
@@ -244,18 +244,8 @@ function SignIn() {
               </Text>
             </NavLink>
           </Flex>
-          <Button
-            fontSize="sm"
-            disabled={loading}
-            isLoading={loading}
-            variant="brand"
-            fontWeight="500"
-            w="100%"
-            h="50"
-            mb="24px"
-            type="submit"
-          >
-            Sign In
+          <Button fontSize="sm" disabled={loading} variant="brand" fontWeight="500" w="100%" h="50" mb="24px" type="submit">
+            {loading ? <Spinner /> : 'Sign In'}
           </Button>
           <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="0px">
             <Text color={textColorDetails} fontWeight="400" fontSize="14px">
@@ -273,4 +263,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Register;
