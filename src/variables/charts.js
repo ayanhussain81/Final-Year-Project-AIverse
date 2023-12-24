@@ -107,17 +107,17 @@ export const barChartOptionsDailyTraffic = {
 
 export const barChartDataConsumption = [
   {
-    name: "PRODUCT A",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+    name: "Earning",
+    data: [400, 370, 330, 390, 320, 350, 360, 320, 380, 310, 220, 100],
   },
-  {
-    name: "PRODUCT B",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  },
-  {
-    name: "PRODUCT C",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  },
+  // {
+  //   name: "PRODUCT B",
+  //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+  // },
+  // {
+  //   name: "PRODUCT C",
+  //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+  // },
 ];
 
 export const barChartOptionsConsumption = {
@@ -138,16 +138,16 @@ export const barChartOptionsConsumption = {
         fontFamily: undefined,
       },
     },
-    theme: "dark",
+    theme: "light",
   },
   xaxis: {
-    categories: ["17", "18", "19", "20", "21", "22", "23", "24", "25"],
+    categories: ["JAN", "FEB", "MAR", "APR", "MAY", "JUNE", "JULY", "AUG", "SEP", "OCT", "NOV", "DEC"],
     show: false,
     labels: {
       show: true,
       style: {
         colors: "#A3AED0",
-        fontSize: "14px",
+        fontSize: "12px",
         fontWeight: "500",
       },
     },
@@ -159,10 +159,10 @@ export const barChartOptionsConsumption = {
     },
   },
   yaxis: {
-    show: false,
+    show: true,
     color: "black",
     labels: {
-      show: false,
+      show: true,
       style: {
         colors: "#A3AED0",
         fontSize: "14px",
@@ -334,3 +334,53 @@ export const lineChartOptionsTotalSpent = {
   },
   color: ["#7551FF", "#39B8FF"],
 };
+
+export const groupedbarchartDataTotalSpent = [
+  {
+    name:'AI video editor',
+    data: [44, 55, 41, 64, 22, 43, 21, 20 ,55, 33 ,44 , 77]
+  }, 
+  {
+    name:'AI photo editor',
+    data: [53, 32, 33, 52, 13, 44, 32,44, 55, 41, 64, 22]
+  },
+  {
+    name:'Neural Networks',
+    data: [53, 32, 33, 52, 13, 44, 32,44, 55, 41, 64, 22]
+  },
+]
+
+export const groupedbarchartOptionsTotalSpent = {
+  chart: {
+    type: 'bar',
+    height: 430
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      dataLabels: {
+        position: 'top',
+      },
+    }
+  },
+  dataLabels: {
+    enabled: false,
+    offsetX: -6,
+    style: {
+      fontSize: '12px',
+      colors: ['#fff']
+    }
+  },
+  stroke: {
+    show: true,
+    width: 1,
+    colors: ['#fff']
+  },
+  tooltip: {
+    shared: true,
+    intersect: false
+  },
+  xaxis: {
+    categories: ["JAN", "FEB", "MAR", "APR", "MAY", "JUNE", "JULY", "AUG", "SEP", "OCT", "NOV", "DEC"],
+  },
+}

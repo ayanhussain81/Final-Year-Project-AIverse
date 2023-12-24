@@ -16,6 +16,7 @@ import {
   barChartOptionsConsumption,
 } from "variables/charts";
 import { MdBarChart } from "react-icons/md";
+import LineChart from "components/charts/LineChart";
 
 export default function WeeklyRevenue(props) {
   const { ...rest } = props;
