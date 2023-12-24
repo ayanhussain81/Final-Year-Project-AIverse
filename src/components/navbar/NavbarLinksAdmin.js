@@ -25,7 +25,7 @@ import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { FaEthereum } from 'react-icons/fa';
 import routes from 'routes.js';
 import { ThemeEditor } from './ThemeEditor';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/auth';
 export default function HeaderLinks(props) {
   const { secondary } = props;
@@ -44,6 +44,8 @@ export default function HeaderLinks(props) {
   );
   const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -169,7 +171,7 @@ export default function HeaderLinks(props) {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hey, Adela
+              👋&nbsp; Hey, {user ? user?.name?.split(' ')[0] : 'user'}
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">
