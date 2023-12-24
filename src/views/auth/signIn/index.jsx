@@ -260,7 +260,7 @@ function SignIn() {
           <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="0px">
             <Text color={textColorDetails} fontWeight="400" fontSize="14px">
               Not registered yet?
-              <NavLink to="/auth/sign-up">
+              <NavLink to="/auth/register">
                 <Text color={textColorBrand} as="span" ms="5px" fontWeight="500">
                   Create an Account
                 </Text>
