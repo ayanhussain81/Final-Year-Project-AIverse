@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import Chart from "react-apexcharts";
+import React, { Component } from 'react';
+import Chart from 'react-apexcharts';
 
 class GroupedBar extends Component {
   constructor(props) {
@@ -18,15 +18,7 @@ class GroupedBar extends Component {
   }
 
   render() {
-    return (
-      <Chart
-        options={this.state.chartOptions}
-        series={this.state.chartData}
-        type='bar'
-        width='100%'
-        height='100%'
-      />
-    );
+    return <Chart options={this.state.chartOptions} series={this.state.chartData} type="bar" width="100%" height="100%" />;
   }
 }
 
