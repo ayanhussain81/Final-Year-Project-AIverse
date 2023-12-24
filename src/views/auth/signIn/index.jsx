@@ -193,7 +193,7 @@ function SignIn() {
               onBlur={formik.handleBlur}
             />
             {formik.errors.email && formik.touched.email && (
-              <FormErrorMessage color="red" fontSize="sm">
+              <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.email}
               </FormErrorMessage>
             )}
@@ -225,7 +225,7 @@ function SignIn() {
               </InputRightElement>
             </InputGroup>
             {formik.errors.password && formik.touched.password && (
-              <FormErrorMessage color="red" fontSize="sm">
+              <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.password}
               </FormErrorMessage>
             )}

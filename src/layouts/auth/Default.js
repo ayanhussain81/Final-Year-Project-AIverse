@@ -30,7 +30,7 @@ function AuthIllustration(props) {
         justifyContent="start"
         direction="column"
       >
-        <Box pt={{ md: '10px' }}>{children}</Box>
+        <Box py={{ md: '10px' }}>{children}</Box>
         <Box
           display={{ base: 'none', md: 'block' }}
           h="100%"

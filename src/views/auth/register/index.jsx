@@ -197,7 +197,7 @@ function Register() {
               onBlur={formik.handleBlur}
             />
             {formik.errors.name && formik.touched.name && (
-              <FormErrorMessage color="red" fontSize="sm">
+              <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.name}
               </FormErrorMessage>
             )}
@@ -221,7 +221,7 @@ function Register() {
               onBlur={formik.handleBlur}
             />
             {formik.errors.email && formik.touched.email && (
-              <FormErrorMessage color="red" fontSize="sm">
+              <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.email}
               </FormErrorMessage>
             )}
@@ -253,7 +253,7 @@ function Register() {
               </InputRightElement>
             </InputGroup>
             {formik.errors.password && formik.touched.password && (
-              <FormErrorMessage color="red" fontSize="sm">
+              <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.password}
               </FormErrorMessage>
             )}
@@ -285,7 +285,7 @@ function Register() {
               </InputRightElement>
             </InputGroup>
             {formik.errors.confirmPassword && formik.touched.confirmPassword && (
-              <FormErrorMessage color="red" fontSize="sm">
+              <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.confirmPassword}
               </FormErrorMessage>
             )}
