@@ -1,29 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'assets/css/App.css';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import AuthLayout from 'layouts/auth';
-import AdminLayout from 'layouts/admin';
-import RtlLayout from 'layouts/rtl';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
-import '../node_modules/font-awesome/css/font-awesome.min.css'; 
+import '../node_modules/font-awesome/css/font-awesome.min.css';
+import { Provider } from 'react-redux';
+import { persistor } from './redux/store';
+import { store } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import App from './App.js';
 
 ReactDOM.render(
-	<ChakraProvider theme={theme}>
-		<React.StrictMode>
-			<ThemeEditorProvider>
-				<HashRouter>
-					<Switch>
-						<Route path={`/auth`} component={AuthLayout} />
-						<Route path={`/admin`} component={AdminLayout} />
-						<Route path={`/rtl`} component={RtlLayout} />
-						<Redirect from='/' to='/admin' />
-					</Switch>
-				</HashRouter>
-			</ThemeEditorProvider>
-		</React.StrictMode>
-	</ChakraProvider>,
-	document.getElementById('root')
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <ChakraProvider theme={theme}>
+        <React.StrictMode>
+          <ThemeEditorProvider>
+            {/* <BrowserRouter>
+              <Routes>
+                <Route path={`/auth/*`} element={<AuthLayout />} />
+                <Route path={`/admin/*`} element={<AdminLayout />} />
+                <Route path={`/rtl/*`} element={<RtlLayout />} />
+                <Route path="/*" element={<Navigate to="/admin" replace />} />
+              </Routes>
+            </BrowserRouter> */}
+            <App />
+          </ThemeEditorProvider>
+        </React.StrictMode>
+      </ChakraProvider>
+    </PersistGate>
+  </Provider>,
+  document.getElementById('root')
 );

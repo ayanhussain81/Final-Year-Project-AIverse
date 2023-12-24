@@ -56,7 +56,7 @@ import axiosInstance from 'services/axiosInstance';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../../redux/actions/auth';
 
-function SignIn() {
+function Register() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
@@ -72,38 +72,42 @@ function SignIn() {
   const handleClick = () => setShow(!show);
   const dispatch = useDispatch();
 
-  const SignInSchema = Yup.object().shape({
+  const RegisterSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
-    rememberMe: Yup.boolean(),
+    name: Yup.string().required('Username is required'),
+    password: Yup.string()
+      .min(8, 'Password must be at least 8 characters')
+      .matches(/\d/, 'Password must contain at least 1 number')
+      .matches(/[a-zA-Z]/, 'Password must contain at least 1 letter')
+      .required('Password is Required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Please confirm your password'),
   });
 
   const formik = useFormik({
     initialValues: {
+      name: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
-    validationSchema: SignInSchema,
-    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+    validationSchema: RegisterSchema,
+    onSubmit: async (values, { setSubmitting, setErrors, resetForm }) => {
+      setSubmitting(true);
       setLoading(true);
       try {
-        // Calling sign-in API using axiosInstance
-        const response = await axiosInstance.post('/auth/login', values);
-        console.log('Sign-in successful:', response.data);
+        delete values.confirmPassword;
+        const response = await axiosInstance.post('/auth/register', values);
+        console.log('Registration successful:', response.data);
         const { user, tokens } = response.data;
         dispatch(loginSuccess(user, tokens));
 
-        formik.resetForm();
+        resetForm();
       } catch (error) {
-        if (error.response) {
+        if (error.response && error.response.status === 400) {
+          setErrors({ email: 'Email already exists' });
           console.error('Server Error:', error.response.data);
-
-          if (error.response.status === 401) {
-            setFieldError('email', 'Invalid email or password');
-            setFieldError('password', 'Invalid email or password');
-          }
-        } else if (error.request) {
-          console.error('Request Error:', error.request);
         } else {
           console.error('Error:', error.message);
         }
@@ -131,7 +135,7 @@ function SignIn() {
       >
         <Box me="auto">
           <Heading color={textColor} fontSize="36px" mb="10px">
-            Sign In
+            Register
           </Heading>
           <Text mb="36px" ms="4px" color={textColorSecondary} fontWeight="400" fontSize="md">
             Enter your email and password to sign in!
@@ -165,7 +169,7 @@ function SignIn() {
             _focus={googleActive}
           >
             <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
-            Sign in with Google
+            Continue with Google
           </Button>
           <Flex align="center" mb="25px">
             <HSeparator />
@@ -174,6 +178,30 @@ function SignIn() {
             </Text>
             <HSeparator />
           </Flex>
+          <FormControl isInvalid={formik.errors.name} pb="24px">
+            <FormLabel display="flex" ms="4px" fontSize="sm" fontWeight="500" color={textColor} mb="8px">
+              Name<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              isRequired={true}
+              variant="auth"
+              fontSize="sm"
+              ms={{ base: '0px', md: '0px' }}
+              type="text"
+              placeholder="John Doe"
+              fontWeight="500"
+              size="lg"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.name && formik.touched.name && (
+              <FormErrorMessage px="4px" color="red" fontSize="sm">
+                {formik.errors.name}
+              </FormErrorMessage>
+            )}
+          </FormControl>
           <FormControl isInvalid={formik.errors.email} pb="24px">
             <FormLabel display="flex" ms="4px" fontSize="sm" fontWeight="500" color={textColor} mb="8px">
               Email<Text color={brandStars}>*</Text>
@@ -230,6 +258,38 @@ function SignIn() {
               </FormErrorMessage>
             )}
           </FormControl>
+          <FormControl isInvalid={formik.errors.confirmPassword} pb="24px">
+            <FormLabel ms="4px" fontSize="sm" fontWeight="500" color={textColor} display="flex">
+              Confirm Password<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <InputGroup size="md">
+              <Input
+                isRequired={true}
+                fontSize="sm"
+                placeholder="Confirm Your Password"
+                size="lg"
+                type={show ? 'text' : 'password'}
+                variant="auth"
+                name="confirmPassword"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <InputRightElement display="flex" alignItems="center" mt="4px">
+                <Icon
+                  color={textColorSecondary}
+                  _hover={{ cursor: 'pointer' }}
+                  as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                  onClick={handleClick}
+                />
+              </InputRightElement>
+            </InputGroup>
+            {formik.errors.confirmPassword && formik.touched.confirmPassword && (
+              <FormErrorMessage px="4px" color="red" fontSize="sm">
+                {formik.errors.confirmPassword}
+              </FormErrorMessage>
+            )}
+          </FormControl>
 
           <Flex justifyContent="space-between" align="center" mb="24px">
             <FormControl display="flex" alignItems="center">
@@ -238,11 +298,6 @@ function SignIn() {
                 Keep me logged in
               </FormLabel>
             </FormControl>
-            <NavLink to="/auth/forgot-password">
-              <Text color={textColorBrand} fontSize="sm" w="124px" fontWeight="500">
-                Forgot password?
-              </Text>
-            </NavLink>
           </Flex>
           <Button
             fontSize="sm"
@@ -255,14 +310,14 @@ function SignIn() {
             mb="24px"
             type="submit"
           >
-            Sign In
+            Register
           </Button>
           <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="0px">
             <Text color={textColorDetails} fontWeight="400" fontSize="14px">
-              Not registered yet?
-              <NavLink to="/auth/register">
+              Already have account?
+              <NavLink to="/auth/sign-in">
                 <Text color={textColorBrand} as="span" ms="5px" fontWeight="500">
-                  Create an Account
+                  Sign in
                 </Text>
               </NavLink>
             </Text>
@@ -273,4 +328,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Register;
