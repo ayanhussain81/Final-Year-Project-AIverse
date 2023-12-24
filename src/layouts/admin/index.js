@@ -143,7 +143,7 @@ export default function Dashboard(props) {
               <Box mx="auto" p={{ base: '20px', md: '30px' }} pe="20px" minH="100vh" pt="50px">
                 <Routes>
                   {getRoutes(routes)}
-                  <Route path="/" element={<Navigate to="/admin/default" replace />} />
+                  <Route path="/*" element={<Navigate to="/admin/default" replace />} />
                 </Routes>
               </Box>
             ) : null}

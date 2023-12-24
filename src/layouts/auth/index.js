@@ -57,7 +57,7 @@ export default function Auth() {
             <Box mx="auto" minH="100vh">
               <Routes>
                 {getRoutes(routes)}
-                {/* <Route path="/auth" element={<Navigate to="/auth/sign-in/default" replace />} /> */}
+                <Route path="/*" element={<Navigate to="/auth/sign-in" replace />} />
               </Routes>
             </Box>
           ) : null}
