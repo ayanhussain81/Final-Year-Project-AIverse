@@ -7,7 +7,7 @@ import Resource from 'containers/resource';
 import Main from 'layouts/Main';
 import PrimaryFooter from 'layouts/HomeFooter/PrimaryFooter';
 import SecondaryFooter from 'layouts/HomeFooter/SecondaryFooter';
-import Header from 'layouts/header';
+import Header from 'layouts/HomeHeader';
 import React from 'react';
 
 const Home = () => {
