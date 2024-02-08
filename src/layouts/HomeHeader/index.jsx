@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Navigation from 'components/common/Navigation';
 import OutlinedButton from 'components/common/buttons/OutlinedButton';
 import TextLogo from 'components/common/logo/TextLogo';
@@ -7,16 +8,32 @@ import { motion } from 'framer-motion';
 import useOffCanvas from 'hooks/useOffCanvas';
 import { Link } from 'react-scroll';
 
-import HamburgerButton from "./HamburgerButton";
-import MobileMenu from "./MobileMenu";
+import HamburgerButton from './HamburgerButton';
+import MobileMenu from './MobileMenu';
 
 export default function Header() {
   const { hamburgerToggle, isMobileMenuVisible, setIsMobileMenuVisible, hamburgerRef, sidebarRef } = useOffCanvas();
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const position = window.scrollY;
+      setScrollPosition(position);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <header
       aria-label="header"
-      className="fixed top-0 left-0 z-10 | w-full | border-b border-solid border-neutral-400 | before:content-[''] before:absolute before:inset-0 before:-z-10 before:bg-neutral-100/80 before:backdrop-blur-3xl"
+      className={`fixed border-b-0 top-0 left-0 z-10 | w-full | border-neutral-400 | before:content-[''] before:absolute before:inset-0 before:-z-10 ${
+        scrollPosition < 50 ? 'bg-transparent' : 'before:bg-neutral-100/80 before:backdrop-blur-3xl'
+      } `}
     >
       <div className="container tablet:px-10 laptop:px-20 | py-7">
         {/* navbar main elements */}
@@ -28,45 +45,37 @@ export default function Header() {
 
           <div className="grow | flex items-center max-[899px]:hidden">
             {/* navigation for larger devices */}
-            <Navigation
-              ariaLabel="header navigation"
-              navExtraClasses="pl-5 border-l border-solid border-neutral-400 | max-[899px]:hidden"
-              ulExtraClasses="flex items-center gap-3"
-            >
-              {[
-                ['Marketplace', 'marketplace', -40],
-                ['Resource', 'resource', -80],
-                ['About', 'about'],
-              ].map(([navItem, url, offset], index) => (
-                <li key={index}>
-                  <Link
-                    activeClass="bg-primary text-neutral-100 hover:bg-primary/90"
-                    to={url}
-                    spy={true}
-                    smooth={true}
-                    offset={offset}
-                    duration={500}
-                    className="cursor-pointer font-medium px-5 py-2 rounded-full hover:bg-neutral-300 transition-all"
-                  >
-                    {navItem}
-                  </Link>
-                </li>
-              ))}
-            </Navigation>
 
             <div className="grow justify-end | flex items-center gap-5">
-              {/* search field for larger device */}
-              <div className="basis-[300px] hidden min-[1360px]:block">
-                <NormalSearchBar />
-              </div>
-
+              <Navigation
+                ariaLabel="header navigation"
+                navExtraClasses="pl-5 border-l border-solid border-neutral-400 | max-[899px]:hidden"
+                ulExtraClasses="flex items-center gap-3"
+              >
+                {[
+                  ['Marketplace', 'marketplace', -40],
+                  ['Resource', 'resource', -80],
+                  ['About', 'about'],
+                ].map(([navItem, url, offset], index) => (
+                  <li key={index}>
+                    <Link
+                      activeClass="bg-primary text-neutral-100 hover:bg-primary/90"
+                      to={url}
+                      spy={true}
+                      smooth={true}
+                      offset={offset}
+                      duration={500}
+                      className="cursor-pointer font-medium px-5 py-2 rounded-full hover:bg-neutral-300 transition-all"
+                    >
+                      {navItem}
+                    </Link>
+                  </li>
+                ))}
+              </Navigation>
               {/* buttons */}
-              <OutlinedButton type="button" extraClasses="px-10 py-4 font-semibold bg-neutral-100 leading-[100%]">
-                Upload
-              </OutlinedButton>
 
-              <OutlinedButton type="button" extraClasses="px-5 py-4 font-semibold bg-neutral-100 leading-[100%]">
-                Connect Wallet
+              <OutlinedButton type="button" extraClasses="px-4 py-3 font-semibold bg-inherit leading-[100%]">
+                Get Started
               </OutlinedButton>
             </div>
           </div>
