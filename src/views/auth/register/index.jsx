@@ -57,11 +57,11 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../../redux/actions/auth';
 
 function Register() {
-  // Chakra color mode
-  const textColor = useColorModeValue('navy.700', 'white');
+    // Chakra color mode
+  const textColor = 'rgb(34 126 161)';
   const textColorSecondary = 'gray.400';
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
+  const textColorBrand = 'rgb(34 126 161)';
   const brandStars = useColorModeValue('brand.500', 'brand.400');
   const googleBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.200');
   const googleText = useColorModeValue('navy.700', 'white');
@@ -128,38 +128,35 @@ function Register() {
         h="100%"
         alignItems="start"
         justifyContent="center"
-        mb={{ base: '30px', md: '60px' }}
-        px={{ base: '25px', md: '0px' }}
-        mt={{ base: '40px', md: '14vh' }}
         flexDirection="column"
       >
-        <Box me="auto">
-          <Heading color={textColor} fontSize="36px" mb="10px">
+        <Box me="auto" w={'100%'}>
+          <Heading color={textColor} fontSize="36px" mb="10px" textAlign={'center'}>
             Register
           </Heading>
-          <Text mb="36px" ms="4px" color={textColorSecondary} fontWeight="400" fontSize="md">
+          <Text mb="15px" ms="4px" color={textColorSecondary} fontWeight="400" fontSize="md" textAlign={'center'}>
             Enter your email and password to sign in!
           </Text>
         </Box>
         <Flex
           zIndex="2"
           direction="column"
-          w={{ base: '100%', md: '420px' }}
+          w={{ base: '100%', md: '100%', lg:'25vw' }}
           maxW="100%"
           background="transparent"
           borderRadius="15px"
           mx={{ base: 'auto', lg: 'unset' }}
           me="auto"
-          mb={{ base: '20px', md: 'auto' }}
+          // mb={{ base: '20px', md: 'auto' }}
           as="form"
           onSubmit={formik.handleSubmit}
         >
           <Button
             fontSize="sm"
             me="0px"
-            mb="26px"
+            mb="15px"
             py="15px"
-            h="50px"
+            h="40px"
             borderRadius="16px"
             bg={googleBg}
             color={googleText}
@@ -171,14 +168,14 @@ function Register() {
             <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
             Continue with Google
           </Button>
-          <Flex align="center" mb="25px">
+          <Flex align="center" /*mb="25px"*/>
             <HSeparator />
             <Text color="gray.400" mx="14px">
               or
             </Text>
             <HSeparator />
           </Flex>
-          <FormControl isInvalid={formik.errors.name} pb="24px">
+          <FormControl isInvalid={formik.errors.name} pb="15px">
             <FormLabel display="flex" ms="4px" fontSize="sm" fontWeight="500" color={textColor} mb="8px">
               Name<Text color={brandStars}>*</Text>
             </FormLabel>
@@ -190,19 +187,19 @@ function Register() {
               type="text"
               placeholder="John Doe"
               fontWeight="500"
-              size="lg"
+              size="md"
               name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.errors.name && formik.touched.name && (
+            {/* {formik.errors.name && formik.touched.name && (
               <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.name}
               </FormErrorMessage>
-            )}
+            )} */}
           </FormControl>
-          <FormControl isInvalid={formik.errors.email} pb="24px">
+          <FormControl isInvalid={formik.errors.email} pb="15px">
             <FormLabel display="flex" ms="4px" fontSize="sm" fontWeight="500" color={textColor} mb="8px">
               Email<Text color={brandStars}>*</Text>
             </FormLabel>
@@ -214,19 +211,19 @@ function Register() {
               type="email"
               placeholder="mail@simmmple.com"
               fontWeight="500"
-              size="lg"
+              size="md"
               name="email"
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.errors.email && formik.touched.email && (
+            {/* {formik.errors.email && formik.touched.email && (
               <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.email}
               </FormErrorMessage>
-            )}
+            )} */}
           </FormControl>
-          <FormControl isInvalid={formik.errors.password} pb="24px">
+          <FormControl isInvalid={formik.errors.password} pb="15px">
             <FormLabel ms="4px" fontSize="sm" fontWeight="500" color={textColor} display="flex">
               Password<Text color={brandStars}>*</Text>
             </FormLabel>
@@ -235,7 +232,7 @@ function Register() {
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Min. 8 characters"
-                size="lg"
+                size="md"
                 type={show ? 'text' : 'password'}
                 variant="auth"
                 name="password"
@@ -243,7 +240,7 @@ function Register() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <InputRightElement display="flex" alignItems="center" mt="4px">
+              <InputRightElement display="flex" alignItems="center" mt="2px">
                 <Icon
                   color={textColorSecondary}
                   _hover={{ cursor: 'pointer' }}
@@ -252,13 +249,13 @@ function Register() {
                 />
               </InputRightElement>
             </InputGroup>
-            {formik.errors.password && formik.touched.password && (
+            {/* {formik.errors.password && formik.touched.password && (
               <FormErrorMessage px="4px" color="red" fontSize="sm">
                 {formik.errors.password}
               </FormErrorMessage>
-            )}
+            )} */}
           </FormControl>
-          <FormControl isInvalid={formik.errors.confirmPassword} pb="24px">
+          {/* <FormControl isInvalid={formik.errors.confirmPassword} pb="15px">
             <FormLabel ms="4px" fontSize="sm" fontWeight="500" color={textColor} display="flex">
               Confirm Password<Text color={brandStars}>*</Text>
             </FormLabel>
@@ -267,7 +264,7 @@ function Register() {
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Confirm Your Password"
-                size="lg"
+                size="md"
                 type={show ? 'text' : 'password'}
                 variant="auth"
                 name="confirmPassword"
@@ -275,7 +272,7 @@ function Register() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <InputRightElement display="flex" alignItems="center" mt="4px">
+              <InputRightElement display="flex" alignItems="center" mt="2px">
                 <Icon
                   color={textColorSecondary}
                   _hover={{ cursor: 'pointer' }}
@@ -289,30 +286,32 @@ function Register() {
                 {formik.errors.confirmPassword}
               </FormErrorMessage>
             )}
-          </FormControl>
+          </FormControl> */}
 
-          <Flex justifyContent="space-between" align="center" mb="24px">
+          {/* <Flex justifyContent="space-between" align="center">
             <FormControl display="flex" alignItems="center">
               <Checkbox id="remember-login" colorScheme="brandScheme" me="10px" />
               <FormLabel htmlFor="remember-login" mb="0" fontWeight="normal" color={textColor} fontSize="sm">
                 Keep me logged in
               </FormLabel>
             </FormControl>
-          </Flex>
+          </Flex> */}
           <Button
             fontSize="sm"
             disabled={loading}
             isLoading={loading}
-            variant="brand"
+            // variant="brand"
+            color='#ffffff'
+            bg='rgb(34 126 161)'
             fontWeight="500"
             w="100%"
-            h="50"
-            mb="24px"
+            h="40px"
+            mt="15px"
             type="submit"
           >
             Register
           </Button>
-          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="0px">
+          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="20px" mb='80px'>
             <Text color={textColorDetails} fontWeight="400" fontSize="14px">
               Already have account?
               <NavLink to="/auth/sign-in">

@@ -1,5 +1,5 @@
 // Chakra imports
-import { Box, Flex, Icon, Text } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text, Container, Heading, Image, Grid, GridItem, Center } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Footer from 'components/footer/FooterAuth';
@@ -13,48 +13,44 @@ function AuthIllustration(props) {
   const { children, illustrationBackground } = props;
   // Chakra color mode
   return (
-    <Flex position="relative" h="max-content">
-      <Flex
-        h={{
-          sm: 'initial',
-          md: 'unset',
-          lg: '100vh',
-          xl: '97vh',
-        }}
-        w="100%"
-        maxW={{ md: '66%', lg: '1313px' }}
-        mx="auto"
-        pt={{ sm: '50px', md: '0px' }}
-        px={{ lg: '30px', xl: '0px' }}
-        ps={{ xl: '70px' }}
-        justifyContent="start"
-        direction="column"
-      >
-        <Box py={{ md: '10px' }}>{children}</Box>
-        <Box
-          display={{ base: 'none', md: 'block' }}
-          h="100%"
-          minH="100vh"
-          w={{ lg: '50vw', '2xl': '44vw' }}
-          position="absolute"
-          right="0px"
+    // <Container>
+    <Center mt={'2.5em'}>
+      <Grid gridTemplateColumns="repeat(7,1fr)" h={'87vh'} w={'60vw'} className='authBoxShadow'>
+        <GridItem
+          colSpan={{ base: 0, sm: 0, md: 0, lg: 3 }}
+        >
+          <Box
+            display={{ base: 'none', md: 'block' }}
+            borderLeftRadius={'10px'}
+            bg='green'
+          >
+            <Image src='https://images.pexels.com/photos/719396/pexels-photo-719396.jpeg?auto=compress&cs=tinysrgb&w=600' alt='Dan Abramov' w='100vw' h={'87vh'} objectFit='fill' borderLeftRadius={'10px'} />
+          </Box>
+        </GridItem>
+        <GridItem
+          colSpan={{ base: 7, sm: 7, md: 7, lg: 4 }}
         >
           <Flex
-            bg={`url(${illustrationBackground})`}
-            justify="center"
-            align="end"
-            w="100%"
-            h="100%"
-            bgSize="cover"
-            bgPosition="50%"
-            position="absolute"
-            borderBottomLeftRadius={{ lg: '120px', xl: '200px' }}
-          ></Flex>
-        </Box>
-        {/* <Footer /> */}
-      </Flex>
-      <FixedPlugin />
-    </Flex>
+            h={{
+              sm: 'initial',
+              md: 'unset',
+              lg: '100vh',
+              xl: '97vh',
+            }}
+            w='100%'
+            mx="auto"
+            justifyContent="center"
+            alignItems='center'
+            direction="column"
+          >
+            <Box py={{ md: '10px' }}>{children}</Box>
+            {/* <Footer /> */}
+          </Flex>
+        </GridItem>
+        <FixedPlugin />
+      </Grid>
+    </Center>
+    // </Container>
   );
 }
 // PROPS

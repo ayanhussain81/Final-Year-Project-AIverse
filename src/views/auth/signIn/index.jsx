@@ -58,10 +58,10 @@ import { loginSuccess } from '../../../redux/actions/auth';
 
 function SignIn() {
   // Chakra color mode
-  const textColor = useColorModeValue('navy.700', 'white');
+  const textColor = 'rgb(34 126 161)';
   const textColorSecondary = 'gray.400';
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
+  const textColorBrand = 'rgb(34 126 161)';
   const brandStars = useColorModeValue('brand.500', 'brand.400');
   const googleBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.200');
   const googleText = useColorModeValue('navy.700', 'white');
@@ -126,21 +126,21 @@ function SignIn() {
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
         px={{ base: '25px', md: '0px' }}
-        mt={{ base: '40px', md: '14vh' }}
+        mt={{ base: '40px', md: '10vh' }}
         flexDirection="column"
       >
-        <Box me="auto">
-          <Heading color={textColor} fontSize="36px" mb="10px">
+        <Box me="auto" w='100%'>
+          <Heading color={textColor} fontSize="36px" mb="15px" textAlign={'center'} w='100%'>
             Sign In
           </Heading>
-          <Text mb="36px" ms="4px" color={textColorSecondary} fontWeight="400" fontSize="md">
+          <Text mb="20px" ms="4px" color={textColorSecondary} fontWeight="400" textAlign={'center'} w='100%' fontSize="md">
             Enter your email and password to sign in!
           </Text>
         </Box>
         <Flex
           zIndex="2"
           direction="column"
-          w={{ base: '100%', md: '420px' }}
+          w={{ base: '100%', md: '100%', lg:'25vw' }}
           maxW="100%"
           background="transparent"
           borderRadius="15px"
@@ -153,9 +153,9 @@ function SignIn() {
           <Button
             fontSize="sm"
             me="0px"
-            mb="26px"
+            mb="20px"
             py="15px"
-            h="50px"
+            h="40px"
             borderRadius="16px"
             bg={googleBg}
             color={googleText}
@@ -167,14 +167,14 @@ function SignIn() {
             <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
             Sign in with Google
           </Button>
-          <Flex align="center" mb="25px">
+          <Flex align="center" mb="10px">
             <HSeparator />
             <Text color="gray.400" mx="14px">
               or
             </Text>
             <HSeparator />
           </Flex>
-          <FormControl isInvalid={formik.errors.email} pb="24px">
+          <FormControl isInvalid={formik.errors.email} pb="15px">
             <FormLabel display="flex" ms="4px" fontSize="sm" fontWeight="500" color={textColor} mb="8px">
               Email<Text color={brandStars}>*</Text>
             </FormLabel>
@@ -186,7 +186,7 @@ function SignIn() {
               type="email"
               placeholder="mail@simmmple.com"
               fontWeight="500"
-              size="lg"
+              size="md"
               name="email"
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -198,7 +198,7 @@ function SignIn() {
               </FormErrorMessage>
             )}
           </FormControl>
-          <FormControl isInvalid={formik.errors.password} pb="24px">
+          <FormControl isInvalid={formik.errors.password} pb="15px">
             <FormLabel ms="4px" fontSize="sm" fontWeight="500" color={textColor} display="flex">
               Password<Text color={brandStars}>*</Text>
             </FormLabel>
@@ -207,7 +207,7 @@ function SignIn() {
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Min. 8 characters"
-                size="lg"
+                size="md"
                 type={show ? 'text' : 'password'}
                 variant="auth"
                 name="password"
@@ -215,7 +215,7 @@ function SignIn() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <InputRightElement display="flex" alignItems="center" mt="4px">
+              <InputRightElement display="flex" alignItems="center" mt="2px">
                 <Icon
                   color={textColorSecondary}
                   _hover={{ cursor: 'pointer' }}
@@ -231,13 +231,7 @@ function SignIn() {
             )}
           </FormControl>
 
-          <Flex justifyContent="space-between" align="center" mb="24px">
-            <FormControl display="flex" alignItems="center">
-              <Checkbox id="remember-login" colorScheme="brandScheme" me="10px" />
-              <FormLabel htmlFor="remember-login" mb="0" fontWeight="normal" color={textColor} fontSize="sm">
-                Keep me logged in
-              </FormLabel>
-            </FormControl>
+          <Flex justifyContent="flex-end" align="center" mb="15px">
             <NavLink to="/auth/forgot-password">
               <Text color={textColorBrand} fontSize="sm" w="124px" fontWeight="500">
                 Forgot password?
@@ -248,16 +242,17 @@ function SignIn() {
             fontSize="sm"
             disabled={loading}
             isLoading={loading}
-            variant="brand"
+            color='#ffffff'
+            bg='rgb(34 126 161)'
             fontWeight="500"
             w="100%"
-            h="50"
-            mb="24px"
+            h="40px"
+            mb="18px"
             type="submit"
           >
             Sign In
           </Button>
-          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="0px">
+          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="10px" mb='85px'>
             <Text color={textColorDetails} fontWeight="400" fontSize="14px">
               Not registered yet?
               <NavLink to="/auth/register">
