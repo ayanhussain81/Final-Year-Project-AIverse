@@ -31,7 +31,7 @@ export default function Hero() {
               <ContainedButton
                 type="button"
                 extraClasses="min-[1224px]:max-[1300px]:hidden |  px-7 py-3 text-500 font leading-tight"
-                onClick={() => navigate('/auth/signin')}
+                onClick={() => navigate('/auth/sign-in')}
               >
                 Get Started
               </ContainedButton>
@@ -55,7 +55,7 @@ export default function Hero() {
 
               <ContainedButton
                 type="button"
-                onClick={() => navigate('/auth/signin')}
+                onClick={() => navigate('/auth/sign-in')}
                 extraClasses="min-[1300px]:hidden max-[1224px]:hidden | px-7 py-3 text-500 font-medium leading-tight"
               >
                 Get Started

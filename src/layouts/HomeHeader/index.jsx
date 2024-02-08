@@ -79,7 +79,7 @@ export default function Header() {
               <OutlinedButton
                 type="button"
                 extraClasses="px-4 py-3 font-semibold bg-inherit leading-[100%]"
-                onClick={() => navigate('/auth/signin')}
+                onClick={() => navigate('/auth/sign-in')}
               >
                 Get Started
               </OutlinedButton>
