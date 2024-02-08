@@ -10,10 +10,12 @@ import { Link } from 'react-scroll';
 
 import HamburgerButton from './HamburgerButton';
 import MobileMenu from './MobileMenu';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const { hamburgerToggle, isMobileMenuVisible, setIsMobileMenuVisible, hamburgerRef, sidebarRef } = useOffCanvas();
   const [scrollPosition, setScrollPosition] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,7 +76,11 @@ export default function Header() {
               </Navigation>
               {/* buttons */}
 
-              <OutlinedButton type="button" extraClasses="px-4 py-3 font-semibold bg-inherit leading-[100%]">
+              <OutlinedButton
+                type="button"
+                extraClasses="px-4 py-3 font-semibold bg-inherit leading-[100%]"
+                onClick={() => navigate('/auth/signin')}
+              >
                 Get Started
               </OutlinedButton>
             </div>

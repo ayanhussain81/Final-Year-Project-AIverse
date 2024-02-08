@@ -4,8 +4,10 @@ import Picture from '../../components/common/Picture';
 import ContainedButton from '../../components/common/buttons/ContainedButton';
 import bannerImg from '../../assets/images/svgs/banner.svg';
 import './hero.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
+  const navigate = useNavigate();
   return (
     <section aria-label="hero section" className="bg-neutral-100 background-gradient">
       <div className="container tablet:px-10 laptop:px-20 | pb-32 pt-14 | relative z-[0]">
@@ -29,6 +31,7 @@ export default function Hero() {
               <ContainedButton
                 type="button"
                 extraClasses="min-[1224px]:max-[1300px]:hidden |  px-7 py-3 text-500 font leading-tight"
+                onClick={() => navigate('/auth/signin')}
               >
                 Get Started
               </ContainedButton>
@@ -52,6 +55,7 @@ export default function Hero() {
 
               <ContainedButton
                 type="button"
+                onClick={() => navigate('/auth/signin')}
                 extraClasses="min-[1300px]:hidden max-[1224px]:hidden | px-7 py-3 text-500 font-medium leading-tight"
               >
                 Get Started
