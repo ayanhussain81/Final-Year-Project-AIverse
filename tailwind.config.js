@@ -24,7 +24,7 @@ export default {
       inherit: 'inherit',
       transparent: 'transparent',
       current: 'currentColor',
-      primary: '#3D00B7',
+      primary: 'rgb(34 126 161)',
       accent: {
         300: '#14C8B0',
         400: '#00AC4F',
