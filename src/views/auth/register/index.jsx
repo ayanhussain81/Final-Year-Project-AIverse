@@ -57,7 +57,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../../redux/actions/auth';
 
 function Register() {
-    // Chakra color mode
+  // Chakra color mode
   const textColor = 'rgb(34 126 161)';
   const textColorSecondary = 'gray.400';
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
@@ -80,9 +80,9 @@ function Register() {
       .matches(/\d/, 'Password must contain at least 1 number')
       .matches(/[a-zA-Z]/, 'Password must contain at least 1 letter')
       .required('Password is Required'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Please confirm your password'),
+    // confirmPassword: Yup.string()
+    //   .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    //   .required('Please confirm your password'),
   });
 
   const formik = useFormik({
@@ -98,6 +98,7 @@ function Register() {
       setLoading(true);
       try {
         delete values.confirmPassword;
+        console.log('register calling...')
         const response = await axiosInstance.post('/auth/register', values);
         console.log('Registration successful:', response.data);
         const { user, tokens } = response.data;
@@ -141,7 +142,7 @@ function Register() {
         <Flex
           zIndex="2"
           direction="column"
-          w={{ base: '100%', md: '100%', lg:'25vw' }}
+          w={{ base: '100%', md: '100%', lg: '25vw' }}
           maxW="100%"
           background="transparent"
           borderRadius="15px"

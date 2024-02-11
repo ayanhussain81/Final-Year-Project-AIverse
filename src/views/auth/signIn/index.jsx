@@ -52,7 +52,7 @@ import illustration from 'assets/img/auth/auth.png';
 import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
-import axiosInstance from 'services/axiosInstance';
+import axiosInstance from '../../../services/axiosInstance';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../../redux/actions/auth';
 
@@ -124,9 +124,9 @@ function SignIn() {
         h="100%"
         alignItems="start"
         justifyContent="center"
-        mb={{ base: '30px', md: '60px' }}
+        // mb={{ base: '30px', md: '60px' }}
         px={{ base: '25px', md: '0px' }}
-        mt={{ base: '40px', md: '10vh' }}
+        mt={{ base: '40px', md: '-4vh' }}
         flexDirection="column"
       >
         <Box me="auto" w='100%'>
@@ -140,13 +140,14 @@ function SignIn() {
         <Flex
           zIndex="2"
           direction="column"
-          w={{ base: '100%', md: '100%', lg:'25vw' }}
+          w={{ base: '100%', md: '100%', lg: '25vw' }}
           maxW="100%"
           background="transparent"
           borderRadius="15px"
           mx={{ base: 'auto', lg: 'unset' }}
           me="auto"
-          mb={{ base: '20px', md: 'auto' }}
+          // mb={{ base: '20px', md: 'auto' }}
+          m="0px"
           as="form"
           onSubmit={formik.handleSubmit}
         >
@@ -252,7 +253,7 @@ function SignIn() {
           >
             Sign In
           </Button>
-          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="10px" mb='85px'>
+          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="10px">
             <Text color={textColorDetails} fontWeight="400" fontSize="14px">
               Not registered yet?
               <NavLink to="/auth/register">
