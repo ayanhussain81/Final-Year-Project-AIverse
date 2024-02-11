@@ -2,7 +2,7 @@ import { Box, Button, Flex, Image, Link, Text } from '@chakra-ui/react';
 import Card from 'components/card/Card.js';
 
 export default function NFT(props) {
-  const { image, name, author, download } = props;
+  const { image, name, author, download, category } = props;
 
   return (
     <Card style={{ overflow: 'hidden' }} pt="0" px="0" pb="25px">
@@ -22,15 +22,20 @@ export default function NFT(props) {
           />
         </Box>
         <Flex flexDirection="column" px="3" justify="space-between" h="100%">
-          <Flex direction="row" justifyContent="center">
-            <Box border="1px" borderColor="blue" borderRadius="100px" p="2px 5px" mr="7px" mt="10px" mb="15px">
-              <Text color="rgb(34 126 161)" fontSize="13" fontWeight="600">
-                Pattern Recognition
-              </Text>
-            </Box>
-            <Box border="1px" borderColor="blue" borderRadius="100px" p="2px 5px" mt="10px" mb="15px">
-              <Text color="rgb(34 126 161)" fontSize="13" fontWeight="600">
-                Computer Vision
+          <Flex justifyContent="flex-start">
+            <Box
+              border="1px"
+              bg="gray.100"
+              borderColor="black"
+              borderRadius="100px"
+              py="1px"
+              px="10px"
+              mr="7px"
+              mt="10px"
+              mb="15px"
+            >
+              <Text color="black" fontSize="14" fontWeight="600">
+                {category}
               </Text>
             </Box>
           </Flex>
@@ -98,14 +103,14 @@ export default function NFT(props) {
             >
               <Button
                 variant="outline"
-                color="black"
-                borderColor="black"
+                color="rgb(34 126 161)"
+                borderColor="rgb(34 126 161)"
                 _hover={{
                   color: 'white',
-                  background: 'black',
+                  background: 'rgb(34 126 161)',
                 }}
                 _active={{
-                  background: 'black',
+                  background: 'rgb(34 126 161)',
                 }}
                 fontWeight="500"
                 borderRadius="10px"

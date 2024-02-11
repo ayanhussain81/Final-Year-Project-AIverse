@@ -18,8 +18,8 @@ import {
 } from '@chakra-ui/react';
 
 const Popup = (props) => {
-  const [selectedModelTypes, setSelectedModelTypes] = useState([]);
-  const [selectedUseCases, setSelectedUseCases] = useState([]);
+  const [selectedModelTypes, setSelectedModelTypes] = useState(props.category || []);
+  const [selectedUseCases, setSelectedUseCases] = useState(props.usage || []);
 
   const handleSearch = () => {
     props.handleFilter(selectedModelTypes, selectedUseCases);
@@ -44,7 +44,7 @@ const Popup = (props) => {
                 Choose models based on input data type to be processed.
               </Text>
 
-              <CheckboxGroup colorScheme="teal" onChange={setSelectedModelTypes}>
+              <CheckboxGroup value={selectedModelTypes} colorScheme="teal" onChange={setSelectedModelTypes}>
                 <Stack spacing={14} direction="row" justifyContent="space around">
                   {Array.from(Array(Math.ceil(props.modelTypes.length / 3)).keys()).map((index) => (
                     <Stack direction="column" key={index}>
@@ -67,12 +67,12 @@ const Popup = (props) => {
                 Choose models by AI Use Cases for your product, customer engagement, etc.
               </Text>
 
-              <CheckboxGroup colorScheme="teal" onChange={setSelectedUseCases}>
+              <CheckboxGroup value={selectedUseCases} colorScheme="teal" onChange={setSelectedUseCases}>
                 <Stack spacing={14} direction="row" justifyContent="space around">
                   {Array.from(Array(Math.ceil(props.useCases.length / 3)).keys()).map((index) => (
                     <Stack direction="column" key={index}>
                       {props.useCases.slice(index * 3, (index + 1) * 3).map((type) => (
-                        <Checkbox key={type} value={type} size="lg" padding="4px">
+                        <Checkbox checked={selectedUseCases.includes(type)} key={type} value={type} size="lg" padding="4px">
                           {type}
                         </Checkbox>
                       ))}
