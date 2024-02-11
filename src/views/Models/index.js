@@ -68,8 +68,15 @@ const Marketplace = () => {
     setUsecase(usecase);
   };
 
-  const handleChange = (event) => {
-    setSearchValue(event.target.value);
+  const handleChange = async (event) => {
+    const { value } = event.target;
+    setSearchValue(value);
+    try {
+      const response = await axiosInstance.get(`/models/search?q=${value}`);
+      setModels(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const indexOfLastModel = currentPage * modelsPerPage;
