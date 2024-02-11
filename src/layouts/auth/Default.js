@@ -13,8 +13,12 @@ function AuthIllustration(props) {
   const { children, illustrationBackground } = props;
   // Chakra color mode
   return (
-    // <Container>
-    <Center mt={'2.5em'}>
+    <Box
+    display={'flex'}
+    justifyContent={'center'}
+    mt={'6vh'}
+    mb={'auto'}
+    >
       <Grid gridTemplateColumns="repeat(7,1fr)" h={'87vh'} w={'60vw'} className='authBoxShadow'>
         <GridItem
           colSpan={{ base: 0, sm: 0, md: 0, lg: 3 }}
@@ -49,8 +53,7 @@ function AuthIllustration(props) {
         </GridItem>
         <FixedPlugin />
       </Grid>
-    </Center>
-    // </Container>
+     </Box>
   );
 }
 // PROPS
