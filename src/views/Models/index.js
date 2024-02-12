@@ -9,6 +9,7 @@ import Popup from './popup';
 const Marketplace = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [querySearch, setQuerySearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [type, setType] = useState([]);
   const [usecase, setUsecase] = useState([]);
@@ -19,13 +20,11 @@ const Marketplace = () => {
 
   const getModels = async () => {
     try {
-      const response = await axiosInstance.get('/models/', {
-        params: {
-          currentPage,
-          category: type,
-          usecase: usecase,
-        },
-      });
+      let url = `/models?currentPage=${currentPage}&category=${type}&usecase=${usecase}`;
+      if (searchValue) {
+        url += `&q=${searchValue}`;
+      }
+      const response = await axiosInstance.get(url);
       setModels(response.data.models);
     } catch (error) {
       console.log(error);
@@ -58,7 +57,7 @@ const Marketplace = () => {
 
   useEffect(() => {
     getModels();
-  }, [type, usecase]);
+  }, [type, usecase, querySearch]);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -71,12 +70,7 @@ const Marketplace = () => {
   const handleChange = async (event) => {
     const { value } = event.target;
     setSearchValue(value);
-    try {
-      const response = await axiosInstance.get(`/models/search?q=${value}`);
-      setModels(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+    setQuerySearch(value);
   };
 
   const indexOfLastModel = currentPage * modelsPerPage;
