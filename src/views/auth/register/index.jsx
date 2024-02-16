@@ -98,7 +98,7 @@ function Register() {
       setLoading(true);
       try {
         delete values.confirmPassword;
-        console.log('register calling...')
+        console.log('register calling...');
         const response = await axiosInstance.post('/auth/register', values);
         console.log('Registration successful:', response.data);
         const { user, tokens } = response.data;
@@ -302,17 +302,24 @@ function Register() {
             disabled={loading}
             isLoading={loading}
             // variant="brand"
-            color='#ffffff'
-            bg='rgb(34 126 161)'
+            color="#ffffff"
+            bg="rgb(34 126 161)"
             fontWeight="500"
             w="100%"
             h="40px"
             mt="15px"
             type="submit"
+            _hover={{ bg: 'navy.400' }}
+            _disabled={{
+              bg: 'navy.50',
+              _hover: {
+                bg: 'navy.50',
+              },
+            }}
           >
             Register
           </Button>
-          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="20px" mb='80px'>
+          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="20px" mb="80px">
             <Text color={textColorDetails} fontWeight="400" fontSize="14px">
               Already have account?
               <NavLink to="/auth/sign-in">

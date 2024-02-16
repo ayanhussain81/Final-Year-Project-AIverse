@@ -250,6 +250,13 @@ function SignIn() {
             h="40px"
             mb="18px"
             type="submit"
+            _hover={{ bg: 'navy.400' }}
+            _disabled={{
+              bg: 'navy.50',
+              _hover: {
+                bg: 'navy.50',
+              },
+            }}
           >
             Sign In
           </Button>
