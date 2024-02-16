@@ -17,7 +17,7 @@ const UserMenu = ({ user, menuItems, handleLogout }) => {
           _hover={{ cursor: 'pointer' }}
           color="white"
           name={user ? user?.name : 'user'}
-          bg="rgb(34 126 161)"
+          bg="#195d77"
           size="sm"
           w="45px"
           h="45px"
