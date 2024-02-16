@@ -5,6 +5,7 @@ import axiosInstance from 'services/axiosInstance';
 import Title from './title';
 import InputElements from './input';
 import Popup from './popup';
+import Header from 'layouts/HomeHeader';
 
 const Marketplace = () => {
   const [showModal, setShowModal] = useState(false);
@@ -82,6 +83,7 @@ const Marketplace = () => {
 
   return (
     <>
+      <Header />
       <Box mt="70px">
         <Title />
         <Flex justifyContent="center">

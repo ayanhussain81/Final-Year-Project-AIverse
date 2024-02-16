@@ -16,6 +16,9 @@ export default function MobileMenu({
   offCanvasExtraClasses,
   offCanvasBackdropExtraClasses,
   sidebarRef,
+  handleLogout,
+  menuItems,
+  user,
 }) {
   return (
     <>
@@ -39,6 +42,7 @@ export default function MobileMenu({
               ['Marketplace', 'marketplace', -40],
               ['Resource', 'resource', -80],
               ['About', 'about'],
+              ['Pricing', 'pricing'],
             ].map(([navItem, url, offset], index) => (
               <li key={index} className="">
                 <Link
@@ -67,13 +71,31 @@ export default function MobileMenu({
 
           {/* buttons */}
           <div className="flex flex-wrap justify-between items-center gap-5">
-            <OutlinedButton type="button" extraClasses="grow | px-10 py-4 font-semibold bg-neutral-100 leading-[100%]">
-              Upload
-            </OutlinedButton>
-
-            <OutlinedButton type="button" extraClasses="grow | px-5 py-4 font-semibold bg-neutral-100 leading-[100%]">
-              Connect Wallet
-            </OutlinedButton>
+            {!user?.tokens ? (
+              <OutlinedButton type="button" extraClasses="grow | px-10 py-4 font-semibold bg-neutral-100 leading-[100%]">
+                Get Started
+              </OutlinedButton>
+            ) : (
+              <>
+                {menuItems.map((item) => {
+                  return (
+                    <OutlinedButton
+                      type="button"
+                      extraClasses="grow | px-10 py-4 font-semibold bg-neutral-100 leading-[100%]"
+                    >
+                      {item.name}
+                    </OutlinedButton>
+                  );
+                })}
+                <OutlinedButton
+                  type="button"
+                  extraClasses="grow | px-10 py-4 font-semibold bg-neutral-100 leading-[100%]"
+                  onClick={() => handleLogout()}
+                >
+                  Log Out
+                </OutlinedButton>
+              </>
+            )}
           </div>
         </div>
       </aside>

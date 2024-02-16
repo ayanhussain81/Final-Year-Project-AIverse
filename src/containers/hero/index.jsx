@@ -11,7 +11,7 @@ export default function Hero() {
   return (
     <section aria-label="hero section" className="bg-neutral-100 background-gradient">
       <div className="container tablet:px-10 laptop:px-20 | pb-32 pt-14 | relative z-[0]">
-        <div className="grid grid-cols-1 min-[1200px]:grid-cols-[minmax(auto,_620px),_minmax(auto,_570px)] justify-between h-[620px] items-center gap-y-20">
+        <div className="grid grid-cols-1 min-[1200px]:grid-cols-[minmax(auto,_620px),_minmax(auto,_570px)] justify-between h-[620px] items-center gap-y-20 mt-7">
           <motion.div
             initial={{ y: -100, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}

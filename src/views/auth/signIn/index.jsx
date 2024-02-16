@@ -129,11 +129,11 @@ function SignIn() {
         mt={{ base: '40px', md: '-4vh' }}
         flexDirection="column"
       >
-        <Box me="auto" w='100%'>
-          <Heading color={textColor} fontSize="36px" mb="15px" textAlign={'center'} w='100%'>
+        <Box me="auto" w="100%">
+          <Heading color={textColor} fontSize="36px" mb="15px" textAlign={'center'} w="100%">
             Sign In
           </Heading>
-          <Text mb="20px" ms="4px" color={textColorSecondary} fontWeight="400" textAlign={'center'} w='100%' fontSize="md">
+          <Text mb="20px" ms="4px" color={textColorSecondary} fontWeight="400" textAlign={'center'} w="100%" fontSize="md">
             Enter your email and password to sign in!
           </Text>
         </Box>
@@ -243,8 +243,8 @@ function SignIn() {
             fontSize="sm"
             disabled={loading}
             isLoading={loading}
-            color='#ffffff'
-            bg='rgb(34 126 161)'
+            color="#ffffff"
+            bg="rgb(34 126 161)"
             fontWeight="500"
             w="100%"
             h="40px"

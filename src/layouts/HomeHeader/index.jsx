@@ -3,19 +3,29 @@ import Navigation from 'components/common/Navigation';
 import OutlinedButton from 'components/common/buttons/OutlinedButton';
 import TextLogo from 'components/common/logo/TextLogo';
 import DynamicWidthSearchBar from 'components/common/searchBar/DynamicWidthSearchBar';
-import NormalSearchBar from 'components/common/searchBar/NormalSearchBar';
 import { motion } from 'framer-motion';
 import useOffCanvas from 'hooks/useOffCanvas';
 import { Link } from 'react-scroll';
 
 import HamburgerButton from './HamburgerButton';
 import MobileMenu from './MobileMenu';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { userMenuItems } from './static/data';
+import UserMenu from 'components/menu/UserMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/actions/auth.js';
 
 export default function Header() {
   const { hamburgerToggle, isMobileMenuVisible, setIsMobileMenuVisible, hamburgerRef, sidebarRef } = useOffCanvas();
   const [scrollPosition, setScrollPosition] = useState(0);
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +44,9 @@ export default function Header() {
     <header
       aria-label="header"
       className={`fixed border-b-0 top-0 left-0 z-10 | w-full | border-neutral-400 | before:content-[''] before:absolute before:inset-0 before:-z-10 ${
-        scrollPosition < 50 ? 'bg-transparent' : 'before:bg-neutral-100/80 before:backdrop-blur-3xl'
+        scrollPosition < 50 && location.pathname === '/'
+          ? 'bg-transparent'
+          : 'before:bg-neutral-100/80 before:backdrop-blur-3xl'
       } `}
     >
       <div className="container tablet:px-10 laptop:px-20 | py-7">
@@ -58,6 +70,7 @@ export default function Header() {
                   ['Marketplace', 'marketplace', -40],
                   ['Resource', 'resource', -80],
                   ['About', 'about'],
+                  ['Pricing', 'pricing'],
                 ].map(([navItem, url, offset], index) => (
                   <li key={index}>
                     <Link
@@ -75,14 +88,17 @@ export default function Header() {
                 ))}
               </Navigation>
               {/* buttons */}
-
-              <OutlinedButton
-                type="button"
-                extraClasses="px-4 py-3 font-semibold bg-inherit leading-[100%]"
-                onClick={() => navigate('/auth/sign-in')}
-              >
-                Get Started
-              </OutlinedButton>
+              {user?.tokens ? (
+                <UserMenu handleLogout={handleLogout} user={user} menuItems={userMenuItems} />
+              ) : (
+                <OutlinedButton
+                  type="button"
+                  extraClasses="px-4 py-3 font-semibold bg-inherit leading-[100%]"
+                  onClick={() => navigate('/auth/sign-in')}
+                >
+                  Get Started
+                </OutlinedButton>
+              )}
             </div>
           </div>
 
@@ -93,11 +109,6 @@ export default function Header() {
             isMobileMenuVisible={isMobileMenuVisible}
             buttonExtraClasses="min-[900px]:hidden"
           />
-
-          {/* search field for smaller device */}
-          <div className="block min-[1360px]:hidden max-[899px]:hidden | max-[1360px]:absolute -bottom-14 right-1/2 translate-x-1/2">
-            <DynamicWidthSearchBar />
-          </div>
         </div>
       </div>
 
@@ -108,6 +119,9 @@ export default function Header() {
         sidebarRef={sidebarRef}
         offCanvasExtraClasses="min-[900px]:hidden"
         offCanvasBackdropExtraClasses="min-[900px]:hidden"
+        user={user}
+        handleLogout={handleLogout}
+        menuItems={userMenuItems}
       />
     </header>
   );
