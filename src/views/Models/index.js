@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import NFT from 'components/card/NFT';
-import { Box, SimpleGrid, Button, Flex } from '@chakra-ui/react';
+import { Box, SimpleGrid, Button, Flex, Skeleton } from '@chakra-ui/react';
 import axiosInstance from 'services/axiosInstance';
 import Title from './title';
 import InputElements from './input';
@@ -18,8 +18,10 @@ const Marketplace = () => {
   const modelsPerPage = 12;
   const [allmodelTypes, setAllModelTypes] = useState([]);
   const [allUseCases, setAllUseCases] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getModels = async () => {
+    setLoading(true);
     try {
       let url = `/models?currentPage=${currentPage}&category=${type}&usecase=${usecase}`;
       if (searchValue) {
@@ -27,8 +29,10 @@ const Marketplace = () => {
       }
       const response = await axiosInstance.get(url);
       setModels(response.data.models);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -84,9 +88,9 @@ const Marketplace = () => {
   return (
     <>
       <Header />
-      <Box mt="70px">
+      <Box mt={{ base: '100px', md: '150px' }}>
         <Title />
-        <Flex justifyContent="center">
+        <Flex paddingX={{ base: '10px', sm: '25px', md: '0' }} justifyContent="center">
           <InputElements searchValue={searchValue} handleChange={handleChange} handleShow={handleShow} />
           <Popup
             showModal={showModal}
@@ -99,25 +103,35 @@ const Marketplace = () => {
           />
         </Flex>
       </Box>
-      <Box width="100%" padding="80px 140px">
-        <SimpleGrid columns={{ base: 1, md: 4 }} gap="40px">
-          {currentModels.map((nft, index) => (
-            <NFT key={index} name={nft.name} author={nft.owner} image={nft.img} category={nft.category} />
-          ))}
-        </SimpleGrid>
-        <Flex justifyContent="center" mt="40px">
-          {Array.from({ length: Math.ceil(models.length / modelsPerPage) }).map((_, index) => (
-            <Button
-              key={index}
-              mx="2"
-              variant={currentPage === index + 1 ? 'solid' : 'outline'}
-              colorScheme="teal"
-              onClick={() => paginate(index + 1)}
-            >
-              {index + 1}
-            </Button>
-          ))}
-        </Flex>
+      <Box width="100%" padding={{ base: '80px 20px', md: '80px 140px' }}>
+        {loading ? (
+          <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap="40px">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <Skeleton key={index} height="300px" />
+            ))}
+          </SimpleGrid>
+        ) : (
+          <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap="40px">
+            {currentModels.map((nft, index) => (
+              <NFT key={index} name={nft.name} author={nft.owner} image={nft.img} category={nft.category} />
+            ))}
+          </SimpleGrid>
+        )}
+        {!loading && (
+          <Flex justifyContent="center" mt="40px">
+            {Array.from({ length: Math.ceil(models.length / modelsPerPage) }).map((_, index) => (
+              <Button
+                key={index}
+                mx={{ base: '1', md: '2' }}
+                variant={currentPage === index + 1 ? 'solid' : 'outline'}
+                colorScheme="teal"
+                onClick={() => paginate(index + 1)}
+              >
+                {index + 1}
+              </Button>
+            ))}
+          </Flex>
+        )}
       </Box>
     </>
   );

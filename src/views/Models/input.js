@@ -1,11 +1,11 @@
-import { Button, InputGroup, Input, InputLeftElement, Icon } from '@chakra-ui/react';
+import { Button, InputGroup, Input, InputLeftElement, Icon, Flex } from '@chakra-ui/react';
 import { IoIosSearch } from 'react-icons/io';
 import { MdOutlineSyncAlt } from 'react-icons/md';
 
 const InputElements = (props) => {
   return (
-    <InputGroup width="50vw">
-      <InputGroup>
+    <Flex flexDirection={{ base: 'column', md: 'row' }} justifyContent="center" alignItems="center" width="100%">
+      <InputGroup width={{ base: '100%', md: '50%' }} mb={{ base: '10px', md: '0' }}>
         <InputLeftElement children={<Icon as={IoIosSearch} mt="7px" boxSize={6} color="gray.500" />} />
         <Input
           height="48px"
@@ -22,9 +22,9 @@ const InputElements = (props) => {
         leftIcon={<Icon as={MdOutlineSyncAlt} boxSize={5} color="black.700" />}
         border="2px solid"
         borderRadius="10px"
-        ml="15px"
+        ml={{ base: '0', md: '15px' }}
         height="48px"
-        width="115px"
+        width={{ base: '100%', md: 'auto' }}
         onClick={props.handleShow}
         bg="#ffffff"
         color="black"
@@ -34,7 +34,7 @@ const InputElements = (props) => {
       >
         Filters
       </Button>
-    </InputGroup>
+    </Flex>
   );
 };
 

@@ -29,7 +29,12 @@ const Popup = (props) => {
   return (
     <Modal autoFocus={false} isOpen={props.showModal} onClose={props.handleClose} size="2xl" isCentered>
       <ModalOverlay />
-      <ModalContent bg="#F8F8F8" borderRadius="xl" boxShadow="0px 4px 24px rgba(0, 0, 0, 0.1)">
+      <ModalContent
+        bg="#F8F8F8"
+        borderRadius="xl"
+        boxShadow="0px 4px 24px rgba(0, 0, 0, 0.1)"
+        maxW={{ base: '90%', sm: '90%', md: '2xl' }}
+      >
         <ModalHeader fontSize="xl" color="#333" borderBottom="1px solid #E0E0E0">
           Filters
         </ModalHeader>
@@ -45,7 +50,7 @@ const Popup = (props) => {
               </Text>
 
               <CheckboxGroup value={selectedModelTypes} colorScheme="teal" onChange={setSelectedModelTypes}>
-                <Stack spacing={14} direction="row" justifyContent="space around">
+                <Stack spacing={{ sm: 2, md: 14 }} direction={{ base: 'column', md: 'row' }}>
                   {Array.from(Array(Math.ceil(props.modelTypes.length / 3)).keys()).map((index) => (
                     <Stack direction="column" key={index}>
                       {props.modelTypes.slice(index * 3, (index + 1) * 3).map((type) => (
@@ -68,7 +73,7 @@ const Popup = (props) => {
               </Text>
 
               <CheckboxGroup value={selectedUseCases} colorScheme="teal" onChange={setSelectedUseCases}>
-                <Stack spacing={14} direction="row" justifyContent="space around">
+                <Stack spacing={{ sm: 2, md: 14 }} direction={{ base: 'column', md: 'row' }}>
                   {Array.from(Array(Math.ceil(props.useCases.length / 3)).keys()).map((index) => (
                     <Stack direction="column" key={index}>
                       {props.useCases.slice(index * 3, (index + 1) * 3).map((type) => (
