@@ -1,8 +1,10 @@
 import { Box, Button, Flex, Image, Link, Text } from '@chakra-ui/react';
 import Card from 'components/card/Card.js';
+import { useNavigate } from 'react-router-dom';
 
 export default function NFT(props) {
   const { image, name, author, download, category } = props;
+  const navigate = useNavigate();
 
   return (
     <Card style={{ overflow: 'hidden' }} pt="0" px="0" pb="25px">
@@ -102,6 +104,7 @@ export default function NFT(props) {
               }}
             >
               <Button
+                onClick={navigate(`/models/detail/${name}`)}
                 variant="outline"
                 color="rgb(34 126 161)"
                 borderColor="rgb(34 126 161)"
