@@ -4,6 +4,7 @@ import Layout from 'layouts/routerOutlet';
 import Home from 'views/Home';
 import Models from 'views/Models';
 import ModelDetails from 'views/Models/details';
+import Pricing from 'views/Pricing';
 
 export default function Routes() {
   return {
@@ -13,6 +14,7 @@ export default function Routes() {
       { path: '/', element: <Home /> },
       { path: '/models', element: <Models /> },
       { path: '/models/detail/:name', element: <ModelDetails /> },
+      { path: '/pricing', element: <Pricing /> },
       { path: '/*', element: <Navigate to="/auth/sign-in" replace /> },
     ],
   };
