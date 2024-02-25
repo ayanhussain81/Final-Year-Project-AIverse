@@ -1,43 +1,66 @@
 import React, { useRef, useState } from 'react';
 import { Box, Heading, FormControl, FormLabel, Input, Button, Stack } from '@chakra-ui/react';
 import axiosInstance from 'services/axiosInstance';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import Toast from 'shared/toast';
+import { useSelector } from 'react-redux';
+
+const validationSchema = Yup.object().shape({
+  businessEmail: Yup.string().email('Invalid email').required('Required'),
+  occupation: Yup.string().required('Occupation is Required'),
+  phone: Yup.string().required('Phone no. is Required'),
+  country: Yup.string().required('Country is Required'),
+  address: Yup.string().required('Address is Required'),
+});
 
 const Form = () => {
   const toastRef = useRef(null);
-  const [formData, setFormData] = useState({
-    businessEmail: '',
-    occupation: '',
-    phone: '',
-    country: '',
-    address: '',
-  });
-  const userId = '658708403788b128c4fd6761';
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [loading, setLoading] = useState(false);
+  const { tokens, user } = useSelector((state) => state.auth);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axiosInstance.post('/seller/register-as-seller', {
-        userId,
-        ...formData,
-      });
-      console.log('Registration successful', response.data);
-      toastRef.current.showSuccessToast('Registraion Successful');
-    } catch (error) {
-      console.error('Registration failed', error);
-      toastRef.current.showErrorToast('Registraion Unsuccessful');
-    }
-  };
+  const formik = useFormik({
+    initialValues: {
+      businessEmail: '',
+      occupation: '',
+      phone: '',
+      country: '',
+      address: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        setLoading(true);
+        const response = await axiosInstance.post(
+          '/seller/register-as-seller',
+          {
+            userId: user?.id,
+            ...values,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${tokens.access.token}`,
+            },
+          }
+        );
+        console.log('Registration successful', response.data);
+        toastRef.current.showSuccessToast('Registration Successful');
+      } catch (error) {
+        console.error('Registration failed', error);
+        toastRef.current.showErrorToast('Registration Unsuccessful');
+      } finally {
+        setLoading(false);
+      }
+      setSubmitting(false);
+    },
+  });
+
   return (
     <>
       <Toast ref={toastRef} />
       <Box
         as="form"
-        onSubmit={handleSubmit}
+        onSubmit={formik.handleSubmit}
         maxW="2xl"
         mx={{ base: '4', md: 'auto' }}
         mt="150px"
@@ -51,67 +74,93 @@ const Form = () => {
           Register as a Seller
         </Heading>
         <Stack spacing="5">
-          <FormControl id="email" isRequired>
+          <FormControl id="businessEmail" isInvalid={formik.touched.businessEmail && formik.errors.businessEmail}>
             <FormLabel>Business Email</FormLabel>
             <Input
               name="businessEmail"
               type="email"
               placeholder="Enter your email"
               borderRadius="xl"
+              variant="auth"
               _focus={{ borderColor: '#227EA1' }}
-              onChange={handleChange}
-              value={formData.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.businessEmail}
             />
+            {formik.touched.businessEmail && formik.errors.businessEmail && (
+              <Box color="red">{formik.errors.businessEmail}</Box>
+            )}
           </FormControl>
-          <FormControl id="occupation" isRequired>
+          <FormControl id="occupation" isInvalid={formik.touched.occupation && formik.errors.occupation}>
             <FormLabel>Occupation</FormLabel>
             <Input
               name="occupation"
               type="text"
               placeholder="Enter your occupation"
               borderRadius="xl"
+              variant="auth"
               _focus={{ borderColor: '#227EA1' }}
-              onChange={handleChange}
-              value={formData.occupation}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.occupation}
             />
+            {formik.touched.occupation && formik.errors.occupation && <Box color="red">{formik.errors.occupation}</Box>}
           </FormControl>
-          <FormControl id="phone" isRequired>
+          <FormControl id="phone" isInvalid={formik.touched.phone && formik.errors.phone}>
             <FormLabel>Phone</FormLabel>
             <Input
               name="phone"
               type="tel"
+              variant="auth"
               placeholder="Enter your phone number"
               borderRadius="xl"
               _focus={{ borderColor: '#227EA1' }}
-              onChange={handleChange}
-              value={formData.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.phone}
             />
+            {formik.touched.phone && formik.errors.phone && <Box color="red">{formik.errors.phone}</Box>}
           </FormControl>
-          <FormControl id="country" isRequired>
+          <FormControl id="country" isInvalid={formik.touched.country && formik.errors.country}>
             <FormLabel>Country</FormLabel>
             <Input
               name="country"
+              variant="auth"
               type="text"
               placeholder="Enter your country"
               borderRadius="xl"
               _focus={{ borderColor: '#227EA1' }}
-              onChange={handleChange}
-              value={formData.country}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.country}
             />
+            {formik.touched.country && formik.errors.country && <Box color="red">{formik.errors.country}</Box>}
           </FormControl>
-          <FormControl id="address">
+          <FormControl id="address" isInvalid={formik.touched.address && formik.errors.address}>
             <FormLabel>Address</FormLabel>
             <Input
               name="address"
               type="text"
+              variant="auth"
               placeholder="Enter your address"
               borderRadius="xl"
               _focus={{ borderColor: '#227EA1' }}
-              onChange={handleChange}
-              value={formData.address}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.address}
             />
+            {formik.touched.address && formik.errors.address && <Box color="red">{formik.errors.address}</Box>}
           </FormControl>
-          <Button type="submit" bg="#227EA1" color="white" _hover={{ bg: '#0E5A77' }} mt="4" borderRadius="lg">
+          <Button
+            type="submit"
+            disabled={loading}
+            isLoading={loading}
+            bg="#227EA1"
+            color="white"
+            _hover={{ bg: '#0E5A77' }}
+            mt="4"
+            borderRadius="lg"
+          >
             Submit
           </Button>
         </Stack>
