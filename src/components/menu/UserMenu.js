@@ -1,5 +1,6 @@
 import { Avatar, Flex, Menu, MenuButton, MenuItem, MenuList, Text, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const UserMenu = ({ user, menuItems, handleLogout }) => {
   let menuBg = useColorModeValue('white', 'navy.800');
@@ -9,6 +10,7 @@ const UserMenu = ({ user, menuItems, handleLogout }) => {
     '14px 17px 40px 4px rgba(112, 144, 176, 0.18)',
     '14px 17px 40px 4px rgba(112, 144, 176, 0.06)'
   );
+  const navigate = useNavigate();
 
   return (
     <Menu>
@@ -40,9 +42,16 @@ const UserMenu = ({ user, menuItems, handleLogout }) => {
           </Text>
         </Flex>
         <Flex flexDirection="column" p="10px">
-          {menuItems.map((item) => {
+          {menuItems.map((item, index) => {
             return (
-              <MenuItem _hover={{ bg: 'none' }} _focus={{ bg: 'none' }} borderRadius="8px" px="14px">
+              <MenuItem
+                _hover={{ bg: 'none' }}
+                _focus={{ bg: 'none' }}
+                onClick={() => (item?.route ? navigate(item.route) : () => {})}
+                borderRadius="8px"
+                px="14px"
+                key={index}
+              >
                 <Text fontSize="sm">{item.name}</Text>
               </MenuItem>
             );

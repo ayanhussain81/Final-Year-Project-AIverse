@@ -104,7 +104,7 @@ export default function NFT(props) {
               }}
             >
               <Button
-                onClick={navigate(`/models/detail/${name}`)}
+                onClick={() => navigate(`/model/detail/${name}`)}
                 variant="outline"
                 color="rgb(34 126 161)"
                 borderColor="rgb(34 126 161)"

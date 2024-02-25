@@ -1,13 +1,21 @@
 import React from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import PrivateRoutes from './routes/privateRoutes.js';
-import PublicRoutes from './routes/publicRoutes.js';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import privateRoutes from './routes/privateRoutes';
+import publicRoutes from './routes/publicRoutes';
 
 const App = () => {
   const isAuthenticated = useSelector((state) => state.auth.tokens !== null);
-  const router = createBrowserRouter([isAuthenticated ? PrivateRoutes() : PublicRoutes()]);
-  return <RouterProvider router={router} />;
+
+  return (
+    <Router>
+      <Routes>
+        {isAuthenticated
+          ? privateRoutes.map((route, index) => <Route key={index} exact {...route} />)
+          : publicRoutes.map((route, index) => <Route key={index} exact {...route} />)}
+      </Routes>
+    </Router>
+  );
 };
 
 export default App;

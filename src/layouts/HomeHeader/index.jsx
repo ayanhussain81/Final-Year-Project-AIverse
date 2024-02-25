@@ -5,7 +5,7 @@ import TextLogo from 'components/common/logo/TextLogo';
 import DynamicWidthSearchBar from 'components/common/searchBar/DynamicWidthSearchBar';
 import { motion } from 'framer-motion';
 import useOffCanvas from 'hooks/useOffCanvas';
-import { Link } from 'react-scroll';
+import { Link } from 'react-router-dom';
 
 import HamburgerButton from './HamburgerButton';
 import MobileMenu from './MobileMenu';
@@ -19,7 +19,7 @@ export default function Header() {
   const { hamburgerToggle, isMobileMenuVisible, setIsMobileMenuVisible, hamburgerRef, sidebarRef } = useOffCanvas();
   const [scrollPosition, setScrollPosition] = useState(0);
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const { tokens, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -67,10 +67,10 @@ export default function Header() {
                 ulExtraClasses="flex items-center gap-3"
               >
                 {[
-                  ['Marketplace', 'marketplace', -40],
+                  ['Marketplace', '/marketplace', -40],
                   ['Resource', 'resource', -80],
                   ['About', 'about'],
-                  ['Pricing', 'pricing'],
+                  ['Pricing', '/pricing'],
                 ].map(([navItem, url, offset], index) => (
                   <li key={index}>
                     <Link
@@ -88,7 +88,7 @@ export default function Header() {
                 ))}
               </Navigation>
               {/* buttons */}
-              {user?.tokens ? (
+              {tokens ? (
                 <UserMenu handleLogout={handleLogout} user={user} menuItems={userMenuItems} />
               ) : (
                 <OutlinedButton

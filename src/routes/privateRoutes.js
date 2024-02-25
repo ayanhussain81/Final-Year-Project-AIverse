@@ -1,14 +1,21 @@
-import Layout from 'layouts/routerOutlet';
+import React from 'react';
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
+import Home from 'views/Home';
+import Pricing from 'views/Pricing';
+import Models from 'views/Models';
+import Seller from 'views/seller';
+import ModelDetails from 'views/Models/details';
 const AdminLayout = lazy(() => import('../layouts/admin'));
 
-export default function privateRoutes() {
-  return {
-    element: <Layout />,
-    children: [
-      { path: '/admin/*', element: <AdminLayout /> },
-      { path: '/*', element: <Navigate to="/admin/default" replace /> },
-    ],
-  };
-}
+const privateRoutes = [
+  { path: '/admin/*', element: <AdminLayout /> },
+  { path: '/', element: <Home /> },
+  { path: '/pricing', element: <Pricing /> },
+  { path: '/marketplace', element: <Models /> },
+  { path: '/model/detail/:name', element: <ModelDetails /> },
+  { path: '/seller', element: <Seller /> },
+  { path: '*', element: <Navigate to="/" replace /> },
+];
+
+export default privateRoutes;

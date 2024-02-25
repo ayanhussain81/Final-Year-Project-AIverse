@@ -11,7 +11,7 @@ const TogglePlan = ({ toggleBillingPlan, billPlan }) => {
         <div className="w-16 h-8 transition bg-primary rounded-full shadow-md outline-none"></div>
         <div
           className={`absolute inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform bg-neutral-100 rounded-full shadow-sm top-1 left-1 ${
-            billPlan === 'annually' ? 'translate-x-8' : 'translate-x-0'
+            billPlan === 'yearly' ? 'translate-x-8' : 'translate-x-0'
           }`}
         ></div>
       </button>
