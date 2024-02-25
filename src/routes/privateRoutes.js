@@ -6,6 +6,7 @@ import Pricing from 'views/Pricing';
 import Models from 'views/Models';
 import Seller from 'views/seller';
 import ModelDetails from 'views/Models/details';
+import VerificationPage from 'views/VerifyEmail';
 const AdminLayout = lazy(() => import('../layouts/admin'));
 
 const privateRoutes = [
@@ -15,6 +16,7 @@ const privateRoutes = [
   { path: '/marketplace', element: <Models /> },
   { path: '/model/detail/:name', element: <ModelDetails /> },
   { path: '/seller', element: <Seller /> },
+  { path: '/verify-email', element: <VerificationPage /> },
   { path: '*', element: <Navigate to="/" replace /> },
 ];
 
