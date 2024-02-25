@@ -46,6 +46,8 @@ const ModelDetails = () => {
             <Button
               leftIcon={<Icon as={GoPlusCircle} boxSize={6} />}
               width={{ base: '45%', md: '40%', lg: '30%' }}
+              _hover={{ bg: '#0E5A77' }}
+              _active={{ bg: '#0E5A77' }}
               bg="#227ea1"
               color="white"
             >

@@ -26,10 +26,10 @@ const Form = () => {
         ...formData,
       });
       console.log('Registration successful', response.data);
-      toastRef.current.showSuccessToast('Registraion Successful');
+      toastRef.current.showSuccessToast('Your Registraion was Successful');
     } catch (error) {
       console.error('Registration failed', error);
-      toastRef.current.showErrorToast('Registraion Unsuccessful');
+      toastRef.current.showErrorToast('Your Registraion was Unsuccessful');
     }
   };
   return (

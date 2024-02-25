@@ -4,10 +4,10 @@ import { useToast } from '@chakra-ui/react';
 const Toast = forwardRef((props, ref) => {
   const toast = useToast();
 
-  const showSuccessToast = (description) => {
+  const showSuccessToast = (title) => {
     toast({
+      title,
       position: 'top',
-      description,
       status: 'success',
       duration: 2000,
       variant: 'subtle',
@@ -15,10 +15,10 @@ const Toast = forwardRef((props, ref) => {
     });
   };
 
-  const showErrorToast = (description) => {
+  const showErrorToast = (title) => {
     toast({
+      title,
       position: 'top',
-      description,
       status: 'error',
       duration: 2000,
       variant: 'subtle',

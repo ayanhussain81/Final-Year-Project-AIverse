@@ -6,11 +6,11 @@ import Title from './title';
 import InputElements from './input';
 import Popup from './popup';
 import Header from 'layouts/HomeHeader';
+import useDebounce from 'hooks/useDebounce';
 
 const Marketplace = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [querySearch, setQuerySearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [type, setType] = useState([]);
   const [usecase, setUsecase] = useState([]);
@@ -20,12 +20,14 @@ const Marketplace = () => {
   const [allUseCases, setAllUseCases] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const debouncedValue = useDebounce(searchValue, 600);
+
   const getModels = async () => {
     setLoading(true);
     try {
       let url = `/models?currentPage=${currentPage}&category=${type}&usecase=${usecase}`;
-      if (searchValue) {
-        url += `&q=${searchValue}`;
+      if (debouncedValue) {
+        url += `&q=${debouncedValue}`;
       }
       const response = await axiosInstance.get(url);
       setModels(response.data.models);
@@ -62,7 +64,7 @@ const Marketplace = () => {
 
   useEffect(() => {
     getModels();
-  }, [type, usecase, querySearch]);
+  }, [type, usecase, debouncedValue]);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -75,7 +77,6 @@ const Marketplace = () => {
   const handleChange = async (event) => {
     const { value } = event.target;
     setSearchValue(value);
-    setQuerySearch(value);
   };
 
   const indexOfLastModel = currentPage * modelsPerPage;
