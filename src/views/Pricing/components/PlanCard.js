@@ -1,18 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const PlanCard = ({ name, description, price, noOfModelsAllowed, billingPeriod }) => {
+  let cardColor = '';
+  let buttonColor = '';
+  let hoverColor = '';
+
+  switch (name.toLowerCase()) {
+    case 'gold':
+      cardColor = '#BF9B30';
+      hoverColor = '#A67C00';
+      break;
+    case 'silver':
+      cardColor = '#c0c0c0';
+      hoverColor = '#a5a1a1';
+      break;
+    case 'basic':
+      cardColor = '#bb8141';
+      hoverColor = '#8b5a28';
+      break;
+    default:
+      cardColor = '#FFFFFF';
+      hoverColor = '#90CDF4';
+  }
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <section className="flex flex-col w-full max-w-sm p-12  space-y-6 bg-neutral-100 rounded-lg shadow-md">
+    <section
+      style={{ backgroundColor: cardColor }}
+      className="flex flex-col w-full max-w-sm p-12 space-y-6 rounded-lg shadow-md"
+    >
       {/* Price */}
       <div className="flex-shrink-0">
         <span className="text-900 font-medium tracking-tight">{`$${price}`}</span>
-        <span className="text-neutral-500">/{billingPeriod}</span>
+        <span>/{billingPeriod}</span>
       </div>
 
       {/* Plan details */}
       <div className="flex-shrink-0 pb-6 space-y-2 border-b">
         <h2 className="text-700 font-normal">{name}</h2>
-        <p className="text-sm text-neutral-500">{description}</p>
+        <p className="text-sm ">{description}</p>
       </div>
 
       {/* Features */}
@@ -23,7 +49,7 @@ const PlanCard = ({ name, description, price, noOfModelsAllowed, billingPeriod }
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
-            fill="currentColor"
+            fill="rgba(0, 0, 0, 0.6)"
           >
             <path
               fillRule="evenodd"
@@ -38,11 +64,10 @@ const PlanCard = ({ name, description, price, noOfModelsAllowed, billingPeriod }
       {/* Button */}
       <div className="flex-shrink-0 pt-4">
         <button
-          className={`inline-flex items-center justify-center w-full max-w-xs px-4 py-2 transition-colors border rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-            name === 'Basic'
-              ? 'bg-primary-500 text-neutral-100 hover:bg-primary-700'
-              : 'hover:bg-primary-500 hover:text-neutral-100'
-          }`}
+          style={{ backgroundColor: isHovered ? hoverColor : buttonColor }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="inline-flex items-center justify-center w-full max-w-xs px-4 py-2 transition-colors border rounded-full text-neutral-100"
         >
           {`Get ${name}`}
         </button>
