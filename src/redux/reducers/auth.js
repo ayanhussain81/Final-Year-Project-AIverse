@@ -1,6 +1,7 @@
 // authReducer.js
 const initialState = {
   user: null,
+  seller: null,
   tokens: null,
 };
 
@@ -11,12 +12,21 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload.user,
         tokens: action.payload.tokens,
+        seller: action.payload.seller,
       };
+
+    case 'SELLER_SUCCESS':
+      return {
+        ...state,
+        seller: action.payload.seller,
+      };
+
     case 'LOGOUT':
       return {
         ...state,
         user: null,
         tokens: null,
+        seller: null,
       };
     default:
       return state;

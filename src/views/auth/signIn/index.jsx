@@ -90,8 +90,8 @@ function SignIn() {
         // Calling sign-in API using axiosInstance
         const response = await axiosInstance.post('/auth/login', values);
         console.log('Sign-in successful:', response.data);
-        const { user, tokens } = response.data;
-        dispatch(loginSuccess(user, tokens));
+        const { user, tokens, seller } = response.data;
+        dispatch(loginSuccess(user, tokens, seller));
 
         formik.resetForm();
       } catch (error) {
