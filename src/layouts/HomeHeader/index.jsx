@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import Navigation from 'components/common/Navigation';
 import OutlinedButton from 'components/common/buttons/OutlinedButton';
 import TextLogo from 'components/common/logo/TextLogo';
-import DynamicWidthSearchBar from 'components/common/searchBar/DynamicWidthSearchBar';
 import { motion } from 'framer-motion';
 import useOffCanvas from 'hooks/useOffCanvas';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import HamburgerButton from './HamburgerButton';
 import MobileMenu from './MobileMenu';
@@ -53,9 +52,11 @@ export default function Header() {
         {/* navbar main elements */}
         <div className="max-[1360px]:relative | flex items-center justify-between">
           {/* logo */}
-          <motion.div initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}>
-            <TextLogo extraClasses="pr-10" />
-          </motion.div>
+          <Link to="/">
+            <motion.div initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}>
+              <TextLogo extraClasses="pr-10" />
+            </motion.div>
+          </Link>
 
           <div className="grow | flex items-center max-[899px]:hidden">
             {/* navigation for larger devices */}
@@ -67,23 +68,29 @@ export default function Header() {
                 ulExtraClasses="flex items-center gap-3"
               >
                 {[
+                  ['Home', '/', -40],
                   ['Marketplace', '/marketplace', -40],
                   ['Resource', 'resource', -80],
-                  ['About', 'about'],
+                  // ['About', 'about'],
                   ['Pricing', '/pricing'],
                 ].map(([navItem, url, offset], index) => (
                   <li key={index}>
-                    <Link
-                      activeClass="bg-primary text-neutral-100 hover:bg-primary/90"
+                    <NavLink
+                      active
                       to={url}
                       spy={true}
                       smooth={true}
                       offset={offset}
                       duration={500}
-                      className="cursor-pointer font-medium px-5 py-2 rounded-full hover:bg-neutral-300 transition-all"
+                      className={({ isActive }) => {
+                        let classes =
+                          'cursor-pointer font-medium px-5 py-2 rounded-full hover:bg-neutral-300 transition-all';
+                        if (isActive) return `${classes} bg-primary text-neutral-100 hover:bg-primary/90`;
+                        return classes;
+                      }}
                     >
                       {navItem}
-                    </Link>
+                    </NavLink>
                   </li>
                 ))}
               </Navigation>
