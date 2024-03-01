@@ -4,11 +4,13 @@ import TogglePlan from './components/TogglePlan';
 import axiosInstance from 'services/axiosInstance';
 import PlanCardSkeleton from './components/PlanCardSkeleton';
 import Header from 'layouts/HomeHeader';
+import { useSelector } from 'react-redux';
 
 const Pricing = () => {
   const [billPlan, setBillPlan] = useState('monthly');
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user, tokens } = useSelector((state) => state.auth);
 
   const toggleBillingPlan = () => {
     setBillPlan((prevPlan) => (prevPlan === 'monthly' ? 'yearly' : 'monthly'));
@@ -61,6 +63,9 @@ const Pricing = () => {
               ? subscriptions?.[billPlan]?.map((plan, index) => (
                   <PlanCard
                     key={index}
+                    userId={user.id}
+                    tokens={tokens}
+                    planId={plan._id}
                     name={plan?.name}
                     description={plan?.planDescription}
                     price={plan?.price}

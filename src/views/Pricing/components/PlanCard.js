@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import axiosInstance from 'services/axiosInstance';
 
-const PlanCard = ({ name, description, price, noOfModelsAllowed, billingPeriod }) => {
+const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModelsAllowed, billingPeriod }) => {
   let cardColor = '';
   let buttonColor = '';
   let hoverColor = '';
@@ -23,6 +24,23 @@ const PlanCard = ({ name, description, price, noOfModelsAllowed, billingPeriod }
       hoverColor = '#90CDF4';
   }
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleSubscription = async () => {
+    try {
+      const response = await axiosInstance.post('/seller/create-checkout-session', {
+        userId: userId,
+        planId: planId,
+        headers: {
+          Authorization: `Bearer ${tokens.access.token}`,
+        },
+      });
+      if (response?.data?.url) {
+        window.location.href = response?.data?.url;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section
@@ -67,6 +85,7 @@ const PlanCard = ({ name, description, price, noOfModelsAllowed, billingPeriod }
           style={{ backgroundColor: isHovered ? hoverColor : buttonColor }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onClick={() => handleSubscription()}
           className="inline-flex items-center justify-center w-full max-w-xs px-4 py-2 transition-colors border rounded-full text-neutral-100"
         >
           {`Get ${name}`}
