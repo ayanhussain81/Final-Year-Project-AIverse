@@ -42,7 +42,7 @@ function Sidebar(props) {
       <Box
         bg={sidebarBg}
         transition={variantChange}
-        w={!collapse ? '270px' : '90px'}
+        w={!collapse ? '240px' : '90px'}
         h="100vh"
         m={sidebarMargins}
         minH="100%"
