@@ -25,6 +25,7 @@ function VerificationPage() {
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token');
   const navigate = useNavigate();
+  const { tokens, seller } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!token) {
@@ -34,7 +35,20 @@ function VerificationPage() {
 
     const verifyEmail = async () => {
       try {
-        const response = await axiosInstance.post('/seller/verify-email', { token });
+        if (seller?.isEmailVerified) {
+          setVerificationError(null);
+          setIsLoading(false);
+          return;
+        }
+        const response = await axiosInstance.post(
+          '/seller/verify-email',
+          { token },
+          {
+            headers: {
+              Authorization: `Bearer ${tokens.access.token}`,
+            },
+          }
+        );
         setIsLoading(false);
         if (response.data.success) {
           setVerificationError(null);
@@ -72,9 +86,9 @@ function VerificationPage() {
           <Heading as="h2" size="lg" mb="4">
             Email Verified Successfully!
           </Heading>
-          <Text>Thank you for verifying your email. You can now access all features.</Text>
+          <Text mb="1.5rem">Thank you for verifying your email. You can now access all features.</Text>
           {/* Add link or button to redirect to the appropriate page */}
-          <Button onClick={onClose}>Continue</Button>
+          <Button onClick={() => navigate('/admin')}>Continue to Dashboard</Button>
         </>
       )}
       <AlertDialog isOpen={isOpen} onClose={onClose}>
