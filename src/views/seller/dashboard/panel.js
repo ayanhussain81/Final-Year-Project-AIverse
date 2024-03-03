@@ -26,7 +26,10 @@ const Panel = ({ model }) => {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-md">
-              Status <Badge>{model.status ? model.status : 'Undefined'}</Badge>
+              Status{' '}
+              <Badge colorScheme={`${model.status === 'deployed' ? 'green' : ''}`}>
+                {model.status ? model.status : 'Undefined'}
+              </Badge>
             </span>
 
             <OutlinedButton
