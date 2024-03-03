@@ -2,9 +2,23 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { BsBoxes } from 'react-icons/bs';
 import ContainedButton from '../../../components/common/buttons/ContainedButton';
 import { FaPlus } from 'react-icons/fa';
+import SearchBar from 'shared/searchbar';
+import Panel from './panel';
 
 const Content = (props) => {
-  return (
+  const handleChange = async (event) => {
+    console.log(event.target.value);
+    props.onFilter(event.target.value);
+  };
+
+  return props.userModels ? (
+    <Flex mx={{ base: '10px', md: '0px' }} my="30px" direction="column" justifyContent="start" alignItems="center">
+      <SearchBar height="38px" boxSize="5" handleChange={handleChange} />
+      {props?.userModels.map((model) => (
+        <Panel model={model} />
+      ))}
+    </Flex>
+  ) : (
     <Flex justifyContent="center" alignItems="center" height="85%">
       <Box
         padding="30px"

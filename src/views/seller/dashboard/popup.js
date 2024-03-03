@@ -8,18 +8,23 @@ import {
   ModalFooter,
   ModalCloseButton,
   Stack,
-  Button,
+  Box,
   FormControl,
   FormLabel,
   Input,
   Textarea,
 } from '@chakra-ui/react';
+import ContainedButton from 'components/common/buttons/ContainedButton';
+import axiosInstance from 'services/axiosInstance';
+import { useSelector } from 'react-redux';
 
 const Popup = (props) => {
+  const { seller, tokens } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
   });
+  const [uploadedImage, setUploadedImage] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,8 +34,30 @@ const Popup = (props) => {
     });
   };
 
+  const handleImageChange = (file) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setUploadedImage(null);
+    }
+  };
+
   const handleCreate = async () => {
-    console.log(formData);
+    try {
+      await axiosInstance.post('/models/create', {
+        name: formData.name,
+        description: formData.description,
+        img: uploadedImage,
+        owner: seller._id,
+      });
+      props.getModelsBySeller();
+    } catch (error) {
+      console.log(error);
+    }
     props.handleClose();
   };
 
@@ -41,14 +68,14 @@ const Popup = (props) => {
         bg="#F8F8F8"
         borderRadius="xl"
         boxShadow="0px 4px 24px rgba(0, 0, 0, 0.1)"
-        maxW={{ base: '90%', sm: '90%', md: 'xl' }}
+        maxW={{ base: '90%', sm: '90%', md: '2xl' }}
       >
         <ModalHeader fontSize="xl" color="#333" borderBottom="1px solid #E0E0E0">
           Create New Model
         </ModalHeader>
         <ModalCloseButton color="#333" />
-        <ModalBody my="1rem">
-          <Stack spacing={5}>
+        <ModalBody my="0.7rem">
+          <Stack spacing={4}>
             <FormControl>
               <FormLabel fontSize="md" fontWeight="500">
                 Name
@@ -68,8 +95,8 @@ const Popup = (props) => {
               <Textarea
                 placeholder="Try describing what does your model do"
                 name="description"
-                minH="80px"
-                maxH="300px"
+                minH="60px"
+                maxH="100px"
                 resize="none"
                 overflow="hidden"
                 value={formData.description}
@@ -81,21 +108,30 @@ const Popup = (props) => {
                 }}
               />
             </FormControl>
+            <FormControl>
+              <FormLabel fontSize="md" fontWeight="500">
+                Upload Image
+              </FormLabel>
+              <Input
+                paddingTop="5px"
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e.target.files[0])}
+              />
+            </FormControl>
+            <Box display="flex" justifyContent="center">
+              {uploadedImage && <img src={uploadedImage} alt="Uploaded" style={{ maxHeight: '100px' }} />}
+            </Box>
           </Stack>
         </ModalBody>
         <ModalFooter borderTop="1px solid #E0E0E0">
-          <Button
-            padding="20px 22px"
-            variant="outline"
-            borderRadius="10px"
-            color="#ffffff"
-            bg="rgb(34 126 161)"
-            _hover={{ bg: 'rgb(34 156 205)' }}
-            _focus={{ bg: 'rgb(34 156 205)' }}
+          <ContainedButton
+            type="button"
+            extraClasses="px-5 py-3 rounded-lg font-semibold bg-inherit leading-[100%]"
+            children="Create"
             onClick={handleCreate}
-          >
-            Create
-          </Button>
+          />
         </ModalFooter>
       </ModalContent>
     </Modal>

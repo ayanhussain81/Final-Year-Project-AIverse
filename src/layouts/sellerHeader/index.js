@@ -7,21 +7,13 @@ import { FaPlus } from 'react-icons/fa';
 const Header = (props) => {
   return (
     <>
-      <Flex
-        paddingX="60px"
-        bg="white"
-        justifyContent="space-between"
-        alignItems="center"
-        position="sticky"
-        inset={0}
-        height="4.7rem"
-      >
+      <Flex paddingX="60px" justifyContent="space-between" alignItems="center" position="sticky" inset={0} height="4.7rem">
         <Text fontWeight="600" fontSize="2xl">
           Models
         </Text>
         <OutlinedButton
           type="button"
-          extraClasses="px-3 py-3 font-semibold bg-inherit leading-[100%]"
+          extraClasses="mobile-sm:px-1 mobile-lg:px-3 mobile-sm:py-1 mobile-lg:py-3 font-semibold bg-inherit leading-[100%]"
           icon={FaPlus}
           iconSize={17}
           children="New Model"
