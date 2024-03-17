@@ -63,7 +63,7 @@ const Pricing = () => {
               ? subscriptions?.[billPlan]?.map((plan, index) => (
                   <PlanCard
                     key={index}
-                    userId={user.id}
+                    userId={user?.id || null}
                     tokens={tokens}
                     planId={plan._id}
                     name={plan?.name}

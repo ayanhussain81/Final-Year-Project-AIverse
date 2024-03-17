@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from 'services/axiosInstance';
 
 const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModelsAllowed, billingPeriod }) => {
   let cardColor = '';
   let buttonColor = '';
   let hoverColor = '';
+  const navigate = useNavigate();
 
   switch (name.toLowerCase()) {
     case 'gold':
@@ -85,7 +87,7 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
           style={{ backgroundColor: isHovered ? hoverColor : buttonColor }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          onClick={() => handleSubscription()}
+          onClick={() => (userId ? handleSubscription() : navigate('/auth/signin?redirectTo=seller-pricing'))}
           className="inline-flex items-center justify-center w-full max-w-xs px-4 py-2 transition-colors border rounded-full text-neutral-100"
         >
           {`Get ${name}`}
