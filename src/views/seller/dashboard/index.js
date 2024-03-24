@@ -44,8 +44,14 @@ const SellerDashboard = () => {
     <Flex height="100vh" width="100vw">
       <Sidebar />
       <Box flex="1">
-        <Header handleShow={handleShow} />
-        <Content handleShow={handleShow} userModels={userModels} onFilter={onFilter} />
+        <Header name="Models" handleShow={handleShow} />
+        <Content
+          name="Models"
+          handleShow={handleShow}
+          userModels={userModels}
+          onFilter={onFilter}
+          getModelsBySeller={getModelsBySeller}
+        />
       </Box>
       <Popup showModal={showModal} handleClose={handleClose} getModelsBySeller={getModelsBySeller} />
     </Flex>

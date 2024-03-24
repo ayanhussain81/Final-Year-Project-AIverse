@@ -3,7 +3,7 @@ import Card from 'components/card/Card.js';
 import { useNavigate } from 'react-router-dom';
 
 export default function NFT(props) {
-  const { image, name, author, download, category } = props;
+  const { id, image, name, author, download, category } = props;
   const navigate = useNavigate();
 
   return (
@@ -104,7 +104,7 @@ export default function NFT(props) {
               }}
             >
               <Button
-                onClick={() => navigate(`/model/detail/${name}`)}
+                onClick={() => navigate(`/model/detail/${id}`)}
                 variant="outline"
                 color="rgb(34 126 161)"
                 borderColor="rgb(34 126 161)"

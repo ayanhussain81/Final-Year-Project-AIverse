@@ -1,0 +1,17 @@
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed gray;
+    height: 120px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.upload-text {
+    font-size: 13px;
+    color: gray;
+    text-align: center;
+}
