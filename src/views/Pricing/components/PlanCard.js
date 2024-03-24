@@ -29,13 +29,18 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
 
   const handleSubscription = async () => {
     try {
-      const response = await axiosInstance.post('/seller/create-checkout-session', {
-        userId: userId,
-        planId: planId,
-        headers: {
-          Authorization: `Bearer ${tokens.access.token}`,
+      const response = await axiosInstance.post(
+        '/seller/create-checkout-session',
+        {
+          userId: userId,
+          planId: planId,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${tokens.access.token}`,
+          },
+        }
+      );
       if (response?.data?.url) {
         window.location.href = response?.data?.url;
       }
@@ -46,7 +51,7 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
 
   const handleOnClick = async () => {
     if (!userId) {
-      navigate('/auth/signin?redirectTo=seller-pricing');
+      navigate('/auth/signin?redirectTo=seller');
       return;
     } else {
       if (seller) {
