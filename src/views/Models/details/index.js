@@ -41,7 +41,7 @@ const ModelDetails = () => {
               {model.description}
             </Text>
             <Text fontSize="lg" m="0">
-              {model.owner}
+              {model.seller}
             </Text>
             <Button
               leftIcon={<Icon as={GoPlusCircle} boxSize={6} />}

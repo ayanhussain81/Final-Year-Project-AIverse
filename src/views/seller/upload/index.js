@@ -13,7 +13,7 @@ const SellerUpload = () => {
   const { id } = useParams();
   const [model, setModel] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [activeTab, setActiveTab] = useState('versions');
+  const [activeTab, setActiveTab] = useState('upload');
 
   const getModel = async () => {
     try {
@@ -35,8 +35,8 @@ const SellerUpload = () => {
         <Header name={`${model.name}`} handleShow={onOpen} />
         <Tabs mt="5" paddingX="60px" isFitted width="15%">
           <TabList borderBottom="none">
-            <Tab _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }} onClick={() => setActiveTab('versions')}>
-              Versions
+            <Tab _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }} onClick={() => setActiveTab('upload')}>
+              Upload
             </Tab>
             <Tab _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }} onClick={() => setActiveTab('configure')}>
               Configure
@@ -49,7 +49,7 @@ const SellerUpload = () => {
             </Tab>
           </TabList>
         </Tabs>
-        {activeTab === 'versions' && <Content handleShow={onOpen} height="80%" />}
+        {activeTab === 'upload' && <Content tab="upload" handleShow={onOpen} height="80%" />}
         {activeTab === 'configure' && <Configure id={id} />}
         {activeTab === 'documentation' && <TextEditor id={id} />}
         <DrawerPop isOpen={isOpen} onClose={onClose} />

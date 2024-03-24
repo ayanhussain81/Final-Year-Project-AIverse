@@ -52,7 +52,7 @@ const Popup = (props) => {
         name: formData.name,
         description: formData.description,
         img: uploadedImage,
-        owner: seller._id,
+        seller: seller._id,
       });
       props.getModelsBySeller();
     } catch (error) {

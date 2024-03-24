@@ -11,14 +11,16 @@ const Header = (props) => {
         <Text fontWeight="600" fontSize="2xl">
           {props.name}
         </Text>
-        <OutlinedButton
-          type="button"
-          extraClasses="mobile-sm:px-1 mobile-lg:px-3 mobile-sm:py-1 mobile-lg:py-3 font-semibold bg-inherit leading-[100%]"
-          icon={FaPlus}
-          iconSize={17}
-          children={props.name === 'Models' ? 'New Model' : 'New Version'}
-          onClick={() => props.handleShow()}
-        />
+        {props.name === 'Models' && (
+          <OutlinedButton
+            type="button"
+            extraClasses="mobile-sm:px-1 mobile-lg:px-3 mobile-sm:py-1 mobile-lg:py-3 font-semibold bg-inherit leading-[100%]"
+            icon={FaPlus}
+            iconSize={17}
+            children={props.name === 'Models' ? 'New Model' : 'New Version'}
+            onClick={() => props.handleShow()}
+          />
+        )}
       </Flex>
       <HSeparator />
     </>
