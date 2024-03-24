@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -8,7 +8,6 @@ import {
   ModalFooter,
   ModalCloseButton,
   Stack,
-  Box,
   FormControl,
   FormLabel,
   Input,
@@ -17,12 +16,13 @@ import {
 import ContainedButton from 'components/common/buttons/ContainedButton';
 import axiosInstance from 'services/axiosInstance';
 import { useSelector } from 'react-redux';
+import Uploader from 'components/uploader/uploader';
 
 const Popup = (props) => {
   const { seller, tokens } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
+    name: props.name || '',
+    description: props.description || '',
   });
   const [uploadedImage, setUploadedImage] = useState(null);
 
@@ -61,6 +61,20 @@ const Popup = (props) => {
     props.handleClose();
   };
 
+  const handleUpdate = async () => {
+    try {
+      await axiosInstance.put(`/models/update/${props.id}`, {
+        name: formData.name,
+        description: formData.description,
+        img: uploadedImage,
+      });
+      props.getModelsBySeller();
+    } catch (error) {
+      console.log(error);
+    }
+    props.handleClose();
+  };
+
   return (
     <Modal autoFocus={false} isOpen={props.showModal} onClose={props.handleClose} isCentered>
       <ModalOverlay />
@@ -68,7 +82,7 @@ const Popup = (props) => {
         bg="#F8F8F8"
         borderRadius="xl"
         boxShadow="0px 4px 24px rgba(0, 0, 0, 0.1)"
-        maxW={{ base: '90%', sm: '90%', md: '2xl' }}
+        maxW={{ base: '90%', sm: '90%', md: 'xl' }}
       >
         <ModalHeader fontSize="xl" color="#333" borderBottom="1px solid #E0E0E0">
           Create New Model
@@ -112,25 +126,23 @@ const Popup = (props) => {
               <FormLabel fontSize="md" fontWeight="500">
                 Upload Image
               </FormLabel>
-              <Input
-                paddingTop="5px"
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={(e) => handleImageChange(e.target.files[0])}
+              <Uploader
+                title={
+                  props.isEdit
+                    ? 'Click to browse or drag and drop your updated model image'
+                    : 'Click to browse or drag and drop your model image'
+                }
+                handleUpload={handleImageChange}
               />
             </FormControl>
-            <Box display="flex" justifyContent="center">
-              {uploadedImage && <img src={uploadedImage} alt="Uploaded" style={{ maxHeight: '100px' }} />}
-            </Box>
           </Stack>
         </ModalBody>
         <ModalFooter borderTop="1px solid #E0E0E0">
           <ContainedButton
             type="button"
             extraClasses="px-5 py-3 rounded-lg font-semibold bg-inherit leading-[100%]"
-            children="Create"
-            onClick={handleCreate}
+            children={props.isEdit ? 'Update' : 'Create'}
+            onClick={props.isEdit ? handleUpdate : handleCreate}
           />
         </ModalFooter>
       </ModalContent>

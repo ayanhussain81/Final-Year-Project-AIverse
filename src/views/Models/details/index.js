@@ -74,7 +74,7 @@ const ModelDetails = () => {
         </Tabs>
         {activeTab === 'about' && <About />}
         {activeTab === 'demo' && <Demo />}
-        {activeTab === 'documentation' && <Documentation />}
+        {activeTab === 'documentation' && <Documentation model={model} />}
       </Box>
     </Box>
   );
