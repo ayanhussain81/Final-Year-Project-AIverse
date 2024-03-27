@@ -15,7 +15,6 @@ const App = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.log('hello');
         const response = await axiosInstance.get(`/users/${userState?.id}`, {
           headers: {
             Authorization: `Bearer ${tokens.access.token}`,
