@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from 'services/axiosInstance';
 
-const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModelsAllowed, billingPeriod }) => {
+const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModelsAllowed, billingPeriod, seller }) => {
   let cardColor = '';
   let buttonColor = '';
   let hoverColor = '';
@@ -29,18 +29,36 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
 
   const handleSubscription = async () => {
     try {
-      const response = await axiosInstance.post('/seller/create-checkout-session', {
-        userId: userId,
-        planId: planId,
-        headers: {
-          Authorization: `Bearer ${tokens.access.token}`,
+      const response = await axiosInstance.post(
+        '/seller/create-checkout-session',
+        {
+          userId: userId,
+          planId: planId,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${tokens.access.token}`,
+          },
+        }
+      );
       if (response?.data?.url) {
         window.location.href = response?.data?.url;
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleOnClick = async () => {
+    if (!userId) {
+      navigate('/auth/signin?redirectTo=seller');
+      return;
+    } else {
+      if (seller) {
+        await handleSubscription();
+      } else {
+        navigate('/seller');
+      }
     }
   };
 
@@ -87,7 +105,7 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
           style={{ backgroundColor: isHovered ? hoverColor : buttonColor }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          onClick={() => (userId ? handleSubscription() : navigate('/auth/signin?redirectTo=seller-pricing'))}
+          onClick={handleOnClick}
           className="inline-flex items-center justify-center w-full max-w-xs px-4 py-2 transition-colors border rounded-full text-neutral-100"
         >
           {`Get ${name}`}
