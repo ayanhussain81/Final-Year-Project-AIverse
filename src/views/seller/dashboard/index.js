@@ -18,7 +18,7 @@ const SellerDashboard = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleShow = () => {
-    if (false) {
+    if (seller?.isAccountActive) {
       setShowModal(true);
       return;
     }
