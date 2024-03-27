@@ -8,6 +8,11 @@ export const sellerSuccess = (seller) => ({
   payload: { seller },
 });
 
+export const updateUser = (payload) => ({
+  type: 'UPDATE_USER',
+  payload: payload,
+});
+
 export const logout = () => ({
   type: 'LOGOUT',
 });

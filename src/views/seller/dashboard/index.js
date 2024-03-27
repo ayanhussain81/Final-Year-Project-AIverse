@@ -7,13 +7,23 @@ import Popup from './popup';
 import { useSelector } from 'react-redux';
 import axiosInstance from 'services/axiosInstance';
 import useDebounce from 'hooks/useDebounce';
+import { useDisclosure } from '@chakra-ui/react';
+import ConnectPopup from './ConnectPopup';
 
 const SellerDashboard = () => {
   const { seller, tokens } = useSelector((state) => state.auth);
   const [searchValue, setSearchValue] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [userModels, setUserModels] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleShow = () => {
+    if (false) {
+      setShowModal(true);
+      return;
+    }
+    onOpen();
+  };
   const handleClose = () => setShowModal(false);
   const onFilter = (value) => setSearchValue(value);
 
@@ -54,6 +64,7 @@ const SellerDashboard = () => {
         />
       </Box>
       <Popup showModal={showModal} handleClose={handleClose} getModelsBySeller={getModelsBySeller} />
+      <ConnectPopup onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 };
