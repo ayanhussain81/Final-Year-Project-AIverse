@@ -23,7 +23,7 @@ import React from 'react';
 import navImage from 'assets/img/layout/Navbar.png';
 import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { FaEthereum } from 'react-icons/fa';
-import routes from 'routes.js';
+import { routes } from 'routes.js';
 import { ThemeEditor } from './ThemeEditor';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/auth';

@@ -4,13 +4,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import privateRoutes from './routes/privateRoutes';
 import publicRoutes from './routes/publicRoutes';
 import PageLoader from 'components/pageLoader';
-import { updateUser } from './redux/actions/auth.js';
+import { logout, updateUser } from './redux/actions/auth.js';
 import axiosInstance from 'services/axiosInstance';
 
 const App = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.tokens !== null);
   const { user: userState, tokens } = useSelector((state) => state.auth);
+
+  axiosInstance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      // If the response status is 401, perform logout
+      if (error.response && error.response.status === 401) {
+        dispatch(logout());
+      }
+      return Promise.reject(error);
+    }
+  );
 
   useEffect(() => {
     const fetchUser = async () => {

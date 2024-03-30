@@ -9,6 +9,7 @@ import axiosInstance from 'services/axiosInstance';
 import useDebounce from 'hooks/useDebounce';
 import { useDisclosure } from '@chakra-ui/react';
 import ConnectPopup from './ConnectPopup';
+import { sellerRoutes } from 'routes';
 
 const SellerDashboard = () => {
   const { seller, tokens } = useSelector((state) => state.auth);
@@ -52,7 +53,7 @@ const SellerDashboard = () => {
 
   return (
     <Flex height="100vh" width="100vw">
-      <Sidebar />
+      <Sidebar routes={sellerRoutes} />
       <Box flex="1">
         <Header name="Models" handleShow={handleShow} />
         <Content

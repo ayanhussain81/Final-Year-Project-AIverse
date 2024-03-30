@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Icon } from '@chakra-ui/react';
 import { MdBarChart, MdPerson, MdHome, MdLock, MdOutlineShoppingCart } from 'react-icons/md';
-
+import { LuCircuitBoard } from 'react-icons/lu';
 // Admin Imports
 import MainDashboard from './views/admin/default';
 import NFTMarketplace from './views/admin/marketplace';
@@ -14,7 +14,7 @@ import RTL from './views/admin/rtl';
 import SignInCentered from './views/auth/signIn';
 import Register from './views/auth/register';
 
-const routes = [
+export const routes = [
   {
     name: 'Main Dashboard',
     layout: '/admin',
@@ -67,4 +67,17 @@ const routes = [
   },
 ];
 
-export default routes;
+export const sellerRoutes = [
+  {
+    name: 'Main Dashboard',
+    layout: '/seller',
+    path: '/',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: 'Models',
+    layout: '/seller',
+    path: '/models',
+    icon: <Icon as={LuCircuitBoard} width="20px" height="20px" color="inherit" />,
+  },
+];
