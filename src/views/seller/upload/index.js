@@ -30,9 +30,9 @@ const SellerUpload = () => {
   }, []);
 
   return (
-    <Flex height="100vh" width="100vw">
+    <Flex width="100vw">
       <Sidebar routes={sellerRoutes} />
-      <Box flex="1">
+      <Box flex="1" width="100%">
         <Header name={`${model.name}`} handleShow={onOpen} />
         <Tabs mt="5" paddingX="60px" isFitted width="15%">
           <TabList borderBottom="none">

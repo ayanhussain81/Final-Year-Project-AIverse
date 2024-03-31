@@ -9,7 +9,16 @@ import { sellerRoutes } from 'routes';
 const Header = (props) => {
   return (
     <>
-      <Flex paddingX="60px" justifyContent="space-between" alignItems="center" position="sticky" inset={0} height="4.7rem">
+      <Flex
+        paddingX="60px"
+        borderBottom="1px"
+        borderColor="rgb(135 140 189 / 30%)"
+        justifyContent="space-between"
+        alignItems="center"
+        position="sticky"
+        inset={0}
+        height="4.7rem"
+      >
         <Text fontWeight="600" fontSize="2xl">
           {props.name}
         </Text>
@@ -17,9 +26,10 @@ const Header = (props) => {
           {props.name === 'Models' && (
             <OutlinedButton
               type="button"
-              extraClasses="mobile-sm:px-1 mobile-lg:px-3 mobile-sm:py-1 mobile-lg:py-3 font-semibold bg-inherit leading-[100%]"
+              extraClasses="mobile-sm:px-1 mobile-lg:px-3 mobile-sm:py-1 mobile-lg:py-3 font-semibold bg-inherit leading-[100%] border"
               icon={FaPlus}
               iconSize={17}
+              className="border-solid"
               children={props.name === 'Models' ? 'New Model' : 'New Version'}
               onClick={() => props.handleShow()}
             />
@@ -27,7 +37,7 @@ const Header = (props) => {
           <SidebarResponsive routes={sellerRoutes} />
         </Box>
       </Flex>
-      <HSeparator />
+      {/* <HSeparator /> */}
     </>
   );
 };
