@@ -88,7 +88,7 @@ function VerificationPage() {
           </Heading>
           <Text mb="1.5rem">Thank you for verifying your email. You can now access all features.</Text>
           {/* Add link or button to redirect to the appropriate page */}
-          <Button onClick={() => navigate('/admin')}>Continue to Dashboard</Button>
+          <Button onClick={() => navigate('/seller')}>Continue to Dashboard</Button>
         </>
       )}
       <AlertDialog isOpen={isOpen} onClose={onClose}>

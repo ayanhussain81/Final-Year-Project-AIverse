@@ -16,6 +16,7 @@ const SellerDashboard = () => {
   const [searchValue, setSearchValue] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [userModels, setUserModels] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleShow = () => {
@@ -32,6 +33,7 @@ const SellerDashboard = () => {
 
   const getModelsBySeller = async () => {
     try {
+      setIsLoading(true);
       let url = `/models/seller/${seller._id}`;
       if (debouncedValue) {
         url += `?modelName=${searchValue}`;
@@ -44,6 +46,8 @@ const SellerDashboard = () => {
       setUserModels(response.data.models);
     } catch (error) {
       console.error('Error getting models:', error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -56,13 +60,15 @@ const SellerDashboard = () => {
       <Sidebar routes={sellerRoutes} />
       <Box flex="1">
         <Header name="Models" handleShow={handleShow} />
-        <Content
-          name="Models"
-          handleShow={handleShow}
-          userModels={userModels}
-          onFilter={onFilter}
-          getModelsBySeller={getModelsBySeller}
-        />
+        {!isLoading && (
+          <Content
+            name="Models"
+            handleShow={handleShow}
+            userModels={userModels}
+            onFilter={onFilter}
+            getModelsBySeller={getModelsBySeller}
+          />
+        )}
       </Box>
       <Popup showModal={showModal} handleClose={handleClose} getModelsBySeller={getModelsBySeller} />
       <ConnectPopup onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
