@@ -8,6 +8,7 @@ import axiosInstance from 'services/axiosInstance';
 import DrawerPop from './drawer';
 import TextEditor from './textEditor';
 import Configure from './configure';
+import { sellerRoutes } from 'routes';
 
 const SellerUpload = () => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ const SellerUpload = () => {
 
   return (
     <Flex height="100vh" width="100vw">
-      <Sidebar />
+      <Sidebar routes={sellerRoutes} />
       <Box flex="1">
         <Header name={`${model.name}`} handleShow={onOpen} />
         <Tabs mt="5" paddingX="60px" isFitted width="15%">
