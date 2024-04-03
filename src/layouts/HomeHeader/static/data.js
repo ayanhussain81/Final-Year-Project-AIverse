@@ -10,7 +10,7 @@ export const userMenuItems = [
   {
     name: 'Profile',
     icon: MdOutlinePerson,
-    route: '/',
+    route: '/profile',
   },
   seller && seller?.isEmailVerified
     ? {
