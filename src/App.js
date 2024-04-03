@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import privateRoutes from './routes/privateRoutes';
@@ -11,6 +11,7 @@ const App = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.tokens !== null);
   const { user: userState, tokens } = useSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(true);
 
   axiosInstance.interceptors.response.use(
     (response) => {
@@ -28,6 +29,7 @@ const App = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        setIsLoading(true);
         const response = await axiosInstance.get(`/users/${userState?.id}`, {
           headers: {
             Authorization: `Bearer ${tokens.access.token}`,
@@ -38,6 +40,8 @@ const App = () => {
       } catch (error) {
         // Handle error
         console.error('Error fetching user:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -47,11 +51,13 @@ const App = () => {
   return (
     <Router>
       <Suspense fallback={<PageLoader />}>
-        <Routes>
-          {isAuthenticated
-            ? privateRoutes.map((route, index) => <Route key={index} exact {...route} />)
-            : publicRoutes.map((route, index) => <Route key={index} exact {...route} />)}
-        </Routes>
+        {!isLoading && (
+          <Routes>
+            {isAuthenticated
+              ? privateRoutes.map((route, index) => <Route key={index} exact {...route} />)
+              : publicRoutes.map((route, index) => <Route key={index} exact {...route} />)}
+          </Routes>
+        )}
       </Suspense>
     </Router>
   );
