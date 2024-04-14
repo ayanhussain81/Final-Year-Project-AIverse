@@ -11,7 +11,7 @@ const App = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.tokens !== null);
   const { user: userState, tokens } = useSelector((state) => state.auth);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!!userState);
 
   axiosInstance.interceptors.response.use(
     (response) => {

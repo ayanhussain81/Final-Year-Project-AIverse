@@ -5,6 +5,7 @@ import SellerDashboard from 'views/seller/dashboard';
 import SellerUpload from 'views/seller/upload';
 import Seller from 'views/seller';
 import SellerPricing from 'views/Pricing/SellerPricing';
+import SellerMainDashboard from 'views/seller/main';
 
 const SellerLayout = () => {
   const seller = useSelector((state) => state.auth.seller);
@@ -31,6 +32,7 @@ const SellerLayout = () => {
 
   return (
     <Routes>
+      <Route path="/" element={<SellerMainDashboard />} />
       <Route path="/models" element={<SellerDashboard />} />
       <Route path="/models/:id" element={<SellerUpload />} />
       <Route path="/*" element={<Navigate to="/seller/models" replace />} />
