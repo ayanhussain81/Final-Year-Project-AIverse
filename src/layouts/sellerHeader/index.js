@@ -22,7 +22,7 @@ const Header = (props) => {
         position="sticky"
         inset={0}
         height="4.7rem"
-        zIndex="99999"
+        zIndex="99"
         bgColor={navbarBg}
         bg={navbarBg}
         filter={navbarFilter}

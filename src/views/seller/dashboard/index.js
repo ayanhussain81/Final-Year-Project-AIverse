@@ -10,6 +10,7 @@ import useDebounce from 'hooks/useDebounce';
 import { useDisclosure } from '@chakra-ui/react';
 import ConnectPopup from './ConnectPopup';
 import { sellerRoutes } from 'routes';
+import { useHeader } from 'contexts/HeaderContext';
 
 const SellerDashboard = () => {
   const { seller, tokens } = useSelector((state) => state.auth);
@@ -26,8 +27,10 @@ const SellerDashboard = () => {
     }
     onOpen();
   };
+
   const handleClose = () => setShowModal(false);
   const onFilter = (value) => setSearchValue(value);
+  const { setHeaderTitle, setModalListeners } = useHeader();
 
   const debouncedValue = useDebounce(searchValue, 600);
 
@@ -55,24 +58,29 @@ const SellerDashboard = () => {
     getModelsBySeller();
   }, [debouncedValue]);
 
+  useEffect(() => {
+    setModalListeners((state) => ({ ...state, handleShow: handleShow }));
+    setHeaderTitle('Models');
+    return () => {
+      setHeaderTitle('');
+      setModalListeners((state) => ({ ...state, handleShow: undefined }));
+    };
+  }, [setHeaderTitle, setModalListeners]);
+
   return (
-    <Flex w="100vw">
-      <Sidebar routes={sellerRoutes} />
-      <Box flex="1" width="100%">
-        <Header name="Models" handleShow={handleShow} />
-        {!isLoading && (
-          <Content
-            name="Models"
-            handleShow={handleShow}
-            userModels={userModels}
-            onFilter={onFilter}
-            getModelsBySeller={getModelsBySeller}
-          />
-        )}
-      </Box>
+    <>
+      {!isLoading && (
+        <Content
+          name="Models"
+          handleShow={handleShow}
+          userModels={userModels}
+          onFilter={onFilter}
+          getModelsBySeller={getModelsBySeller}
+        />
+      )}
       <Popup showModal={showModal} handleClose={handleClose} getModelsBySeller={getModelsBySeller} />
       <ConnectPopup onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
-    </Flex>
+    </>
   );
 };
 

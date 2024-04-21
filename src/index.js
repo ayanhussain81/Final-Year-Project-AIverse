@@ -10,14 +10,17 @@ import { store } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App.js';
 import './index.css';
+import { HeaderProvider } from 'contexts/HeaderContext';
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ChakraProvider theme={theme}>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
+        <HeaderProvider>
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+        </HeaderProvider>
       </ChakraProvider>
     </PersistGate>
   </Provider>,

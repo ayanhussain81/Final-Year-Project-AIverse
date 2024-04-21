@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text, Heading } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Heading, FormErrorMessage } from '@chakra-ui/react';
 import { BsBoxes } from 'react-icons/bs';
 import { LuCopyPlus } from 'react-icons/lu';
 import { FaPlus } from 'react-icons/fa';
@@ -7,20 +7,61 @@ import SearchBar from 'shared/searchbar';
 import Panel from './panel';
 import Uploader from 'components/uploader/uploader';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axiosInstance from 'services/axiosInstance';
 
 const Content = (props) => {
-  const [uploadedFiles, setUploadedFiles] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState();
+  const [fileError, setFileError] = useState();
+  const { id } = useParams();
 
   const handleChange = async (event) => {
     props.onFilter(event.target.value);
   };
 
   const uploadFile = async () => {
-    console.log(uploadedFiles);
+    try {
+      const formData = new FormData();
+      formData.append('file', uploadedFiles);
+
+      const response = await axiosInstance.post(`/models/host/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // Handle successful response
+      console.log('Response:', response.data);
+      return response.data;
+    } catch (error) {
+      // Handle error
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        console.error('Server Error:', error.response.data);
+        return { isError: true, message: error.response.data.message };
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('No Response from Server');
+        return { isError: true, message: 'No response from server' };
+      } else {
+        // Something happened in setting up the request that triggered an error
+        console.error('Request Error:', error.message);
+        return { isError: true, message: error.message };
+      }
+    }
   };
 
   const handleUpload = (file) => {
-    setUploadedFiles([...uploadedFiles, file]);
+    const fileName = file.name;
+    setFileError('');
+    if (fileName.endsWith('.tar.gz')) {
+      setUploadedFiles(file);
+      console.log('Selected file:', file);
+    } else {
+      console.error('Invalid file format. Please select a .tar.gz file.');
+      setFileError('Invalid file format. Please select a .tar.gz file.');
+    }
+
     console.log(uploadedFiles);
   };
 
@@ -52,7 +93,14 @@ const Content = (props) => {
                 <Text mb="6px" fontSize="md" color="black">
                   Zip File
                 </Text>
-                <Uploader title="Click to browse or drag and drop your zip file" handleUpload={handleUpload} isZip={true} />
+                <Uploader
+                  title="Click to browse or drag and drop your zip file"
+                  handleUpload={handleUpload}
+                  acceptType={'.tar.gz'}
+                />
+                <Text mt="1.5" color="red.500">
+                  {fileError ? fileError : ''}
+                </Text>
               </Box>
 
               <Box padding="20px" bg="whitesmoke" borderRadius="lg">
@@ -60,13 +108,14 @@ const Content = (props) => {
                   Requiremnts
                 </Text>
                 <ul>
-                  Please ensure the following nomenclature while uploading zip file:
+                  Please ensure the following nomenclature while uploading .tar.gz file:
                   <li>1. Keep all model files in a folder titled ‘model_files’</li>
                   <li>2. Name your script file as ‘inference.py’</li>
                   <li>3. Name your requirement file as ‘requirments.txt’</li>
                 </ul>
               </Box>
               <ContainedButton
+                disabled={!uploadedFiles || !uploadedFiles.name.endsWith('.tar.gz')}
                 extraClasses="px-[24px] py-[10px] text-500 font-semibold leading-tight"
                 children="Upload"
                 onClick={() => uploadFile()}

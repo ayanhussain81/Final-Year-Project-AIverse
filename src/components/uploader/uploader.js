@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
 import './uploader.css';
 
-function Uploader(props) {
+function Uploader({ title, handleUpload, acceptType = 'image/*' }) {
   const [fileName, setFileName] = useState();
   const [fileSize, setFileSize] = useState('');
   const inputRef = useRef(null);
@@ -12,21 +12,14 @@ function Uploader(props) {
     if (file) {
       setFileName(file.name);
       setFileSize((file.size / 1024).toFixed(2) + ' KB');
-      props.handleUpload(file);
+      handleUpload(file);
     }
   };
 
   return (
     <main>
       <form className="upload-form" onClick={() => inputRef.current.click()}>
-        <input
-          ref={inputRef}
-          type="file"
-          accept={props.isZip ? '.zip' : 'image/*'}
-          className="input-field"
-          hidden
-          onChange={handleChange}
-        />
+        <input ref={inputRef} type="file" accept={acceptType} className="input-field" hidden onChange={handleChange} />
         {fileName ? (
           <span className="upload-text">
             <div>{fileName}</div>
@@ -35,7 +28,7 @@ function Uploader(props) {
         ) : (
           <>
             <MdCloudUpload color="gray" size={31} />
-            <p>{props.title}</p>
+            <p>{title}</p>
           </>
         )}
       </form>
