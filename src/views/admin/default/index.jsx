@@ -23,9 +23,6 @@
 // Chakra imports
 import { Avatar, Box, Flex, FormLabel, Icon, Select, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 // Assets
-import Usa from 'assets/img/dashboards/usa.png';
-// Custom components
-import MiniCalendar from 'components/calendar/MiniCalendar';
 import MiniStatistics from 'components/card/MiniStatistics';
 import IconBox from 'components/icons/IconBox';
 import React from 'react';
@@ -33,16 +30,7 @@ import { MdAttachMoney, MdBarChart } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa';
 import { BsServer } from 'react-icons/bs';
 import { PiClockCountdownBold, PiCreditCardFill } from 'react-icons/pi';
-import CheckTable from 'views/admin/default/components/CheckTable';
-import ComplexTable from 'views/admin/default/components/ComplexTable';
-import DailyTraffic from 'views/admin/default/components/DailyTraffic';
-import PieCard from 'views/admin/default/components/PieCard';
-import Tasks from 'views/admin/default/components/Tasks';
-import TotalSpent from 'views/admin/default/components/TotalSpent';
-import WeeklyRevenue from 'views/admin/default/components/WeeklyRevenue';
-import { columnsDataCheck, columnsDataComplex } from 'views/admin/default/variables/columnsData';
-import tableDataCheck from 'views/admin/default/variables/tableDataCheck.json';
-import tableDataComplex from 'views/admin/default/variables/tableDataComplex.json';
+
 import AnnualRevenue from './components/AnnualRevenue.jsx';
 import AnnualModelRevenue from './components/AnnualModelsRevenue.jsx';
 

@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import OutlinedButton from 'components/common/buttons/OutlinedButton';
 import { HSeparator } from 'components/separator/Separator';
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
@@ -7,6 +7,10 @@ import { FaPlus } from 'react-icons/fa';
 import { sellerRoutes } from 'routes';
 
 const Header = (props) => {
+  let navbarBg = useColorModeValue('rgba(244, 247, 254, 0.2)', 'rgba(11,20,55,0.5)');
+  let navbarFilter = 'none';
+  let navbarBackdrop = 'blur(20px)';
+
   return (
     <>
       <Flex
@@ -18,6 +22,11 @@ const Header = (props) => {
         position="sticky"
         inset={0}
         height="4.7rem"
+        zIndex="99999"
+        bgColor={navbarBg}
+        bg={navbarBg}
+        filter={navbarFilter}
+        backdropFilter={navbarBackdrop}
       >
         <Text fontWeight="600" fontSize="2xl">
           {props.name}
