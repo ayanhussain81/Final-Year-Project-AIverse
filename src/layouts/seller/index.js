@@ -48,7 +48,7 @@ const SellerLayout = () => {
             <Route path="/" element={<SellerMainDashboard />} />
             <Route path="/models" element={<SellerDashboard />} />
             <Route path="/models/:id" element={<SellerUpload />} />
-            <Route path="/*" element={<Navigate to="/seller/models" replace />} />
+            <Route path="*" element={<Navigate to="/seller/" replace />} />
           </Routes>
         </Box>
       </Flex>

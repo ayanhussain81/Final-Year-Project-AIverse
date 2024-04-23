@@ -71,7 +71,7 @@ export const sellerRoutes = [
   {
     name: 'Main Dashboard',
     layout: '/seller',
-    path: '/',
+    path: '',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
   },
   {
