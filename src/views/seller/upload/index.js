@@ -5,12 +5,12 @@ import Content from '../dashboard/content';
 import Sidebar from 'components/sidebar/Sidebar';
 import { useParams } from 'react-router-dom';
 import axiosInstance from 'services/axiosInstance';
-import DrawerPop from './drawer';
 import TextEditor from './textEditor';
 import Configure from './configure';
 import { sellerRoutes } from 'routes';
 import NoModelFound from './NoModelFound';
 import { useHeader } from 'contexts/HeaderContext';
+import RequirementsPopup from '../dashboard/requirementsPopup';
 
 const SellerUpload = () => {
   const { id } = useParams();
@@ -19,6 +19,16 @@ const SellerUpload = () => {
   const [activeTab, setActiveTab] = useState('upload');
   const [isLoading, setIsLoading] = useState(true);
   const { setHeaderTitle, setModalListeners } = useHeader();
+  const [reqFile, setReqFile] = useState({
+    line1: '',
+    line2: '',
+    line3: 'COPY ./${req.file.filename} /app/',
+    line4: 'WORKDIR /app/',
+    line5: 'RUN tar -xvf ${req.file.filename} && rm ${req.file.filename}',
+    line6: 'RUN pip install --no-cache-dir -r requirements.txt',
+    line7: '',
+    line8: '',
+  });
 
   const getModel = async () => {
     try {
@@ -71,10 +81,10 @@ const SellerUpload = () => {
                 </Tab>
               </TabList>
             </Tabs>
-            {activeTab === 'upload' && <Content tab="upload" handleShow={onOpen} height="80%" />}
+            {activeTab === 'upload' && <Content tab="upload" handleShow={onOpen} height="80%" reqFile={reqFile} />}
             {activeTab === 'configure' && <Configure id={id} />}
             {activeTab === 'documentation' && <TextEditor id={id} />}
-            <DrawerPop isOpen={isOpen} onClose={onClose} />
+            <RequirementsPopup isOpen={isOpen} onClose={onClose} reqFile={reqFile} setReqFile={setReqFile} />
           </>
         ) : (
           <NoModelFound />

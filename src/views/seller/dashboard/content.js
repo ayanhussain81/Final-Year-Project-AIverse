@@ -20,6 +20,8 @@ const Content = (props) => {
   };
 
   const uploadFile = async () => {
+    const requirements = Object.values(props.reqFile).join('\n');
+    console.log(requirements);
     try {
       const formData = new FormData();
       formData.append('file', uploadedFiles);
@@ -56,6 +58,7 @@ const Content = (props) => {
     setFileError('');
     if (fileName.endsWith('.tar.gz')) {
       setUploadedFiles(file);
+      props.handleShow();
       console.log('Selected file:', file);
     } else {
       console.error('Invalid file format. Please select a .tar.gz file.');
