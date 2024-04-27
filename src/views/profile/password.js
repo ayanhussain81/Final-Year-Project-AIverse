@@ -1,11 +1,24 @@
 import React, { useRef, useState } from 'react';
-import { Box, Stack, StackDivider, Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Box,
+  Stack,
+  StackDivider,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  InputRightElement,
+  InputGroup,
+  Icon,
+} from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import axiosInstance from 'services/axiosInstance';
 import { FaCheck } from 'react-icons/fa';
 import Toast from 'shared/toast';
+import { MdOutlineRemoveRedEye } from 'react-icons/md';
+import { RiEyeCloseLine } from 'react-icons/ri';
 
 const Password = () => {
   const toast_ref = useRef();
@@ -16,6 +29,40 @@ const Password = () => {
     newPassword: Yup.string().required('new password is required'),
     confirm: Yup.string().required('comfirm password is required'),
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const PasswordInput = ({ label, name, value, error, onChange, onBlur, showPassword, togglePassword }) => {
+    return (
+      <FormControl id={name}>
+        <FormLabel>{label}</FormLabel>
+        <InputGroup>
+          <Input
+            isRequired={true}
+            borderRadius="xl"
+            placeholder={`Enter ${label}`}
+            _focus={{ borderColor: '#227EA1' }}
+            name={name}
+            type={showPassword ? 'text' : 'password'}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+          />
+          <InputRightElement display="flex" alignItems="center" mt="2px">
+            <Icon
+              color="gray.400"
+              _hover={{ cursor: 'pointer' }}
+              as={showPassword ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+              onClick={togglePassword}
+            />
+          </InputRightElement>
+        </InputGroup>
+        {error && <Box color="red">{error}</Box>}
+      </FormControl>
+    );
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -67,48 +114,36 @@ const Password = () => {
             </div>
 
             <Stack spacing="4" className="flex-col justify-between items-center">
-              <FormControl id="password">
-                <FormLabel>Current Password</FormLabel>
-                <Input
-                  isRequired={true}
-                  borderRadius="xl"
-                  placeholder="Enter current password"
-                  _focus={{ borderColor: '#227EA1' }}
-                  name="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.password && <Box color="red">{formik.errors.password}</Box>}
-              </FormControl>
-              <FormControl id="newPassword">
-                <FormLabel>New Password</FormLabel>
-                <Input
-                  isRequired={true}
-                  borderRadius="xl"
-                  placeholder="Enter new password"
-                  _focus={{ borderColor: '#227EA1' }}
-                  name="newPassword"
-                  value={formik.values.newPassword}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.newPassword && <Box color="red">{formik.errors.newPassword}</Box>}
-              </FormControl>
-              <FormControl id="confirm">
-                <FormLabel>Confrim New Password</FormLabel>
-                <Input
-                  isRequired={true}
-                  borderRadius="xl"
-                  placeholder="Enter new password"
-                  _focus={{ borderColor: '#227EA1' }}
-                  name="confirm"
-                  value={formik.values.confirm}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.confirm && <Box color="red">{formik.errors.confirm}</Box>}
-              </FormControl>
+              <PasswordInput
+                label="Current Password"
+                name="password"
+                value={formik.values.password}
+                error={formik.touched.password && formik.errors.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                showPassword={showPassword}
+                togglePassword={() => setShowPassword(!showPassword)}
+              />
+              <PasswordInput
+                label="New Password"
+                name="newPassword"
+                value={formik.values.newPassword}
+                error={formik.touched.newPassword && formik.errors.newPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                showPassword={showNewPassword}
+                togglePassword={() => setShowNewPassword(!showNewPassword)}
+              />
+              <PasswordInput
+                label="Confirm New Password"
+                name="confirm"
+                value={formik.values.confirm}
+                error={formik.touched.confirm && formik.errors.confirm}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                showPassword={showConfirmPassword}
+                togglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
+              />
             </Stack>
           </Stack>
         </div>
