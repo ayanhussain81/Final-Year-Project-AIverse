@@ -7,11 +7,31 @@ import Header from 'layouts/HomeHeader';
 import Demo from './demo';
 import Documentation from './documentation';
 import About from './about';
+import { useSelector } from 'react-redux';
 
 const ModelDetails = () => {
   const { name } = useParams();
   const [model, setModel] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('about');
+  const { user: userState } = useSelector((state) => state.auth);
+
+  const handleCheckout = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axiosInstance.post('/users/user-checkout-session', { userId: userState?.id, modelId: name });
+
+      const { url } = response.data;
+
+      // Redirect to the checkout URL
+      window.location.href = url;
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      // Handle error (e.g., display error message to user)
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const getModel = async () => {
@@ -44,8 +64,11 @@ const ModelDetails = () => {
               {model.seller}
             </Text>
             <Button
+              onClick={handleCheckout}
+              disabled={isLoading}
+              isLoading={isLoading}
               leftIcon={<Icon as={GoPlusCircle} boxSize={6} />}
-              width={{ base: '45%', md: '40%', lg: '30%' }}
+              width={{ base: '50%', md: '50%', lg: '50%' }}
               _hover={{ bg: '#0E5A77' }}
               _active={{ bg: '#0E5A77' }}
               bg="#227ea1"
