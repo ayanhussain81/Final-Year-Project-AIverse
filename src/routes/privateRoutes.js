@@ -10,6 +10,7 @@ import VerificationPage from 'views/VerifyEmail';
 import Profile from 'views/profile';
 const AdminLayout = lazy(() => import('../layouts/admin'));
 const SellerLayout = lazy(() => import('../layouts/seller'));
+const UserLayout = lazy(() => import('../layouts/user'));
 
 const privateRoutes = [
   { path: '/admin/*', element: <AdminLayout /> },
@@ -19,6 +20,7 @@ const privateRoutes = [
   { path: '/marketplace', element: <Models /> },
   { path: '/model/detail/:name', element: <ModelDetails /> },
   { path: '/seller/*', element: <SellerLayout /> },
+  { path: '/user/*', element: <UserLayout /> },
   { path: '/verify-email', element: <VerificationPage /> },
   { path: '*', element: <Navigate to="/" replace /> },
 ];

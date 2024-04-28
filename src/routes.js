@@ -81,3 +81,12 @@ export const sellerRoutes = [
     icon: <Icon as={LuCircuitBoard} width="20px" height="20px" color="inherit" />,
   },
 ];
+
+export const userRoutes = [
+  {
+    name: 'Purchased Models',
+    layout: '/user',
+    path: '/purchased-models',
+    icon: <Icon as={LuCircuitBoard} width="20px" height="20px" color="inherit" />,
+  },
+];

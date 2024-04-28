@@ -5,7 +5,7 @@ const seller = store.getState().auth.seller;
 export const userMenuItems = [
   {
     name: 'Dashboard',
-    route: '/',
+    route: '/user',
   },
   {
     name: 'Profile',
