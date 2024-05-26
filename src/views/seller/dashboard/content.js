@@ -25,6 +25,7 @@ const Content = (props) => {
     try {
       const formData = new FormData();
       formData.append('file', uploadedFiles);
+      formData.append('dockerContent', requirements);
 
       const response = await axiosInstance.post(`/models/host/${id}`, formData, {
         headers: {
