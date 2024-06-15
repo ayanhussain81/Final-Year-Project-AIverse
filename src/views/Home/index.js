@@ -9,6 +9,8 @@ import PrimaryFooter from 'layouts/HomeFooter/PrimaryFooter';
 import SecondaryFooter from 'layouts/HomeFooter/SecondaryFooter';
 import Header from 'layouts/HomeHeader';
 import React from 'react';
+import FeaturesAndBenefits from 'containers/FeaturesAndBenefits';
+import PopularCategories from 'containers/PopularCategories';
 
 const Home = () => {
   return (
@@ -17,9 +19,11 @@ const Home = () => {
       <Main>
         <Hero />
         <Banner />
-        <Marketplace />
-        <Featured />
+        <FeaturesAndBenefits />
+        {/* <Marketplace /> */}
+        {/* <Featured /> */}
         <Cta />
+        <PopularCategories />
         <Resource />
       </Main>
       <PrimaryFooter />

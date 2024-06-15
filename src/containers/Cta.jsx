@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
 import avatar1 from '../assets/images/avatars/avatar1.png';
 import avatar2 from '../assets/images/avatars/avatar2.png';
-import nft1 from '../assets/images/nfts/nft1.png';
-import nft2 from '../assets/images/nfts/nft2.png';
-import nft3 from '../assets/images/nfts/nft3.png';
+import model1 from '../assets/images/models/model1.jpg';
+import model2 from '../assets/images/models/model3.jpg';
+import model3 from '../assets/images/models/model2.png';
 import Picture from '../components/common/Picture';
 import ContainedButton from '../components/common/buttons/ContainedButton';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const pictureContainerVariant = {
   hidden: {},
@@ -33,6 +35,9 @@ const pictureChildVariant = {
 };
 
 export default function Cta() {
+  const navigate = useNavigate();
+  const { user: userState } = useSelector((state) => state.auth);
+
   return (
     <section aria-label="Call to Action section" className="bg-neutral-100">
       <div className="container tablet:px-10 laptop:px-20 | py-24">
@@ -45,19 +50,19 @@ export default function Cta() {
           >
             {[
               {
-                img: nft1,
+                img: model1,
                 avatar: avatar1,
                 extraClasses:
                   'mobile-lg:max-w-[300px] mobile-lg:max-h-[300px] mobile-lg:aspect-square mobile-lg:justify-self-end',
               },
               {
-                img: nft2,
+                img: model2,
                 avatar: avatar2,
                 extraClasses:
                   'mobile-lg:max-w-[240px] mobile-lg:max-h-[265px] mobile-lg:aspect-[0.91/1] mobile-lg:row-span-2 mobile-lg:self-center',
               },
               {
-                img: nft3,
+                img: model3,
                 avatar: avatar2,
                 extraClasses:
                   'mobile-lg:max-w-[200px] mobile-lg:max-h-[220px] mobile-lg:aspect-[0.91/1] mobile-lg:justify-self-end',
@@ -83,16 +88,21 @@ export default function Cta() {
             className="space-y-8 basis-2/5"
           >
             <h2 className="text-800 text-neutral-900 font-bold font-['Montserrat',_sans-serif] leading-tight max-w-xs">
-              Create and sell your NFTs
+              Discover and Deploy Cutting-Edge AI Models
             </h2>
 
             <p className="text-neutral-600 text-500 leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi ac phasellus placerat a pellentesque tellus
-              sed egestas. Et tristique dictum sit tristique sed non. Lacinia lorem id consectetur pretium diam ut.
-              Pellentesque eu sit blandit fringilla risus faucibus.
+              Explore a diverse range of AI models designed for various applications, from natural language processing to
+              computer vision. Seamlessly integrate these models into your systems to enhance efficiency and innovation. Our
+              user-friendly platform ensures easy customization and deployment, backed by expert support to help you every
+              step of the way.
             </p>
 
-            <ContainedButton type="button" extraClasses="px-10 py-5 font-medium text-600 leading-tight">
+            <ContainedButton
+              onClick={() => navigate(!userState ? '/auth/sign-in' : `/user/purchased-models`)}
+              type="button"
+              extraClasses="px-10 py-5 font-medium text-600 leading-tight"
+            >
               Sign Up Now
             </ContainedButton>
           </motion.div>

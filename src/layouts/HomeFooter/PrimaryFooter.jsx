@@ -147,8 +147,8 @@ export default function PrimaryFooter() {
               transition={{ delay: 0.4, type: 'spring', duration: 1 }}
               className="text-neutral-600 tablet:max-laptop-lg:max-w-xl leading-relaxed"
             >
-              The world’s first and largest digital marketplace for crypto collectibles and non-fungible tokens (NFTs). Buy,
-              sell, and discover exclusive digital items.
+              The world's premier marketplace for AI models and solutions. Explore, acquire, and implement state-of-the-art
+              AI technologies to transform your business and innovate faster.
             </motion.p>
 
             {/* social links */}
@@ -182,13 +182,9 @@ export default function PrimaryFooter() {
               <motion.div variants={navLinkContainerVariant} initial="hidden" whileInView="visible">
                 <Navigation ariaLabel="market place navigation" navExtraClasses="" ulExtraClasses="flex flex-col gap-3">
                   {[
-                    ['All NFTs', '#'],
-                    ['New', '#'],
-                    ['Art', '#'],
-                    ['Sports', '#'],
-                    ['Utility', '#'],
-                    ['Music', '#'],
-                    ['Domain Name', '#'],
+                    ['Home', '/'],
+                    ['Pricing', '/pricing'],
+                    ['Marketplace', '/marketplace'],
                   ].map(([navItem, url], index) => (
                     <motion.li variants={navLinkChildVariant} key={index}>
                       <a
@@ -211,10 +207,8 @@ export default function PrimaryFooter() {
               <motion.div variants={navLinkContainerVariant} initial="hidden" whileInView="visible">
                 <Navigation ariaLabel="account navigation" navExtraClasses="" ulExtraClasses="flex flex-col gap-3">
                   {[
-                    ['Profile', '#'],
-                    ['Favorite', '#'],
-                    ['My Collection', '#'],
-                    ['Settings', '#'],
+                    ['Seller', '/seller'],
+                    ['Dashboard', '/user'],
                   ].map(([navItem, url], index) => (
                     <motion.li variants={navLinkChildVariant} key={index}>
                       <a
@@ -236,8 +230,8 @@ export default function PrimaryFooter() {
 
             {/* description */}
             <p className="text-neutral-600 leading-relaxed">
-              Join our mailing list to stay in the loop with our newest feature releases, NFT drops, and tips and tricks for
-              navigating NFTs.
+              Join our mailing list to stay updated with the latest AI model releases, expert insights, and tips for
+              integrating AI solutions seamlessly into your projects.
             </p>
 
             {/* email subscription */}
