@@ -1,3 +1,4 @@
+import { Spinner } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from 'services/axiosInstance';
@@ -7,6 +8,7 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
   let buttonColor = '';
   let hoverColor = '';
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   switch (name.toLowerCase()) {
     case 'gold':
@@ -29,6 +31,7 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
 
   const handleSubscription = async () => {
     try {
+      setIsLoading(true);
       const response = await axiosInstance.post(
         '/seller/create-checkout-session',
         {
@@ -46,6 +49,8 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -108,7 +113,7 @@ const PlanCard = ({ userId, tokens, planId, name, description, price, noOfModels
           onClick={handleOnClick}
           className="inline-flex items-center justify-center w-full max-w-xs px-4 py-2 transition-colors border rounded-full text-neutral-100"
         >
-          {`Get ${name}`}
+          {isLoading ? <Spinner size="sm" /> : `Get ${name}`}
         </button>
       </div>
     </section>

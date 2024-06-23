@@ -12,6 +12,7 @@ import { Box, Flex, useDisclosure } from '@chakra-ui/react';
 import Sidebar from 'components/sidebar/Sidebar';
 import { sellerRoutes } from 'routes';
 import { useHeader } from 'contexts/HeaderContext';
+import SellerCustomers from 'views/customers';
 
 const SellerLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,6 +49,7 @@ const SellerLayout = () => {
             <Route path="/" element={<SellerMainDashboard />} />
             <Route path="/models" element={<SellerDashboard />} />
             <Route path="/models/:id" element={<SellerUpload />} />
+            <Route path="/customers" element={<SellerCustomers />} />
             <Route path="*" element={<Navigate to="/seller/" replace />} />
           </Routes>
         </Box>
