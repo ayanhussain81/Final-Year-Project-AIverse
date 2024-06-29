@@ -3,7 +3,6 @@ import { BsBoxes } from 'react-icons/bs';
 import { LuCopyPlus } from 'react-icons/lu';
 import { FaPlus } from 'react-icons/fa';
 import ContainedButton from '../../../components/common/buttons/ContainedButton';
-import SearchBar from 'shared/searchbar';
 import Panel from './panel';
 import Uploader from 'components/uploader/uploader';
 import { useState } from 'react';
@@ -14,10 +13,6 @@ const Content = (props) => {
   const [uploadedFiles, setUploadedFiles] = useState();
   const [fileError, setFileError] = useState();
   const { id } = useParams();
-
-  const handleChange = async (event) => {
-    props.onFilter(event.target.value);
-  };
 
   const uploadFile = async () => {
     let requirements = '';
@@ -71,15 +66,10 @@ const Content = (props) => {
     console.log(uploadedFiles);
   };
 
-  return props.userModels ? (
-    <Flex mx={{ base: '10px', md: '0px' }} my="30px" direction="column" justifyContent="start" alignItems="center">
-      <SearchBar height="38px" boxSize="5" handleChange={handleChange} />
-      {props?.userModels.map((model) => (
-        <Panel model={model} getModelsBySeller={props.getModelsBySeller} />
-      ))}
-    </Flex>
+  return props.userModels?.length > 0 ? (
+    props?.userModels.map((model) => <Panel model={model} getModelsBySeller={props.getModelsBySeller} />)
   ) : (
-    <Flex justifyContent="center" alignItems="center" height={props.height ? props.height : '85%'}>
+    <Flex justifyContent="center" alignItems="center" height={props.height ? props.height : '75vh'}>
       <Box
         padding="30px"
         marginX={{ base: '20px', md: '0' }}

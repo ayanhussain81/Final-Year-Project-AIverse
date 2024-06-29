@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
 import Sidebar from 'components/sidebar/Sidebar';
 import Header from 'layouts/sellerHeader';
 import React, { useEffect, useState } from 'react';
@@ -11,10 +11,13 @@ import { useDisclosure } from '@chakra-ui/react';
 import ConnectPopup from './ConnectPopup';
 import { sellerRoutes } from 'routes';
 import { useHeader } from 'contexts/HeaderContext';
+import SearchBar from 'shared/searchbar';
 
 const SellerDashboard = () => {
   const { seller, tokens } = useSelector((state) => state.auth);
   const [searchValue, setSearchValue] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [userModels, setUserModels] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +32,7 @@ const SellerDashboard = () => {
   };
 
   const handleClose = () => setShowModal(false);
-  const onFilter = (value) => setSearchValue(value);
+  const handleChange = (event) => setSearchValue(event.target.value);
   const { setHeaderTitle, setModalListeners } = useHeader();
 
   const debouncedValue = useDebounce(searchValue, 600);
@@ -38,8 +41,8 @@ const SellerDashboard = () => {
     try {
       setIsLoading(true);
       let url = `/models/seller/${seller._id}`;
-      if (debouncedValue) {
-        url += `?modelName=${searchValue}`;
+      if (debouncedValue || page) {
+        url += `?modelName=${searchValue}&page=${page}`;
       }
       const response = await axiosInstance.get(url, {
         headers: {
@@ -47,6 +50,7 @@ const SellerDashboard = () => {
         },
       });
       setUserModels(response.data.models);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error('Error getting models:', error.message);
     } finally {
@@ -56,7 +60,7 @@ const SellerDashboard = () => {
 
   useEffect(() => {
     getModelsBySeller();
-  }, [debouncedValue]);
+  }, [debouncedValue, page]);
 
   useEffect(() => {
     setModalListeners((state) => ({ ...state, handleShow: handleShow }));
@@ -67,20 +71,42 @@ const SellerDashboard = () => {
     };
   }, [setHeaderTitle, setModalListeners]);
 
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <Button
+          key={i}
+          onClick={() => setPage(i)}
+          variant={page === i ? 'solid' : 'outline'}
+          colorScheme="linkedin"
+          mx="1px"
+        >
+          {i}
+        </Button>
+      );
+    }
+    return pages;
+  };
+
   return (
-    <>
-      {!isLoading && (
-        <Content
-          name="Models"
-          handleShow={handleShow}
-          userModels={userModels}
-          onFilter={onFilter}
-          getModelsBySeller={getModelsBySeller}
-        />
+    <Flex mx={{ base: '10px', md: '0px' }} my="30px" direction="column" justifyContent="start" alignItems="center">
+      {userModels?.length > 0 && <SearchBar height="38px" boxSize="5" handleChange={handleChange} />}
+      {isLoading ? (
+        <Flex justifyContent="center" alignItems="center" height="70vh">
+          <Spinner />
+        </Flex>
+      ) : (
+        <>
+          <Content name="Models" handleShow={handleShow} userModels={userModels} getModelsBySeller={getModelsBySeller} />
+        </>
       )}
+      <Flex position="absolute" bottom="20" justifyContent="center" mt="4" gap="2">
+        {renderPagination()}
+      </Flex>
       <Popup showModal={showModal} handleClose={handleClose} getModelsBySeller={getModelsBySeller} />
       <ConnectPopup onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
-    </>
+    </Flex>
   );
 };
 
