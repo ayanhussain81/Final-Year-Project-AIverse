@@ -65,6 +65,7 @@ const Marketplace = () => {
   }, []);
 
   useEffect(() => {
+    setCurrentPage(1);
     getModels();
   }, [type, usecase, currentPage, debouncedValue]);
 
