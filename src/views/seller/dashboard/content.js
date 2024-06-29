@@ -15,7 +15,9 @@ const Content = (props) => {
   const { id } = useParams();
 
   const uploadFile = async () => {
-    const requirements = Object.values(props.reqFile).join('\n');
+    let requirements = '';
+    console.log(props)
+    props?.reqFile.map((line) => requirements = requirements + line.content + '\n');
     console.log(requirements);
     try {
       const formData = new FormData();
