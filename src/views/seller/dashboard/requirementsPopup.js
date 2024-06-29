@@ -1,6 +1,8 @@
-import { Modal, ModalHeader, ModalOverlay, ModalContent, ModalBody, ModalFooter, Box, Text, Input } from '@chakra-ui/react';
+import { Modal, ModalHeader, ModalOverlay, ModalContent, ModalBody, ModalFooter, Box, Text, Input, Icon, Flex } from '@chakra-ui/react';
 import ContainedButton from 'components/common/buttons/ContainedButton';
 import { useState } from 'react';
+import { BsFillPlusCircleFill } from "react-icons/bs";
+import { RiIndeterminateCircleFill } from "react-icons/ri";
 
 const LineInput = ({ name, value, readOnly, placeholder, handleChange }) => {
   return (
@@ -22,12 +24,26 @@ const LineInput = ({ name, value, readOnly, placeholder, handleChange }) => {
 };
 
 const RequirementsPopup = ({ reqFile, setReqFile, isOpen, onClose }) => {
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setReqFile({ ...reqFile, [name]: value });
+  const handleChange = (e, index) => {
+    const { value } = e.target;
+    reqFile[index]['content'] = value
+    setReqFile([...reqFile]);
   };
 
-  const isInputEmpty = Object.values(reqFile).some((value) => value === '');
+  const onAddNewLine = (index) => {
+    let reqLines = [...reqFile];
+    reqLines.splice(index + 1, 0, { content: '' })
+    setReqFile([...reqLines]);
+
+  }
+  const onRemoveLine = (index) => {
+    let reqLines = [...reqFile];
+    reqLines = reqLines.filter((line, lineIdx) => lineIdx !== index)
+    setReqFile([...reqLines]);
+
+  }
+
+  const isInputEmpty = reqFile.some((value) => value.content === '');
 
   return (
     <Modal autoFocus={false} isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} isCentered>
@@ -65,14 +81,23 @@ const RequirementsPopup = ({ reqFile, setReqFile, isOpen, onClose }) => {
           </Box>
 
           <Box color="blue" borderWidth="1px" borderColor="gray.300" borderRadius="lg" padding="4px">
-            <LineInput name="line1" value={reqFile.line1} placeholder="Line 1" handleChange={handleChange} />
-            <LineInput name="line2" value={reqFile.line2} placeholder="Line 2" handleChange={handleChange} />
-            <LineInput name="line3" value={reqFile.line3} readOnly={true} />
-            <LineInput name="line4" value={reqFile.line4} readOnly={true} />
-            <LineInput name="line5" value={reqFile.line5} readOnly={true} />
-            <LineInput name="line6" value={reqFile.line6} readOnly={true} />
-            <LineInput name="line7" value={reqFile.line7} placeholder="Line 7" handleChange={handleChange} />
-            <LineInput name="line8" value={reqFile.line8} placeholder="Line 8" handleChange={handleChange} />
+            {
+              reqFile.map((line, lineIndex) => {
+                return (
+                  <Flex>
+                    <LineInput name={`line${lineIndex + 1}`} placeholder={`Line ${lineIndex + 1}`} value={line.content} readOnly={line.readOnly} handleChange={(e) => handleChange(e, lineIndex)} />
+                    <Flex justifyContent={'center'} alignItems={'center'} gap={'2'} mr={'2'} ml={'2'}>
+                      <button disabled={line.disable && line.readOnly} onClick={() => onAddNewLine(lineIndex)}>
+                        <BsFillPlusCircleFill fontSize={'15'} color='rgb(34 126 161)' />
+                      </button>
+                      <button disabled={line.readOnly || lineIndex == 0} onClick={() => onRemoveLine(lineIndex)}>
+                        <RiIndeterminateCircleFill fontSize={'18'} color='red' />
+                      </button>
+                    </Flex>
+                  </Flex>
+                )
+              })
+            }
           </Box>
           <ModalFooter>
             <ContainedButton

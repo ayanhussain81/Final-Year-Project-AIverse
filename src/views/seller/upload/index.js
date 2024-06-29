@@ -19,16 +19,24 @@ const SellerUpload = () => {
   const [activeTab, setActiveTab] = useState('upload');
   const [isLoading, setIsLoading] = useState(true);
   const { setHeaderTitle, setModalListeners } = useHeader();
-  const [reqFile, setReqFile] = useState({
-    line1: '',
-    line2: '',
-    line3: 'COPY ./${req.file.filename} /app/',
-    line4: 'WORKDIR /app/',
-    line5: 'RUN tar -xvf ${req.file.filename} && rm ${req.file.filename}',
-    line6: 'RUN pip install --no-cache-dir -r requirements.txt',
-    line7: '',
-    line8: '',
-  });
+  // const [reqFile, setReqFile] = useState({
+  //   line1: '',
+  //   line2: '',
+  //   line3: 'COPY ./${req.file.filename} /app/',
+  //   line4: 'WORKDIR /app/',
+  //   line5: 'RUN tar -xvf ${req.file.filename} && rm ${req.file.filename}',
+  //   line6: 'RUN pip install --no-cache-dir -r requirements.txt',
+  //   line7: '',
+  //   line8: '',
+  // });
+  const [reqFile, setReqFile] = useState([
+    { content: '' },
+    { content: 'COPY ./${req.file.filename} /app/', disable: true, readOnly: true },
+    { content: 'WORKDIR /app/', disable: true, readOnly: true },
+    { content: 'RUN tar -xvf ${req.file.filename} && rm ${req.file.filename}', disable: true, readOnly: true },
+    { content: 'RUN pip install --no-cache-dir -r requirements.txt', readOnly: true },
+    { content: '' },
+  ]);
 
   const getModel = async () => {
     try {
