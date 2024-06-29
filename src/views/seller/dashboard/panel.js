@@ -1,18 +1,35 @@
 import { useNavigate } from 'react-router-dom';
 import { Stack, StackDivider, Badge, Box } from '@chakra-ui/react';
 import OutlinedButton from 'components/common/buttons/OutlinedButton';
-import { MdEdit } from 'react-icons/md';
+import { MdEdit, MdDelete } from 'react-icons/md';
 import Popup from './popup';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import ConfirmationPopup from './confirmationPopup';
+import axiosInstance from 'services/axiosInstance';
 
 const Panel = ({ model, getModelsBySeller }) => {
+  const toast_ref = useRef();
   const navigate = useNavigate();
   const handleEditClick = (e) => {
     e.stopPropagation();
     setShowModal(true);
   };
+  const handleDeleteClick = (e) => {
+    e.stopPropagation();
+    setConfirmationModal(true);
+  };
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
+
+  const [confirmationModal, setConfirmationModal] = useState(false);
+  const handleConfirmationClose = () => setConfirmationModal(false);
+
+  const handleDelete = async (id) => {
+    await axiosInstance.delete(`/models/delete/${id}`);
+    getModelsBySeller();
+    handleConfirmationClose();
+    // toast_ref.current.showSuccessToast('Model deleted successfully');
+  };
 
   return (
     <Box
@@ -38,14 +55,23 @@ const Panel = ({ model, getModelsBySeller }) => {
               </Badge>
             </span>
 
-            <OutlinedButton
-              extraClasses="px-2 py-0.5 font-semibold rounded-xl"
-              icon={MdEdit}
-              iconSize={20}
-              mr="2"
-              children="Edit"
-              onClick={handleEditClick}
-            />
+            <div className="flex gap-2">
+              <OutlinedButton
+                extraClasses="px-2 py-0.5 font-semibold rounded-xl"
+                icon={MdEdit}
+                iconSize={20}
+                mr="2"
+                onClick={handleEditClick}
+              />
+              <OutlinedButton
+                extraClasses="px-2 py-0.5 font-semibold rounded-xl border-accent-900 border-primary hover:bg-neutral-100 text-accent-900 hover:text-neutral-100"
+                icon={MdDelete}
+                iconColor="accent-900"
+                iconSize={20}
+                mr="2"
+                onClick={handleDeleteClick}
+              />
+            </div>
           </div>
         </Stack>
       </div>
@@ -60,6 +86,13 @@ const Panel = ({ model, getModelsBySeller }) => {
         showModal={showModal}
         handleClose={handleClose}
         getModelsBySeller={getModelsBySeller}
+      />
+      <ConfirmationPopup
+        ref={toast_ref}
+        showModal={confirmationModal}
+        handleClose={handleConfirmationClose}
+        handleConfirmation={() => handleDelete(model._id)}
+        message="Are you sure you want to delete this model?"
       />
     </Box>
   );
