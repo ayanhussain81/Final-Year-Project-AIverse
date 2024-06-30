@@ -81,14 +81,10 @@ export default function SellerMainDashboard() {
       setStats(response.data);
     } catch (err) {
       setError(err);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchAnnualRevenue = async () => {
-    setLoading(true);
-
     try {
       const response = await axiosInstance.get(`/seller/revenue/${seller?._id}`, {
         headers: {
@@ -98,14 +94,22 @@ export default function SellerMainDashboard() {
       setRevenue(response.data?.data);
     } catch (error) {
       setError(error);
+    }
+  };
+
+  const fetchAll = async () => {
+    try {
+      setLoading(true);
+      await fetchStats();
+      await fetchAnnualRevenue();
+    } catch (error) {
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchStats();
-    fetchAnnualRevenue();
+    fetchAll();
   }, [seller?.id]);
 
   return (

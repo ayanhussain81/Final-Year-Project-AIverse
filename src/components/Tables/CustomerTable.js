@@ -44,7 +44,6 @@ export default function CustomerTable(props) {
         <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
           Customers Table
         </Text>
-        <Menu />
       </Flex>
       <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px">
         <Thead>
