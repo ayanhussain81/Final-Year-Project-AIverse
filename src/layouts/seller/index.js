@@ -12,12 +12,14 @@ import { Box, Flex, useDisclosure } from '@chakra-ui/react';
 import Sidebar from 'components/sidebar/Sidebar';
 import { sellerRoutes } from 'routes';
 import { useHeader } from 'contexts/HeaderContext';
+import SellerCustomers from 'views/customers';
+import PaymentFailed from 'views/seller/billingFailed';
 
 const SellerLayout = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const seller = useSelector((state) => state.auth.seller);
   const isSellerEmailVerified = seller?.isEmailVerified;
   const isSubscriptionActive = seller?.isSubscriptionActive;
+  const cancellationReason = seller?.cancellation_reason ?? null;
   const { headerTitle, handleModalShow } = useHeader();
 
   if (!isSellerEmailVerified) {
@@ -29,10 +31,25 @@ const SellerLayout = () => {
     );
   }
 
-  if (!isSubscriptionActive) {
+  if (
+    (!isSubscriptionActive && !cancellationReason) ||
+    (!isSubscriptionActive && cancellationReason && cancellationReason === 'cancellation_requested')
+  ) {
     return (
       <Routes>
         <Route path="/" element={<SellerPricing />} />
+        <Route path="/*" element={<Navigate to="/seller" replace />} />
+      </Routes>
+    );
+  }
+
+  if (
+    (!isSubscriptionActive && !cancellationReason) ||
+    (!isSubscriptionActive && cancellationReason && cancellationReason === 'payment_failed')
+  ) {
+    return (
+      <Routes>
+        <Route path="/" element={<PaymentFailed />} />
         <Route path="/*" element={<Navigate to="/seller" replace />} />
       </Routes>
     );
@@ -48,6 +65,7 @@ const SellerLayout = () => {
             <Route path="/" element={<SellerMainDashboard />} />
             <Route path="/models" element={<SellerDashboard />} />
             <Route path="/models/:id" element={<SellerUpload />} />
+            <Route path="/customers" element={<SellerCustomers />} />
             <Route path="*" element={<Navigate to="/seller/" replace />} />
           </Routes>
         </Box>

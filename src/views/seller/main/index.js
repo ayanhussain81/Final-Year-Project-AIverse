@@ -21,13 +21,24 @@
 */
 
 // Chakra imports
-import { Avatar, Box, Flex, FormLabel, Icon, Select, SimpleGrid, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Flex,
+  FormLabel,
+  Icon,
+  Select,
+  SimpleGrid,
+  Spinner,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
 // Assets
 import MiniStatistics from 'components/card/MiniStatistics';
 import IconBox from 'components/icons/IconBox';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdAttachMoney, MdBarChart } from 'react-icons/md';
-import { FaUser } from 'react-icons/fa';
+import { FaMoneyBillAlt, FaUser } from 'react-icons/fa';
 import { BsServer } from 'react-icons/bs';
 import { PiClockCountdownBold, PiCreditCardFill } from 'react-icons/pi';
 
@@ -37,13 +48,21 @@ import Sidebar from 'components/sidebar/Sidebar.js';
 import { sellerRoutes } from 'routes.js';
 import Header from 'layouts/sellerHeader/index.js';
 import { useHeader } from 'contexts/HeaderContext.js';
+import axiosInstance from 'services/axiosInstance.js';
+import { useSelector } from 'react-redux';
+import { chartOptions } from 'variables/charts.js';
 
 export default function SellerMainDashboard() {
   // Chakra Color Mode
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
+  const [stats, setStats] = useState(null);
+  const [revenue, setRevenue] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setHeaderTitle } = useHeader();
+  const { seller, tokens } = useSelector((state) => state.auth);
 
   useEffect(() => {
     setHeaderTitle('Main Dashboard');
@@ -51,6 +70,47 @@ export default function SellerMainDashboard() {
       setHeaderTitle('');
     };
   }, [setHeaderTitle]);
+
+  const fetchStats = async () => {
+    try {
+      const response = await axiosInstance.get(`/seller/stats/${seller?._id}`, {
+        headers: {
+          Authorization: `Bearer ${tokens.access.token}`,
+        },
+      });
+      setStats(response.data);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  const fetchAnnualRevenue = async () => {
+    try {
+      const response = await axiosInstance.get(`/seller/revenue/${seller?._id}`, {
+        headers: {
+          Authorization: `Bearer ${tokens.access.token}`,
+        },
+      });
+      setRevenue(response.data?.data);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const fetchAll = async () => {
+    try {
+      setLoading(true);
+      await fetchStats();
+      await fetchAnnualRevenue();
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAll();
+  }, [seller?.id]);
 
   return (
     <>
@@ -61,7 +121,8 @@ export default function SellerMainDashboard() {
               <IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdBarChart} color={brandColor} />} />
             }
             name="Total Earnings"
-            value="$350.4"
+            value={stats?.totalEarnings - stats?.platFormFee || 0}
+            loading={loading}
           />
           <MiniStatistics
             startContent={
@@ -72,17 +133,18 @@ export default function SellerMainDashboard() {
                 icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />}
               />
             }
-            name={`This Month's Earning`}
-            growth="+23%"
-            value="$642.39"
+            name="Total Withdrawn"
+            value={stats?.totalWithdrawn || 0}
+            loading={loading}
           />
           <MiniStatistics
             startContent={
               <IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="25px" h="25px" as={FaUser} color={brandColor} />} />
             }
             name="Total Customers"
-            value="35"
+            value={stats?.customerCount || 0}
             growth="+10%"
+            loading={loading}
           />
 
           <MiniStatistics
@@ -95,7 +157,8 @@ export default function SellerMainDashboard() {
               />
             }
             name="Subscription Type"
-            value="Platinum"
+            value={stats?.planType || 'N/A'}
+            loading={loading}
           />
           <MiniStatistics
             startContent={
@@ -103,22 +166,28 @@ export default function SellerMainDashboard() {
                 w="56px"
                 h="56px"
                 bg={boxBg}
-                icon={<Icon w="28px" h="28px" as={PiClockCountdownBold} color={brandColor} />}
+                icon={<Icon w="28px" h="28px" as={FaMoneyBillAlt} color={brandColor} />}
               />
             }
-            name="Days Left"
-            value="15"
+            name="Platform Fee"
+            value={stats?.platformFee || 0}
+            loading={loading}
           />
           <MiniStatistics
             startContent={
               <IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="28px" h="28px" as={BsServer} color={brandColor} />} />
             }
             name="Models Hosted"
-            value="7"
+            value={stats?.modelCount || 0}
+            loading={loading}
           />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px" mb="20px">
-          <AnnualRevenue />
+          <AnnualRevenue
+            loading={loading}
+            chartData={[{ name: 'Earnings', data: revenue?.perMonthRevenueList || [] }]}
+            chartOptions={chartOptions(revenue?.revenueMonths || [])}
+          />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px" mb="20px">
           <AnnualModelRevenue />

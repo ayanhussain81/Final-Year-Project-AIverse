@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Icon } from '@chakra-ui/react';
 import { MdBarChart, MdPerson, MdHome, MdLock, MdOutlineShoppingCart } from 'react-icons/md';
-import { LuCircuitBoard } from 'react-icons/lu';
+import { LuCircuitBoard, LuUser } from 'react-icons/lu';
 // Admin Imports
 import MainDashboard from './views/admin/default';
 import NFTMarketplace from './views/admin/marketplace';
@@ -79,6 +79,12 @@ export const sellerRoutes = [
     layout: '/seller',
     path: '/models',
     icon: <Icon as={LuCircuitBoard} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: 'Customers',
+    layout: '/seller',
+    path: '/customers',
+    icon: <Icon as={LuUser} width="20px" height="20px" color="inherit" />,
   },
 ];
 

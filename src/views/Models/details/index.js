@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Image, Heading, Text, Button, Tabs, TabList, Tab, Flex, Icon } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GoPlusCircle } from 'react-icons/go';
 import axiosInstance from 'services/axiosInstance';
 import Header from 'layouts/HomeHeader';
@@ -15,9 +15,15 @@ const ModelDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('about');
   const { user: userState } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const handleCheckout = async () => {
     try {
+      if (!Boolean(userState)) {
+        navigate('/auth');
+        return;
+      }
+
       setIsLoading(true);
       const response = await axiosInstance.post('/users/user-checkout-session', { userId: userState?.id, modelId: name });
 
