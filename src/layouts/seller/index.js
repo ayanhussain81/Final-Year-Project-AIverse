@@ -20,23 +20,23 @@ const SellerLayout = () => {
   const isSubscriptionActive = seller?.isSubscriptionActive;
   const { headerTitle, handleModalShow } = useHeader();
 
-  // if (!isSellerEmailVerified) {
-  //   return (
-  //     <Routes>
-  //       <Route path="/" element={<Seller />} />
-  //       <Route path="/*" element={<Navigate to="/seller" replace />} />
-  //     </Routes>
-  //   );
-  // }
+  if (!isSellerEmailVerified) {
+    return (
+      <Routes>
+        <Route path="/" element={<Seller />} />
+        <Route path="/*" element={<Navigate to="/seller" replace />} />
+      </Routes>
+    );
+  }
 
-  // if (!isSubscriptionActive) {
-  //   return (
-  //     <Routes>
-  //       <Route path="/" element={<SellerPricing />} />
-  //       <Route path="/*" element={<Navigate to="/seller" replace />} />
-  //     </Routes>
-  //   );
-  // }
+  if (!isSubscriptionActive) {
+    return (
+      <Routes>
+        <Route path="/" element={<SellerPricing />} />
+        <Route path="/*" element={<Navigate to="/seller" replace />} />
+      </Routes>
+    );
+  }
 
   return (
     <>
