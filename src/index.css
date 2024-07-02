@@ -27,5 +27,5 @@
 }
 
 .ql-container {
-  height: 91%;
+  max-height: 91%;
 }

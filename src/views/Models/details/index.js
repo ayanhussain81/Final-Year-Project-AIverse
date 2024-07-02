@@ -90,9 +90,6 @@ const ModelDetails = () => {
             <Tab _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }} onClick={() => setActiveTab('about')}>
               About
             </Tab>
-            <Tab _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }} onClick={() => setActiveTab('demo')}>
-              Demo
-            </Tab>
             <Tab
               _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }}
               onClick={() => setActiveTab('documentation')}
@@ -102,7 +99,6 @@ const ModelDetails = () => {
           </TabList>
         </Tabs>
         {activeTab === 'about' && <About />}
-        {activeTab === 'demo' && <Demo />}
         {activeTab === 'documentation' && <Documentation model={model} />}
       </Box>
     </Box>
