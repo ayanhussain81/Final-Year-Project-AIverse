@@ -67,7 +67,11 @@ const Marketplace = () => {
   useEffect(() => {
     setCurrentPage(1);
     getModels();
-  }, [type, usecase, currentPage, debouncedValue]);
+  }, [type, usecase, debouncedValue]);
+
+  useEffect(() => {
+    getModels();
+  }, [currentPage]);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
