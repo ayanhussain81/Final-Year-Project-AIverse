@@ -47,7 +47,7 @@ const PurchasedModels = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await axiosInstance.get(`users/user-models/${userState?.id}`);
+        const response = await axiosInstance.get(`/users/user-models/${userState?.id}`);
         setModels(response.data.allModels);
       } catch (error) {
         console.error('Error fetching data:', error);
