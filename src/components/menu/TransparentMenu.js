@@ -51,11 +51,10 @@ export default function TransparentMenu(props) {
               _focus={{
                 bg: 'transparent',
               }}
-              mb="10px"
             >
               <Flex align="center">
                 <Icon as={item.icon} h="17px" w="17px" me="8px" />
-                <Text fontSize="sm" fontWeight="400">
+                <Text fontSize="sm" fontWeight="400" onClick={item?.onClick}>
                   {item.name}
                 </Text>
               </Flex>

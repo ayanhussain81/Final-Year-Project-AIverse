@@ -50,7 +50,7 @@ function Sidebar(props) {
         boxShadow={shadow}
       >
         <Scrollbars autoHide renderTrackVertical={renderTrack} renderThumbVertical={renderThumb} renderView={renderView}>
-          <Content routes={routes} collapse={collapse} toggleSidebar={toggleSidebar} />
+          <Content routes={routes} collapse={collapse} toggleSidebar={toggleSidebar} isSeller={props.isSeller} />
         </Scrollbars>
       </Box>
       <Box

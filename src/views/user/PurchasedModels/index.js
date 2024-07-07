@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Spinner, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Spinner, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import Card from 'components/card/Card';
 import { useHeader } from 'contexts/HeaderContext';
 import PurchasedModelItem from 'views/admin/marketplace/components/HistoryItem';
 import axiosInstance from 'services/axiosInstance';
 import NoModelsMessage from './components/NoModelsMessage';
 import { useSelector } from 'react-redux';
+import ConfirmationModal from './components/ConfirmationModal';
 
 const PurchasedModels = () => {
   const { setHeaderTitle } = useHeader();
   const [models, setModels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user: userState } = useSelector((state) => state.auth);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedPurchaseId, setSelectedPurchaseId] = useState(null);
 
   const textColor = useColorModeValue('secondaryGray.900', 'white');
 
@@ -34,6 +37,16 @@ const PurchasedModels = () => {
       const days = Math.floor(seconds / 86400);
       return `Purchased ${days} days ago`;
     }
+  };
+
+  const handleDeleteSubscription = (purchaseId) => {
+    setSelectedPurchaseId(purchaseId);
+    onOpen();
+  };
+
+  const handleConfirm = () => {
+    setModels(models.filter((model) => model._id !== selectedPurchaseId));
+    onClose();
   };
 
   useEffect(() => {
@@ -69,17 +82,17 @@ const PurchasedModels = () => {
 
       {!isLoading ? (
         !!models.length ? (
-          models.map((item) => {
-            return (
-              <PurchasedModelItem
-                name={item?.model?.name}
-                author={`By ${item?.model?.seller?.userId?.name}`}
-                date={calculateTimeAgo(item?.purchaseDate)}
-                apiKey={item?.apiKey}
-                image={item?.model?.img}
-              />
-            );
-          })
+          models.map((item) => (
+            <PurchasedModelItem
+              key={item.id}
+              name={item?.model?.name}
+              author={`By ${item?.model?.seller?.userId?.name}`}
+              date={calculateTimeAgo(item?.purchaseDate)}
+              apiKey={item?.apiKey}
+              image={item?.model?.img}
+              handleDeleteSubscription={() => handleDeleteSubscription(item?._id)}
+            />
+          ))
         ) : (
           <NoModelsMessage />
         )
@@ -88,6 +101,8 @@ const PurchasedModels = () => {
           <Spinner size="md" />
         </Flex>
       )}
+
+      <ConfirmationModal isOpen={isOpen} onClose={onClose} onConfirm={handleConfirm} purchaseId={selectedPurchaseId} />
     </Card>
   );
 };

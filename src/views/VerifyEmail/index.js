@@ -40,15 +40,7 @@ function VerificationPage() {
           setIsLoading(false);
           return;
         }
-        const response = await axiosInstance.post(
-          '/seller/verify-email',
-          { token },
-          {
-            headers: {
-              Authorization: `Bearer ${tokens.access.token}`,
-            },
-          }
-        );
+        const response = await axiosInstance.post('/seller/verify-email', { token });
         setIsLoading(false);
         if (response.data.success) {
           setVerificationError(null);
@@ -88,7 +80,13 @@ function VerificationPage() {
           </Heading>
           <Text mb="1.5rem">Thank you for verifying your email. You can now access all features.</Text>
           {/* Add link or button to redirect to the appropriate page */}
-          <Button onClick={() => navigate('/seller')}>Continue to Dashboard</Button>
+          <Button
+            onClick={() => {
+              window.location.href = '/seller';
+            }}
+          >
+            Continue to Dashboard
+          </Button>
         </>
       )}
       <AlertDialog isOpen={isOpen} onClose={onClose}>

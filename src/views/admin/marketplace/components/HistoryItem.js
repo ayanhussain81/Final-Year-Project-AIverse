@@ -6,9 +6,12 @@ import Card from 'components/card/Card.js';
 // Assets
 import { FaEthereum } from 'react-icons/fa';
 import { CopyApiKeyButton } from 'components/common/buttons/CopyButton';
+import TransparentMenu from 'components/menu/TransparentMenu';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 export default function NFT(props) {
-  const { image, name, author, date, price, apiKey } = props;
+  const { image, name, author, date, price, apiKey, handleDeleteSubscription } = props;
 
   // Chakra Color Mode
   const textColor = useColorModeValue('brands.900', 'white');
@@ -64,6 +67,10 @@ export default function NFT(props) {
               {date}
             </Text>
             <CopyApiKeyButton apiKey={apiKey} />
+            <TransparentMenu
+              menuItems={[{ name: 'Delete', onClick: handleDeleteSubscription, icon: DeleteIcon }]}
+              icon={<BsThreeDotsVertical />}
+            />
           </Flex>
         </Flex>
       </Flex>

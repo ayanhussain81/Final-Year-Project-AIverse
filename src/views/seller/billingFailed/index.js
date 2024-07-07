@@ -9,11 +9,20 @@ const PaymentFailed = () => {
   const color = useColorModeValue('black', 'white');
   const seller = useSelector((state) => state.auth.seller);
   const [isLoading, setIsLoading] = useState(false);
+  const { user: userState, tokens } = useSelector((state) => state.auth);
 
   const getManageBillingLink = async () => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post('/seller/manage-billing', { sellerId: seller?._id });
+      const response = await axiosInstance.post(
+        '/seller/manage-billing',
+        { sellerId: seller?._id },
+        {
+          headers: {
+            Authorization: `Bearer ${tokens.access.token}`,
+          },
+        }
+      );
       console.log(response.data);
       window.location.href = response.data.portalLink;
       return response.data;

@@ -6,17 +6,42 @@ import Brand from 'components/sidebar/components/Brand';
 import Links from 'components/sidebar/components/Links';
 import React from 'react';
 import { IoIosLogOut } from 'react-icons/io';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../redux/actions/auth';
+import { FaMoneyBillAlt } from 'react-icons/fa';
+import axiosInstance from 'services/axiosInstance';
 
 // FUNCTIONS
 
 function SidebarContent(props) {
   const { routes, collapse } = props;
+  const seller = useSelector((state) => state.auth.seller);
+  const { user: userState, tokens } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const getManageBillingLink = async () => {
+    try {
+      const response = await axiosInstance.post(
+        '/seller/manage-billing',
+        { sellerId: seller?._id },
+        {
+          headers: {
+            Authorization: `Bearer ${tokens.access.token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      window.location.href = response.data.portalLink;
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching manage billing link:', error);
+      throw error;
+    } finally {
+    }
   };
   // SIDEBAR
   return (
@@ -29,6 +54,20 @@ function SidebarContent(props) {
       </Stack>
 
       <Box>
+        {props.isSeller && (
+          <Button
+            onClick={getManageBillingLink}
+            justifyContent="flex-start"
+            ps="34px"
+            color="brand.500"
+            _hover={{ bg: 'transparent' }}
+            leftIcon={<FaMoneyBillAlt size={20} />}
+            w="full"
+          >
+            {!collapse && 'Manage Billing'}
+          </Button>
+        )}
+
         <Button
           onClick={handleLogout}
           justifyContent="flex-start"
@@ -37,7 +76,7 @@ function SidebarContent(props) {
           _hover={{ bg: 'transparent' }}
           leftIcon={<IoIosLogOut size={20} />}
           w="full"
-          my="1rem"
+          mb="1rem"
         >
           {!collapse && 'Log out'}
         </Button>

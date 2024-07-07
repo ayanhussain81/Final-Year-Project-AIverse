@@ -58,7 +58,7 @@ const SellerLayout = () => {
   return (
     <>
       <Flex width="100vw">
-        <Sidebar routes={sellerRoutes} />
+        <Sidebar routes={sellerRoutes} isSeller={true} />
         <Box flex="1" width="100%">
           <Header name={headerTitle} handleShow={handleModalShow} />
           <Routes>
