@@ -36,31 +36,6 @@ export default function Hero() {
                 Get Started
               </ContainedButton>
             </div>
-
-            <div className="grow | space-y-6 | mobile-lg:max-w-[400px]">
-              <div className="grid grid-cols-[repeat(auto-fill,_minmax(120px,_1fr))] gap-4">
-                <div>
-                  <p className="text-800 text-neutral-900 font-bold font-['Montserrat',_sans-serif] leading-tight">98K+</p>
-                  <p className="text-600 text-neutral-600 leading-relaxed">Artwork</p>
-                </div>
-                <div>
-                  <p className="text-800 text-neutral-900 font-bold font-['Montserrat',_sans-serif] leading-tight">12K+</p>
-                  <p className="text-600 text-neutral-600 leading-relaxed">Auction</p>
-                </div>
-                <div>
-                  <p className="text-800 text-neutral-900 font-bold font-['Montserrat',_sans-serif] leading-tight">15K+</p>
-                  <p className="text-600 text-neutral-600 leading-relaxed">Artist</p>
-                </div>
-              </div>
-
-              <ContainedButton
-                type="button"
-                onClick={() => navigate('/auth/sign-in')}
-                extraClasses="min-[1200px]:hidden max-[1224px]:hidden | px-7 py-3 text-500 font-medium leading-tight"
-              >
-                Get Started
-              </ContainedButton>
-            </div>
           </motion.div>
 
           <img src={bannerImg} alt="banner-img" className="max-[1200px]:hidden " />

@@ -4,56 +4,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Footer from 'components/footer/FooterAuth';
 import FixedPlugin from 'components/fixedPlugin/FixedPlugin';
+import loginImage from 'assets/img/auth/login.png';
 // Custom components
 import { NavLink } from 'react-router-dom';
 // Assets
 import { FaChevronLeft } from 'react-icons/fa';
 
 function AuthIllustration(props) {
-  const { children, illustrationBackground } = props;
+  const { children } = props;
   // Chakra color mode
   return (
-    <Box
-    display={'flex'}
-    justifyContent={'center'}
-    mt={'6vh'}
-    mb={'auto'}
-    >
-      <Grid gridTemplateColumns="repeat(7,1fr)" h={'87vh'} w={'60vw'} className='authBoxShadow'>
-        <GridItem
-          colSpan={{ base: 0, sm: 0, md: 0, lg: 3 }}
+    <Box mt={{ base: '40px' }}>
+      <Flex justifyContent="space-evenly" height="600px" alignItems="center">
+        <Box display={{ base: 'none', md: 'block' }} height="400px">
+          <Image loading="lazy" src={loginImage} alt="auth image" height="100%" />
+        </Box>
+        <Flex
+          h={{
+            sm: 'initial',
+            md: 'unset',
+          }}
         >
-          <Box
-            display={{ base: 'none', md: 'block' }}
-            borderLeftRadius={'10px'}
-            bg='green'
-          >
-            <Image src='https://images.pexels.com/photos/719396/pexels-photo-719396.jpeg?auto=compress&cs=tinysrgb&w=600' alt='Dan Abramov' w='100vw' h={'87vh'} objectFit='fill' borderLeftRadius={'10px'} />
-          </Box>
-        </GridItem>
-        <GridItem
-          colSpan={{ base: 7, sm: 7, md: 7, lg: 4 }}
-        >
-          <Flex
-            h={{
-              sm: 'initial',
-              md: 'unset',
-              lg: '100vh',
-              xl: '97vh',
-            }}
-            w='100%'
-            mx="auto"
-            justifyContent="center"
-            alignItems='center'
-            direction="column"
-          >
-            <Box py={{ md: '10px' }}>{children}</Box>
-            {/* <Footer /> */}
-          </Flex>
-        </GridItem>
-        <FixedPlugin />
-      </Grid>
-     </Box>
+          <Box py={{ md: '10px' }}>{children}</Box>
+        </Flex>
+      </Flex>
+    </Box>
   );
 }
 // PROPS
