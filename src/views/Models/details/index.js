@@ -39,6 +39,14 @@ const ModelDetails = () => {
     }
   };
 
+  const renderDescription = () => {
+    if (model.description.length > 20) {
+      return `${model.description.slice(0, 20)}...`;
+    } else {
+      return model.description;
+    }
+  };
+
   useEffect(() => {
     const getModel = async () => {
       try {
@@ -64,7 +72,7 @@ const ModelDetails = () => {
               {model.name}
             </Heading>
             <Text fontSize="xl" m="0">
-              {model.description}
+              {renderDescription()}
             </Text>
             <Text fontSize="lg" m="0">
               {model.seller}
@@ -98,7 +106,7 @@ const ModelDetails = () => {
             </Tab>
           </TabList>
         </Tabs>
-        {activeTab === 'about' && <About />}
+        {activeTab === 'about' && <About description={model.description} />}
         {activeTab === 'documentation' && <Documentation model={model} />}
       </Box>
     </Box>

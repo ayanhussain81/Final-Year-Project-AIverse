@@ -7,9 +7,9 @@ const Documentation = ({ model }) => {
     txt.innerHTML = html;
     return txt.value;
   };
-  const decodedHtmlContent = decodeHtmlEntities(model.documentation);
+  const decodedHtmlContent = model.documentation ? decodeHtmlEntities(model.documentation) : 'No documentation provided';
   return (
-    <Box py={{ base: '30px', md: '50px' }}>
+    <Box minHeight="50vh" py={{ base: '30px', md: '50px' }}>
       <Heading as="h2" fontSize="2xl">
         Documentation
       </Heading>
@@ -19,7 +19,7 @@ const Documentation = ({ model }) => {
           <Heading fontSize="lg" mr="2">
             Endpoints:
           </Heading>
-          <Text fontSize="lg">Use the following endpoint for making REST API call</Text>
+          <Text fontSize="lg">Use the endpoint provided in purchase models for making REST API call</Text>
         </Flex>
         <Flex alignItems="center">
           <Heading fontSize="lg" mr="2">
@@ -27,14 +27,8 @@ const Documentation = ({ model }) => {
           </Heading>
           <Text fontSize="lg">POST</Text>
         </Flex>
-        <Flex alignItems="center">
-          <Heading fontSize="lg" mr="2">
-            Request Headers
-          </Heading>
-          <Text fontSize="lg">Obtain your API Key from the API Tokens section</Text>
-        </Flex>
       </Stack>
-      <div dangerouslySetInnerHTML={{ __html: decodedHtmlContent }} />
+      <div className="mt-4" dangerouslySetInnerHTML={{ __html: decodedHtmlContent }} />
     </Box>
   );
 };
