@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Image, Heading, Text, Button, Tabs, TabList, Tab, Flex, Icon } from '@chakra-ui/react';
+import { Box, Image, Heading, Text, Button, Tabs, TabList, Tab, Flex, Icon, Badge } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GoPlusCircle } from 'react-icons/go';
 import axiosInstance from 'services/axiosInstance';
@@ -8,6 +8,7 @@ import Demo from './demo';
 import Documentation from './documentation';
 import About from './about';
 import { useSelector } from 'react-redux';
+import Reviews from 'components/Reviews';
 
 const ModelDetails = () => {
   const { name } = useParams();
@@ -79,6 +80,9 @@ const ModelDetails = () => {
             <Text fontSize="lg" m="0">
               {model.seller}
             </Text>
+            <Badge colorScheme="green">
+              {model.averageRating ? `Average Rating: ${model.averageRating.toFixed(1)}/5` : 'No ratings yet'}
+            </Badge>
             <Button
               onClick={handleCheckout}
               disabled={isLoading}
@@ -114,6 +118,7 @@ const ModelDetails = () => {
         {activeTab === 'about' && <About description={model.description} />}
         {activeTab === 'demo' && <Demo />}
         {activeTab === 'documentation' && <Documentation model={model} />}
+        <Reviews modelId={name} />
       </Box>
     </Box>
   );
