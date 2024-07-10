@@ -40,10 +40,12 @@ const ModelDetails = () => {
   };
 
   const renderDescription = () => {
-    if (model.description.length > 20) {
+    if (typeof model.description === 'string' && model.description.length > 20) {
       return `${model.description.slice(0, 20)}...`;
-    } else {
+    } else if (typeof model.description === 'string') {
       return model.description;
+    } else {
+      return '';
     }
   };
 

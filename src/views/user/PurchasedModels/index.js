@@ -86,6 +86,7 @@ const PurchasedModels = () => {
             <PurchasedModelItem
               key={item.id}
               name={item?.model?.name}
+              modelId={item?.model?._id}
               author={`By ${item?.model?.seller?.userId?.name}`}
               date={calculateTimeAgo(item?.purchaseDate)}
               apiKey={item?.apiKey}

@@ -11,7 +11,8 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 export default function NFT(props) {
-  const { image, name, author, date, price, apiKey, handleDeleteSubscription } = props;
+  const { image, name, author, date, modelId, price, apiKey, handleDeleteSubscription } = props;
+  const endpoint = `http://18.119.167.28:5000/v1/model/predict/${modelId}`;
 
   // Chakra Color Mode
   const textColor = useColorModeValue('brands.900', 'white');
@@ -66,7 +67,8 @@ export default function NFT(props) {
             <Text ms="auto" fontWeight="700" fontSize="sm" color={textColorDate}>
               {date}
             </Text>
-            <CopyApiKeyButton apiKey={apiKey} />
+            <CopyApiKeyButton apiKey={apiKey} title="API Key" />
+            <CopyApiKeyButton apiKey={endpoint} title="Endpoint" />
             <TransparentMenu
               menuItems={[{ name: 'Delete', onClick: handleDeleteSubscription, icon: DeleteIcon }]}
               icon={<BsThreeDotsVertical />}

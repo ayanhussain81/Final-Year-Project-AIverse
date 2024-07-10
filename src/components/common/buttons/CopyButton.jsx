@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, useClipboard, Tooltip, Icon } from '@chakra-ui/react';
 import { MdContentCopy } from 'react-icons/md';
 
-export const CopyApiKeyButton = ({ apiKey, theme }) => {
+export const CopyApiKeyButton = ({ apiKey, theme, title }) => {
   const { hasCopied, onCopy } = useClipboard(apiKey);
 
   const handleCopy = () => {
@@ -18,7 +18,7 @@ export const CopyApiKeyButton = ({ apiKey, theme }) => {
       leftIcon={!hasCopied && <Icon as={MdContentCopy} />}
       _focus={{ outline: 'none' }}
     >
-      {hasCopied ? 'Copied!' : 'API Key'}
+      {hasCopied ? 'Copied!' : title}
     </Button>
   );
 };
