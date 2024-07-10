@@ -63,14 +63,16 @@ const Panel = ({ model, getModelsBySeller }) => {
                 mr="2"
                 onClick={handleEditClick}
               />
-              <OutlinedButton
-                extraClasses="px-2 py-0.5 font-semibold rounded-xl border-accent-900 border-primary hover:bg-neutral-100 text-accent-900 hover:text-neutral-100"
-                icon={MdDelete}
-                iconColor="accent-900"
-                iconSize={20}
-                mr="2"
-                onClick={handleDeleteClick}
-              />
+              {!model.isPurchased && (
+                <OutlinedButton
+                  extraClasses="px-2 py-0.5 font-semibold rounded-xl border-accent-900 border-primary hover:bg-neutral-100 text-accent-900 hover:text-neutral-100"
+                  icon={MdDelete}
+                  iconColor="accent-900"
+                  iconSize={20}
+                  mr="2"
+                  onClick={handleDeleteClick}
+                />
+              )}
             </div>
           </div>
         </Stack>

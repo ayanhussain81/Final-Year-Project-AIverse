@@ -72,9 +72,11 @@ const SellerUpload = () => {
           <>
             <Tabs mt="5" paddingX="60px" isFitted width="15%">
               <TabList borderBottom="none">
-                <Tab _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }} onClick={() => setActiveTab('upload')}>
-                  Upload
-                </Tab>
+                {!model.isPurchased && (
+                  <Tab _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }} onClick={() => setActiveTab('upload')}>
+                    Upload
+                  </Tab>
+                )}
                 <Tab
                   _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }}
                   onClick={() => setActiveTab('configure')}
@@ -89,7 +91,9 @@ const SellerUpload = () => {
                 </Tab>
               </TabList>
             </Tabs>
-            {activeTab === 'upload' && <Content tab="upload" handleShow={onOpen} height="80%" reqFile={reqFile} />}
+            {activeTab === 'upload' && !model.isPurchased && (
+              <Content tab="upload" handleShow={onOpen} height="80%" reqFile={reqFile} />
+            )}
             {activeTab === 'configure' && <Configure id={id} />}
             {activeTab === 'documentation' && <TextEditor id={id} />}
             <RequirementsPopup isOpen={isOpen} onClose={onClose} reqFile={reqFile} setReqFile={setReqFile} />
