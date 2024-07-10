@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Image, Heading, Text, Button, Tabs, TabList, Tab, Flex, Icon, Badge } from '@chakra-ui/react';
+import { Box, Image, Heading, Text, Button, Tabs, TabList, Tab, Flex, Icon, Badge, Spinner, Center } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GoPlusCircle } from 'react-icons/go';
 import axiosInstance from 'services/axiosInstance';
@@ -12,29 +12,26 @@ import Reviews from 'components/Reviews';
 
 const ModelDetails = () => {
   const { name } = useParams();
-  const [model, setModel] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [model, setModel] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('about');
   const { user: userState } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const handleCheckout = async () => {
     try {
-      if (!Boolean(userState)) {
+      if (!userState) {
         navigate('/auth');
         return;
       }
 
       setIsLoading(true);
-      const response = await axiosInstance.post('/users/user-checkout-session', { userId: userState?.id, modelId: name });
-
+      const response = await axiosInstance.post('/users/user-checkout-session', { userId: userState.id, modelId: name });
       const { url } = response.data;
 
-      // Redirect to the checkout URL
       window.location.href = url;
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      // Handle error (e.g., display error message to user)
     } finally {
       setIsLoading(false);
     }
@@ -57,10 +54,20 @@ const ModelDetails = () => {
         setModel(response.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getModel();
   }, [name]);
+
+  if (isLoading) {
+    return (
+      <Center height="100vh">
+        <Spinner size="xl" />
+      </Center>
+    );
+  }
 
   return (
     <Box bg="white">
