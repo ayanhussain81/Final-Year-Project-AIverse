@@ -98,12 +98,11 @@ const Reviews = ({ modelId }) => {
   };
 
   return (
-    <Box>
-      <Heading as="h1" fontSize="3xl" my={'1.5rem'}>
+    <Box py={{ base: '30px', md: '50px' }}>
+      <Heading as="h2" fontSize="2xl">
         Reviews
       </Heading>
-
-      <Divider borderColor="gray.400" mb={5} />
+      <Divider py="10px" borderColor="gray.400" mb={5} />
       {userState?.id && <ReviewForm modelId={modelId} addReview={addReview} />}
       {reviews.map((review) => (
         <Box key={review._id} bg="white" p={4} rounded="md" shadow="md" mt={4}>

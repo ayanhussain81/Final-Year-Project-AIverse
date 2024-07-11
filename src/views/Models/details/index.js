@@ -120,12 +120,15 @@ const ModelDetails = () => {
             >
               Documentation
             </Tab>
+            <Tab _focus={{ boxShadow: 'none', borderBottom: '2px solid #000' }} onClick={() => setActiveTab('reviews')}>
+              Reviews
+            </Tab>
           </TabList>
         </Tabs>
         {activeTab === 'about' && <About description={model.description} />}
         {activeTab === 'demo' && <Demo />}
         {activeTab === 'documentation' && <Documentation model={model} />}
-        <Reviews modelId={name} />
+        {activeTab === 'reviews' && <Reviews modelId={name} />}
       </Box>
     </Box>
   );
