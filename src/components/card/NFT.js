@@ -69,16 +69,6 @@ export default function NFT(props) {
               >
                 {name}
               </Text>
-              <Text
-                color="black.700"
-                fontSize={{
-                  base: 'sm',
-                }}
-                fontWeight="400"
-                me="14px"
-              >
-                {author}
-              </Text>
             </Flex>
           </Flex>
           <Flex
