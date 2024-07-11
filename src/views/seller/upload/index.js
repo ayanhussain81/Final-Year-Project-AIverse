@@ -1,22 +1,23 @@
-import { Flex, Box, useDisclosure, Tabs, Tab, TabList, Text } from '@chakra-ui/react';
-import Header from 'layouts/sellerHeader';
+import { useDisclosure, Tabs, Tab, TabList } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import Content from '../dashboard/content';
-import Sidebar from 'components/sidebar/Sidebar';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import axiosInstance from 'services/axiosInstance';
 import TextEditor from './textEditor';
 import Configure from './configure';
-import { sellerRoutes } from 'routes';
 import NoModelFound from './NoModelFound';
 import { useHeader } from 'contexts/HeaderContext';
 import RequirementsPopup from '../dashboard/requirementsPopup';
 
 const SellerUpload = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const { state } = location;
+  const { isPurchased } = state || false;
+
   const [model, setModel] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [activeTab, setActiveTab] = useState('upload');
+  const [activeTab, setActiveTab] = useState(isPurchased ? 'configure' : 'upload');
   const [isLoading, setIsLoading] = useState(true);
   const { setHeaderTitle, setModalListeners } = useHeader();
   // const [reqFile, setReqFile] = useState({

@@ -16,8 +16,8 @@ const Content = (props) => {
 
   const uploadFile = async () => {
     let requirements = '';
-    console.log(props)
-    props?.reqFile.map((line) => requirements = requirements + line.content + '\n');
+    console.log(props);
+    props?.reqFile.map((line) => (requirements = requirements + line.content + '\n'));
     console.log(requirements);
     try {
       const formData = new FormData();
@@ -66,7 +66,7 @@ const Content = (props) => {
     console.log(uploadedFiles);
   };
 
-  return props.userModels?.length > 0 ? (
+  return props.userModels?.length > 0 || props.modelExist ? (
     props?.userModels.map((model) => <Panel model={model} getModelsBySeller={props.getModelsBySeller} />)
   ) : (
     <Flex justifyContent="center" alignItems="center" height={props.height ? props.height : '75vh'}>

@@ -21,6 +21,7 @@ const SellerDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [userModels, setUserModels] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [modelExist, setModelExists] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleShow = () => {
@@ -49,6 +50,9 @@ const SellerDashboard = () => {
           Authorization: `Bearer ${tokens.access.token}`,
         },
       });
+      if (response?.data?.models?.length > 0) {
+        setModelExists(true);
+      }
       setUserModels(response.data.models);
       setTotalPages(response.data.totalPages);
     } catch (error) {
@@ -91,14 +95,20 @@ const SellerDashboard = () => {
 
   return (
     <Flex mx={{ base: '10px', md: '0px' }} my="30px" direction="column" justifyContent="start" alignItems="center">
-      {userModels?.length > 0 && <SearchBar height="38px" boxSize="5" handleChange={handleChange} />}
+      {(userModels?.length > 0 || modelExist) && <SearchBar height="38px" boxSize="5" handleChange={handleChange} />}
       {isLoading ? (
         <Flex justifyContent="center" alignItems="center" height="70vh">
           <Spinner />
         </Flex>
       ) : (
         <>
-          <Content name="Models" handleShow={handleShow} userModels={userModels} getModelsBySeller={getModelsBySeller} />
+          <Content
+            name="Models"
+            handleShow={handleShow}
+            modelExist={modelExist}
+            userModels={userModels}
+            getModelsBySeller={getModelsBySeller}
+          />
         </>
       )}
       <Flex position="absolute" bottom="20" justifyContent="center" mt="4" gap="2">

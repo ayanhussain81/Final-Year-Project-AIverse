@@ -39,7 +39,7 @@ const Panel = ({ model, getModelsBySeller }) => {
       }}
       cursor="pointer"
       className="mt-4 shadow-lg rounded-lg mobile-sm:w-full tablet:w-1/2 laptop:w-1/2"
-      onClick={() => navigate(`/seller/models/${model._id}`)}
+      onClick={() => navigate(`/seller/models/${model._id}`, { state: { isPurchased: model.isPurchased } })}
     >
       <div className="px-4 py-4 sm:p-6">
         <Stack divider={<StackDivider />} spacing="5">
