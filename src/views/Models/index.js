@@ -234,9 +234,10 @@ const Marketplace = () => {
           </SimpleGrid>
         ) : (
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap="40px">
-            {models.map((nft, index) => (
-              <NFT key={index} id={nft._id} name={nft.name} author={nft.seller} image={nft.img} category={nft.category} />
-            ))}
+            {!!models?.length &&
+              models?.map((nft, index) => (
+                <NFT key={index} id={nft._id} name={nft.name} author={nft.seller} image={nft.img} category={nft.category} />
+              ))}
           </SimpleGrid>
         )}
         {!loading && (

@@ -75,11 +75,12 @@ export default function Resource() {
             whileInView="visible"
             className="grid grid-cols-1 mobile-lg:grid-cols-2 laptop:grid-cols-3 min-[1360px]:grid-cols-4 gap-10"
           >
-            {models.map((nft) => (
-              <motion.div className="w-3/4" variants={pictureChildVariant} key={nft.id}>
-                <NFT id={nft._id} name={nft.name} author={nft.seller} image={nft.img} category={nft.category} />
-              </motion.div>
-            ))}
+            {!!models?.length &&
+              models?.map((nft) => (
+                <motion.div className="w-3/4" variants={pictureChildVariant} key={nft.id}>
+                  <NFT id={nft._id} name={nft.name} author={nft.seller} image={nft.img} category={nft.category} />
+                </motion.div>
+              ))}
           </motion.div>
 
           <OutlinedButton

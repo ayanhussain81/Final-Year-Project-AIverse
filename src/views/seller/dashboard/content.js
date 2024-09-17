@@ -67,7 +67,7 @@ const Content = (props) => {
   };
 
   return props.userModels?.length > 0 || props.modelExist ? (
-    props?.userModels.map((model) => <Panel model={model} getModelsBySeller={props.getModelsBySeller} />)
+    props?.userModels?.map((model) => <Panel model={model} getModelsBySeller={props.getModelsBySeller} />)
   ) : (
     <Flex justifyContent="center" alignItems="center" height={props.height ? props.height : '75vh'}>
       <Box

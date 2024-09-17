@@ -129,7 +129,7 @@ export default function CustomerTable(props) {
                               </Tr>
                             </Thead>
                             <Tbody>
-                              {row.original.subscribedModels.map((model, idx) => (
+                              {row.original.subscribedModels?.map((model, idx) => (
                                 <Tr key={idx}>
                                   <Td borderColor={borderColor}>{model.modelName}</Td>
                                 </Tr>

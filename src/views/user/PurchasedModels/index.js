@@ -82,7 +82,7 @@ const PurchasedModels = () => {
 
       {!isLoading ? (
         !!models.length ? (
-          models.map((item) => (
+          models?.map((item) => (
             <PurchasedModelItem
               key={item.id}
               name={item?.model?.name}
